@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>아누비스의 재판: 진실의 저울</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap');
+:root{
+  --papyrus:#f4e4bc;--ink:#1a1410;--gold:#c9a961;--teal:#2c5f7a;
+  --terra:#a0432a;--bone:#efe2c2;--gold-deep:#8b6d38;--terra-deep:#6e2d18;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--ink);height:100%;overflow:hidden;
+  color:var(--papyrus);
+  -webkit-user-select:none;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* SVG part classes */
+svg .gold{fill:var(--gold)} svg .gold-deep{fill:var(--gold-deep)}
+svg .terra{fill:var(--terra)} svg .terra-deep{fill:var(--terra-deep)}
+svg .ink{fill:var(--ink)} svg .bone{fill:var(--bone)} svg .teal{fill:var(--teal)}
+svg .stroke{stroke:var(--ink);stroke-width:4;fill:none}
+svg .stroke-thin{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .label-bg{fill:var(--papyrus)}
+svg .label-text{
+  font-family:'Noto Sans KR',sans-serif;font-size:22px;font-weight:900;
+  fill:var(--ink);text-anchor:middle;dominant-baseline:central;
+}
+svg .heart-filled{fill:var(--terra);transition:fill .3s}
+svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity .3s}
+
+/* ====== LAYOUT ====== */
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
+
+.top-bar{
+  background:linear-gradient(90deg,#2c1e12,#3d2b1f,#2c1e12);
+  padding:4px 12px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:3px solid var(--gold);flex-shrink:0;min-height:36px;
+  flex-wrap:wrap;gap:4px;
+}
+.top-bar h1{font-size:clamp(.8rem,2vw,1.05rem);color:var(--gold);letter-spacing:1px;white-space:nowrap}
+.hud{display:flex;gap:clamp(6px,2vw,14px);align-items:center;flex-wrap:wrap}
+.hud-item{font-size:clamp(.6rem,1.4vw,.75rem);display:flex;align-items:center;gap:3px}
+.hud-item strong{color:var(--gold)}
+
+/* ====== START SCREEN ====== */
+#start-screen{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;gap:10px;padding:16px;
+  background:radial-gradient(ellipse at center,#2c1e12 0%,var(--ink) 70%);
+}
+#start-screen .start-anubis{width:min(180px,30vw);height:auto;filter:drop-shadow(0 0 30px rgba(201,169,97,.4))}
+#start-screen h2{font-size:clamp(1.1rem,3vw,1.5rem);color:var(--gold)}
+#start-screen p{font-size:clamp(.7rem,1.6vw,.85rem);color:#b8a070;max-width:500px;line-height:1.7}
+.start-btn{
+  margin-top:6px;padding:11px 36px;font-size:clamp(.9rem,2.5vw,1.1rem);
+  font-weight:900;font-family:inherit;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  border:3px solid var(--gold);border-radius:14px;cursor:pointer;
+  letter-spacing:2px;transition:all .2s;text-shadow:1px 1px 3px rgba(0,0,0,.5);
+}
+.start-btn:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(201,169,97,.6)}
+
+/* ====== GAME SCREEN ====== */
+#game-screen{display:none;flex:1;overflow:hidden}
+.game-layout{display:flex;width:100%;height:100%;overflow:hidden}
+
+/* -- LEFT PANEL (scene) -- */
+.left-panel{
+  flex:1 1 65%;display:flex;flex-direction:column;
+  padding:4px 6px;min-width:0;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 70%,#2c1e12,var(--ink));
+}
+.soul-card{
+  background:linear-gradient(135deg,#2c1e12,#3d2b1f);
+  border:2px solid var(--gold-deep);border-radius:8px;
+  padding:6px 10px;flex-shrink:0;display:flex;gap:8px;align-items:center;
+}
+.soul-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#5a3e2b,var(--gold-deep));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;border:2px solid var(--gold);
+}
+.soul-info{flex:1;min-width:0}
+.soul-name{font-size:clamp(.75rem,1.6vw,.9rem);font-weight:900;color:var(--gold)}
+.soul-record{font-size:clamp(.55rem,1.2vw,.7rem);color:#ccc;margin-top:1px;line-height:1.3}
+.soul-verdict{display:inline-block;padding:1px 8px;border-radius:20px;font-size:.6rem;font-weight:700;margin-top:2px}
+.verdict-good{background:#2e7d32;color:#fff}
+.verdict-evil{background:#b71c1c;color:#fff}
+
+.scene-area{flex:1;position:relative;min-height:0;display:flex;align-items:center;justify-content:center}
+.scene-svg{width:100%;height:100%;max-height:100%}
+
+/* Heart fraction overlay */
+.heart-frac-overlay{
+  position:absolute;top:4px;left:50%;transform:translateX(-50%);
+  background:rgba(26,20,16,.88);border:2px solid var(--gold);border-radius:8px;
+  padding:4px 14px;text-align:center;z-index:10;
+}
+.hfo-label{font-size:.55rem;color:var(--gold);letter-spacing:1px}
+.hfo-frac{display:flex;flex-direction:column;align-items:center;gap:1px}
+.hfo-frac .n,.hfo-frac .d{font-size:clamp(1rem,2.5vw,1.5rem);font-weight:900;color:#e74c3c}
+.hfo-frac .bar{width:36px;height:2px;background:#e74c3c;border-radius:2px}
+
+/* -- RIGHT PANEL -- */
+.right-panel{
+  width:clamp(220px,28vw,320px);flex-shrink:0;
+  background:linear-gradient(180deg,#2c1e12,var(--ink));
+  border-left:3px solid var(--gold-deep);
+  display:flex;flex-direction:column;padding:6px 8px;gap:4px;
+  overflow-y:auto;overflow-x:hidden;
+}
+.instruction{
+  text-align:center;padding:5px 6px;border-radius:8px;
+  background:linear-gradient(135deg,#3d2b1f,#2c1e12);border:1px solid var(--gold-deep);
+}
+.instruction .title{font-size:clamp(.7rem,1.5vw,.85rem);font-weight:700;color:var(--gold)}
+.instruction .desc{font-size:clamp(.55rem,1.1vw,.68rem);color:#b8a070;margin-top:1px}
+
+.timer-track{height:5px;background:rgba(61,43,31,.6);border-radius:3px;overflow:hidden;flex-shrink:0}
+.timer-fill{height:100%;background:linear-gradient(90deg,var(--gold),#e74c3c);border-radius:3px;transition:width .3s linear}
+
+/* Feather choices — horizontal compact grid */
+.choices{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:4px;flex:1;align-content:center;
+}
+.choice-btn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:4px 2px;border-radius:10px;cursor:pointer;
+  border:2px solid #5a3e2b;background:rgba(61,43,31,.3);
+  transition:all .2s;font-family:inherit;color:var(--papyrus);
+  aspect-ratio:1/1.05;min-height:0;position:relative;
+}
+.choice-btn:hover{border-color:var(--gold);background:rgba(201,169,97,.12)}
+.choice-btn:active{transform:scale(.95)}
+.choice-btn.selected{border-color:var(--gold);background:rgba(201,169,97,.22);box-shadow:0 0 10px rgba(201,169,97,.3)}
+.choice-btn.correct{border-color:#66bb6a;background:rgba(46,125,50,.3)}
+.choice-btn.wrong{border-color:#ef5350;background:rgba(183,28,28,.3)}
+.choice-btn:disabled{cursor:default;opacity:.7}
+.choice-btn.flying{
+  position:fixed!important;z-index:200;pointer-events:none;
+  transition:all .7s cubic-bezier(.25,.46,.45,.94);
+}
+
+.choice-feather-svg{width:28px;height:40px;flex-shrink:0}
+.choice-frac-col{display:flex;flex-direction:column;align-items:center}
+.choice-frac-col .cf-num,.choice-frac-col .cf-den{font-size:clamp(.7rem,1.5vw,1rem);font-weight:900;line-height:1.1}
+.choice-frac-col .cf-bar{width:22px;height:2px;background:var(--papyrus);border-radius:2px}
+
+.confirm-btn{
+  width:100%;padding:9px;border-radius:10px;cursor:pointer;
+  font-size:clamp(.8rem,1.8vw,.95rem);font-weight:900;font-family:inherit;
+  border:3px solid;transition:all .2s;flex-shrink:0;
+  text-shadow:1px 1px 2px rgba(0,0,0,.4);
+}
+.confirm-btn:hover{transform:scale(1.03)}
+.confirm-btn:disabled{opacity:.35;cursor:default;transform:none}
+.btn-place{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;border-color:var(--gold)}
+
+.msg-area{flex-shrink:0;min-height:40px;display:flex;align-items:center}
+.msg-box{
+  width:100%;padding:6px 10px;border-radius:8px;
+  font-size:clamp(.6rem,1.2vw,.73rem);font-weight:700;
+  text-align:center;line-height:1.4;animation:fadeUp .3s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.m-info{background:rgba(61,43,31,.8);color:var(--gold);border:1px solid var(--gold-deep)}
+.m-success{background:rgba(27,94,32,.8);color:#a5d6a7;border:1px solid #66bb6a}
+.m-fail{background:rgba(183,28,28,.8);color:#ffcdd2;border:1px solid #ef5350}
+
+/* Result overlay */
+.result-overlay{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.82)}
+.result-overlay.show{display:flex}
+.result-card{text-align:center;padding:24px 32px;border-radius:16px;animation:popIn .5s ease;max-width:90vw}
+@keyframes popIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.result-heaven{background:linear-gradient(135deg,#1b5e20,#2e7d32);border:3px solid #66bb6a}
+.result-devour{background:linear-gradient(135deg,#b71c1c,#880e4f);border:3px solid #ef5350}
+.result-wrong{background:linear-gradient(135deg,#4a148c,#6a1b9a);border:3px solid #ce93d8}
+.result-icon{font-size:2.5rem;margin-bottom:6px}
+.result-title{font-size:1.1rem;font-weight:900;margin-bottom:4px}
+.result-desc{font-size:.8rem;color:#ddd;line-height:1.5;margin-bottom:12px;white-space:pre-line}
+.result-btn{
+  padding:9px 28px;border-radius:10px;font-size:.95rem;font-weight:700;
+  cursor:pointer;border:2px solid var(--gold);
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-family:inherit;transition:all .2s;
+}
+.result-btn:hover{transform:scale(1.05)}
+
+/* Anubis animation classes */
+#anubis-arm-front{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:270px 162px}
+#anubis-arm-back{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:135px 160px}
+#anubis-head{transition:transform .4s cubic-bezier(.4,1.5,.5,1);transform-origin:195px 140px}
+#anubis-eye{transition:transform .12s;transform-origin:220px 91px}
+#scale-beam{transition:transform .7s cubic-bezier(.4,1.5,.5,1)}
+#heart-glow{transition:opacity .6s}
+
+/* Devour animation (Ammut + Soul) */
+#soul-scene,#ammut-scene{pointer-events:none}
+#ammut-jaw-lower{transform-origin:285px 245px}
+@keyframes soulSequence{
+  0%{opacity:0;transform:translate(-87px,-20px) scale(0.22)}
+  20%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  40%{opacity:1;transform:translate(-87px,-92px) scale(0.245)}
+  58%{opacity:1;transform:translate(-87px,-82px) scale(0.24)}
+  72%{opacity:.8;transform:translate(20px,20px) scale(0.16)}
+  88%{opacity:.3;transform:translate(100px,120px) scale(0.06)}
+  100%{opacity:0;transform:translate(140px,170px) scale(0.01)}
+}
+@keyframes ammutSequence{
+  0%{opacity:0;transform:translate(620px,80px) scale(0.42)}
+  28%{opacity:1;transform:translate(130px,80px) scale(0.42)}
+  78%{opacity:1;transform:translate(130px,80px) scale(0.42)}
+  100%{opacity:0;transform:translate(620px,80px) scale(0.42)}
+}
+@keyframes jawChomp{
+  0%,100%{transform:rotate(0)}
+  20%{transform:rotate(15deg)}
+  45%{transform:rotate(0)}
+  65%{transform:rotate(12deg)}
+  85%{transform:rotate(0)}
+}
+#soul-scene.anim-devour{animation:soulSequence 3s ease both}
+#ammut-scene.anim-devour{animation:ammutSequence 2.8s ease .4s both}
+#ammut-jaw-lower.anim-chomp{animation:jawChomp .6s ease 2 both}
+
+/* Responsive */
+@media (max-width:700px),(max-aspect-ratio:4/3){
+  .game-layout{flex-direction:column}
+  .left-panel{min-height:36vh;max-height:48vh}
+  .right-panel{width:100%;border-left:none;border-top:3px solid var(--gold-deep);max-height:64vh;flex:1}
+}
+@media (max-height:420px){
+  .top-bar{padding:2px 8px;min-height:26px}
+  .soul-card{padding:3px 6px}
+  .choice-btn{padding:3px 6px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="top-bar">
+  <h1>𓂀 아누비스의 재판 — 진실의 저울</h1>
+  <div class="hud">
+    <div class="hud-item">𓁟 라운드 <strong id="h-round">1</strong></div>
+    <div class="hud-item">𓂋 점수 <strong id="h-score">0</strong></div>
+    <div class="hud-item">☥ <strong id="h-lives">♥♥♥</strong></div>
+    <div class="hud-item">⏱ <strong id="h-combo">0</strong>콤보</div>
+  </div>
+</div>
+
+<!-- ==================== START ==================== -->
+<div id="start-screen">
+  <svg class="start-anubis" viewBox="100 0 220 320" width="180">
+    <g id="anubis-start">
+      <g><path d="M150 240 L143 310 L120 318 L195 318 L195 240 Z" fill="#1a1410"/><path d="M210 240 L228 310 L210 318 L290 318 L268 310 L262 240 Z" fill="#1a1410"/></g>
+      <g><path d="M115 180 L290 180 L310 250 L100 250 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/><rect x="115" y="170" width="175" height="16" fill="#a0432a" stroke="#1a1410" stroke-width="3"/></g>
+      <g><path d="M130 80 L275 80 L290 180 L115 180 Z" fill="#1a1410"/><path d="M150 92 Q200 120 255 92 L250 120 Q200 142 155 120 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/></g>
+      <g><path d="M150 35 Q145 15 165 10 Q190 2 215 8 L260 12 Q295 16 305 32 Q307 46 285 50 L255 54 Q252 70 230 82 L170 82 Q142 76 148 52 Z" fill="#1a1410"/><path d="M170 12 L160 -18 L195 8 Z" fill="#1a1410"/><path d="M188 5 L215 -25 L222 10 Z" fill="#1a1410"/><path d="M173 10 L168 -8 L188 5 Z" fill="#a0432a"/><path d="M196 5 L213 -15 L218 8 Z" fill="#a0432a"/><path d="M195 45 Q215 36 240 45 Q225 54 210 52 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="2"/><circle cx="220" cy="46" r="4" fill="#1a1410"/></g>
+    </g>
+  </svg>
+  <h2>진실의 저울</h2>
+  <p>
+    그대는 재판관 아누비스.<br>
+    망자의 심장을 저울에 올리고, 진리의 깃털과 비교하라.<br><br>
+    <b>선인</b>이면 심장과 <b>같은 값</b>의 깃털을 골라 <b>수평</b>을 맞춰 구원하고,<br>
+    <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 암무트에게 넘겨라.
+  </p>
+  <button class="start-btn" onclick="startGame()">재판 시작 ⚖️</button>
+</div>
+
+<!-- ==================== GAME ==================== -->
+<div id="game-screen">
+  <div class="game-layout">
+
+    <!-- LEFT: Scene -->
+    <div class="left-panel">
+      <div class="soul-card">
+        <div class="soul-avatar" id="soul-avatar">👤</div>
+        <div class="soul-info">
+          <div class="soul-name" id="soul-name">망자</div>
+          <div class="soul-record" id="soul-record">생전 기록</div>
+          <span class="soul-verdict" id="soul-verdict"></span>
+        </div>
+      </div>
+
+      <div class="scene-area">
+        <div class="heart-frac-overlay">
+          <div class="hfo-label">심장의 무게</div>
+          <div class="hfo-frac">
+            <span class="n" id="hf-num">12</span>
+            <div class="bar"></div>
+            <span class="d" id="hf-den">18</span>
+          </div>
+        </div>
+
+        <!-- MAIN SCENE SVG -->
+        <svg class="scene-svg" id="scene-svg" viewBox="-480 -100 920 700" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#3d2b1f" stop-opacity="0.6"/>
+              <stop offset="100%" stop-color="#1a1410" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- floor shadow -->
+          <ellipse cx="0" cy="560" rx="480" ry="40" fill="url(#gFloor)"/>
+
+          <!-- ANUBIS (scaled, left side) -->
+          <g transform="translate(-440,-110) scale(0.85)">
+            <g id="anubis-legs">
+              <path d="M150 380 L143 540 L120 552 L195 552 L195 380 Z" fill="#1a1410"/>
+              <path d="M210 380 L228 552 L210 562 L290 562 L268 552 L262 380 Z" fill="#1a1410"/>
+              <path d="M115 555 Q105 552 100 558 L100 565 Q140 568 165 562 L165 555 Z" fill="#1a1410"/>
+              <path d="M205 562 Q195 560 190 568 L190 575 Q240 578 270 572 L270 562 Z" fill="#1a1410"/>
+            </g>
+            <g id="anubis-torso">
+              <path d="M115 295 L290 295 L310 400 L100 400 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+              <line x1="150" y1="305" x2="142" y2="395" stroke="#1a1410" stroke-width="2.5"/>
+              <line x1="190" y1="305" x2="188" y2="395" stroke="#1a1410" stroke-width="2.5"/>
+              <line x1="230" y1="305" x2="234" y2="395" stroke="#1a1410" stroke-width="2.5"/>
+              <line x1="270" y1="305" x2="278" y2="395" stroke="#1a1410" stroke-width="2.5"/>
+              <rect x="115" y="282" width="175" height="22" fill="#a0432a" stroke="#1a1410" stroke-width="4"/>
+              <rect x="130" y="289" width="9" height="9" fill="#efe2c2"/><rect x="160" y="289" width="9" height="9" fill="#efe2c2"/>
+              <rect x="190" y="289" width="9" height="9" fill="#efe2c2"/><rect x="220" y="289" width="9" height="9" fill="#efe2c2"/>
+              <rect x="250" y="289" width="9" height="9" fill="#efe2c2"/>
+              <path d="M130 145 L275 145 L290 295 L115 295 Z" fill="#1a1410"/>
+              <path d="M150 160 Q200 195 255 160 L250 195 Q200 220 155 195 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+              <circle cx="172" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"/>
+              <circle cx="200" cy="200" r="6" fill="#a0432a" stroke="#1a1410" stroke-width="2.5"/>
+              <circle cx="228" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"/>
+            </g>
+            <g id="anubis-head">
+              <path d="M165 140 L240 140 L240 165 L165 165 Z" fill="#1a1410"/>
+              <path d="M150 80 Q145 55 165 48 Q190 38 215 45 L260 50 Q295 55 305 75 Q307 92 285 98 L255 102 Q252 122 230 138 L170 140 Q142 132 148 100 Z" fill="#1a1410"/>
+              <path d="M170 50 L160 12 L195 45 Z" fill="#1a1410"/><path d="M188 42 L215 8 L222 48 Z" fill="#1a1410"/>
+              <path d="M173 47 L168 25 L188 42 Z" fill="#a0432a"/><path d="M196 42 L213 18 L218 44 Z" fill="#a0432a"/>
+              <g id="anubis-eye">
+                <path d="M195 90 Q215 80 240 90 Q225 100 210 98 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
+                <circle cx="220" cy="91" r="5" fill="#1a1410"/>
+                <path d="M192 90 Q210 78 245 88 L255 95" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path d="M225 98 L245 108" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"/>
+              </g>
+            </g>
+            <g id="anubis-arm-back">
+              <path d="M125 160 L100 295 L122 300 L145 162 Z" fill="#1a1410"/>
+              <ellipse cx="108" cy="305" rx="14" ry="18" fill="#1a1410"/>
+              <rect x="93" y="288" width="32" height="12" fill="#c9a961" stroke="#1a1410" stroke-width="3"/>
+              <g transform="translate(108,315)">
+                <circle cx="0" cy="10" r="11" fill="#c9a961" stroke="#1a1410" stroke-width="4"/>
+                <circle cx="0" cy="10" r="5" fill="#f4e4bc" stroke="#1a1410" stroke-width="2.5"/>
+                <line x1="0" y1="21" x2="0" y2="55" stroke="#1a1410" stroke-width="4" stroke-linecap="round"/>
+                <line x1="-13" y1="35" x2="13" y2="35" stroke="#1a1410" stroke-width="4" stroke-linecap="round"/>
+              </g>
+            </g>
+            <g id="anubis-arm-front">
+              <path d="M270 162 L362 188 L370 210 L278 188 Z" fill="#1a1410"/>
+              <path d="M362 188 L390 130 L375 122 L350 184 Z" fill="#1a1410"/>
+              <path d="M378 130 Q392 120 395 110 Q392 102 384 105 Q378 112 372 124 Z" fill="#1a1410"/>
+              <path d="M353 178 L380 132 L390 138 L362 184 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/>
+            </g>
+          </g>
+
+          <!-- SCALE SET -->
+          <g transform="translate(100,50) scale(0.72)">
+            <g id="scale-base">
+              <rect x="-110" y="450" width="220" height="32" class="terra" stroke="#1a1410" stroke-width="4"/>
+              <rect x="-140" y="482" width="280" height="24" class="terra-deep" stroke="#1a1410" stroke-width="4"/>
+              <rect x="-170" y="506" width="340" height="20" class="ink" stroke="#1a1410" stroke-width="4"/>
+              <line x1="-110" y1="465" x2="110" y2="465" stroke="#c9a961" stroke-width="3"/>
+              <g transform="translate(-95,458)"><circle cx="0" cy="8" r="6" class="gold" stroke="#1a1410" stroke-width="2.5"/><circle cx="0" cy="8" r="2" class="ink"/></g>
+              <g transform="translate(0,458)"><path d="M-8 16 Q0 6 8 16 Z" class="bone" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round"/></g>
+              <g transform="translate(95,458)"><circle cx="0" cy="8" r="6" class="gold" stroke="#1a1410" stroke-width="2.5"/><circle cx="0" cy="8" r="2" class="ink"/></g>
+            </g>
+            <g id="scale-pillar">
+              <rect x="-26" y="0" width="52" height="450" class="gold" stroke="#1a1410" stroke-width="4"/>
+              <line x1="-12" y1="10" x2="-12" y2="445" class="stroke-thin"/>
+              <line x1="12" y1="10" x2="12" y2="445" class="stroke-thin"/>
+              <rect x="-30" y="100" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"/>
+              <rect x="-30" y="240" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"/>
+              <rect x="-30" y="380" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"/>
+              <ellipse cx="0" cy="0" rx="36" ry="22" class="teal" stroke="#1a1410" stroke-width="4"/>
+              <circle cx="-12" cy="-3" r="3" class="bone"/><circle cx="12" cy="-3" r="3" class="bone"/>
+              <path d="M-20 5 Q0 14 20 5" class="stroke-thin"/>
+            </g>
+            <g id="scale-pivot">
+              <circle cx="0" cy="0" r="10" class="gold-deep" stroke="#1a1410" stroke-width="4"/>
+              <circle cx="0" cy="0" r="3" class="ink"/>
+            </g>
+
+            <g id="scale-beam" transform="rotate(0)">
+              <rect x="-310" y="-12" width="620" height="20" class="gold" stroke="#1a1410" stroke-width="4"/>
+              <g class="stroke"><line x1="-280" y1="-4" x2="-280" y2="0"/><line x1="-220" y1="-4" x2="-220" y2="0"/><line x1="-160" y1="-4" x2="-160" y2="0"/><line x1="160" y1="-4" x2="160" y2="0"/><line x1="220" y1="-4" x2="220" y2="0"/><line x1="280" y1="-4" x2="280" y2="0"/></g>
+              <g><circle cx="-310" cy="-2" r="14" class="terra" stroke="#1a1410" stroke-width="4"/><path d="M-310 -16 L-310 -28" class="stroke"/><path d="M-318 -22 Q-310 -32 -302 -22" class="stroke"/></g>
+              <g><circle cx="310" cy="-2" r="14" class="terra" stroke="#1a1410" stroke-width="4"/><path d="M310 -16 L310 -28" class="stroke"/><path d="M302 -22 Q310 -32 318 -22" class="stroke"/></g>
+              <rect x="-22" y="-22" width="44" height="14" class="gold-deep" stroke="#1a1410" stroke-width="4"/>
+
+              <!-- LEFT DISH + HEART -->
+              <g id="dish-left">
+                <line x1="-260" y1="8" x2="-292" y2="100" class="stroke"/>
+                <line x1="-260" y1="8" x2="-228" y2="100" class="stroke"/>
+                <path d="M-322 100 Q-260 138 -198 100 Q-260 156 -322 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+                <ellipse cx="-260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"/>
+                <!-- HEART on dish -->
+                <g id="heart-on-dish" transform="translate(-260,40) scale(0.5)">
+                  <g id="heart-glow" opacity="0">
+                    <circle r="105" fill="#c9a961" opacity="0.25"/><circle r="80" fill="#c9a961" opacity="0.35"/>
+                  </g>
+                  <g id="heart-shell">
+                    <path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z" fill="#6e2d18" stroke="#1a1410" stroke-width="5" stroke-linejoin="round"/>
+                  </g>
+                  <defs><clipPath id="heart-clip"><path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z"/></clipPath></defs>
+                  <g id="heart-grid" clip-path="url(#heart-clip)">
+                    <rect id="hc-r0c0" x="-90" y="-70" width="45" height="35"/><rect id="hc-r0c1" x="-45" y="-70" width="45" height="35"/>
+                    <rect id="hc-r0c2" x="0" y="-70" width="45" height="35"/><rect id="hc-r0c3" x="45" y="-70" width="45" height="35"/>
+                    <rect id="hc-r1c0" x="-90" y="-35" width="45" height="35"/><rect id="hc-r1c1" x="-45" y="-35" width="45" height="35"/>
+                    <rect id="hc-r1c2" x="0" y="-35" width="45" height="35"/><rect id="hc-r1c3" x="45" y="-35" width="45" height="35"/>
+                    <rect id="hc-r2c0" x="-90" y="0" width="45" height="35"/><rect id="hc-r2c1" x="-45" y="0" width="45" height="35"/>
+                    <rect id="hc-r2c2" x="0" y="0" width="45" height="35"/><rect id="hc-r2c3" x="45" y="0" width="45" height="35"/>
+                    <rect id="hc-r3c0" x="-90" y="35" width="45" height="35"/><rect id="hc-r3c1" x="-45" y="35" width="45" height="35"/>
+                    <rect id="hc-r3c2" x="0" y="35" width="45" height="35"/><rect id="hc-r3c3" x="45" y="35" width="45" height="35"/>
+                    <line x1="-45" y1="-90" x2="-45" y2="90" stroke="#1a1410" stroke-width="2.5"/>
+                    <line x1="0" y1="-90" x2="0" y2="90" stroke="#1a1410" stroke-width="2.5"/>
+                    <line x1="45" y1="-90" x2="45" y2="90" stroke="#1a1410" stroke-width="2.5"/>
+                    <line x1="-100" y1="-35" x2="100" y2="-35" stroke="#1a1410" stroke-width="2.5"/>
+                    <line x1="-100" y1="0" x2="100" y2="0" stroke="#1a1410" stroke-width="2.5"/>
+                    <line x1="-100" y1="35" x2="100" y2="35" stroke="#1a1410" stroke-width="2.5"/>
+                  </g>
+                  <path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z" fill="none" stroke="#1a1410" stroke-width="5" stroke-linejoin="round"/>
+                </g>
+              </g>
+
+              <!-- RIGHT DISH + FEATHER placeholder -->
+              <g id="dish-right">
+                <line x1="260" y1="8" x2="228" y2="100" class="stroke"/>
+                <line x1="260" y1="8" x2="292" y2="100" class="stroke"/>
+                <path d="M198 100 Q260 138 322 100 Q260 156 198 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+                <ellipse cx="260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"/>
+                <!-- Feather on dish (shown after placing) -->
+                <g id="feather-on-dish" transform="translate(260,30) scale(0.45)" opacity="0">
+                  <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+                  <line x1="0" y1="-82" x2="0" y2="76" stroke="#1a1410" stroke-width="2.5"/>
+                  <g stroke="#1a1410" stroke-width="2" fill="none">
+                    <path d="M0 -65 Q-18 -55 -25 -38"/><path d="M0 -45 Q-22 -33 -30 -15"/>
+                    <path d="M0 -25 Q-25 -10 -32 10"/><path d="M0 0 Q-25 15 -28 35"/>
+                    <path d="M0 -65 Q18 -55 25 -38"/><path d="M0 -45 Q22 -33 30 -15"/>
+                    <path d="M0 -25 Q25 -10 32 10"/><path d="M0 0 Q25 15 28 35"/>
+                  </g>
+                </g>
+              </g>
+            </g>
+            <circle cx="0" cy="0" r="6" class="ink"/>
+          </g>
+
+          <!-- SOUL (hidden, appears during devour) -->
+          <g id="soul-scene" opacity="0">
+            <ellipse rx="115" ry="155" fill="#d8eaf2" opacity="0.5"/>
+            <ellipse rx="92" ry="130" fill="#efe2c2" opacity="0.3"/>
+            <path d="M-28 130 Q-20 150 -10 165 Q0 175 10 165 Q20 150 28 130 Q14 142 0 145 Q-14 142 -28 130 Z" fill="#d8eaf2" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"/>
+            <circle cx="0" cy="155" r="3" fill="#c9a961"/>
+            <path d="M-45 -10 Q-85 -25 -110 -10 Q-120 5 -115 25 Q-100 35 -75 30 Q-55 22 -45 5 Z" fill="#b3d4e0" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M-55 -5 Q-70 0 -85 5" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M-52 5 Q-68 12 -85 20" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M-50 15 Q-65 22 -80 28" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M45 -10 Q85 -25 110 -10 Q120 5 115 25 Q100 35 75 30 Q55 22 45 5 Z" fill="#b3d4e0" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M55 -5 Q70 0 85 5" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M52 5 Q68 12 85 20" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M50 15 Q65 22 80 28" fill="none" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M-42 -8 L-45 50 Q-42 100 -32 125 L32 125 Q42 100 45 50 L42 -8 Q28 -18 0 -18 Q-28 -18 -42 -8 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M-38 -5 Q0 18 38 -5 L38 12 Q0 32 -38 12 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+            <circle cx="-20" cy="6" r="2.5" fill="#a0432a"/><circle cx="0" cy="14" r="2.5" fill="#2c5f7a"/><circle cx="20" cy="6" r="2.5" fill="#a0432a"/>
+            <rect x="-32" y="60" width="64" height="8" fill="#c9a961" stroke="#1a1410" stroke-width="2.5"/>
+            <path d="M-38 8 Q-28 30 -10 38 Q0 40 8 35 L5 50 Q-10 52 -28 45 Q-42 35 -42 15 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+            <path d="M38 8 Q28 30 10 38 Q0 40 -8 35 L-5 50 Q10 52 28 45 Q42 35 42 15 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+            <ellipse cx="0" cy="38" rx="14" ry="8" fill="#d4a574" stroke="#1a1410" stroke-width="3"/>
+            <path d="M-38 -50 Q-42 -90 -28 -110 Q0 -125 28 -110 Q42 -90 38 -50 L38 -25 L-38 -25 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <line x1="-32" y1="-95" x2="-32" y2="-26" stroke="#c9a961" stroke-width="1.8"/>
+            <line x1="-12" y1="-112" x2="-12" y2="-26" stroke="#c9a961" stroke-width="1.8"/>
+            <line x1="12" y1="-112" x2="12" y2="-26" stroke="#c9a961" stroke-width="1.8"/>
+            <line x1="32" y1="-95" x2="32" y2="-26" stroke="#c9a961" stroke-width="1.8"/>
+            <ellipse cx="0" cy="-65" rx="26" ry="32" fill="#d4a574" stroke="#1a1410" stroke-width="4"/>
+            <ellipse cx="-10" cy="-68" rx="6" ry="3.5" fill="#efe2c2" stroke="#1a1410" stroke-width="2.5"/>
+            <ellipse cx="-9" cy="-68" rx="2.5" ry="2.5" fill="#1a1410"/>
+            <ellipse cx="10" cy="-68" rx="6" ry="3.5" fill="#efe2c2" stroke="#1a1410" stroke-width="2.5"/>
+            <ellipse cx="9" cy="-68" rx="2.5" ry="2.5" fill="#1a1410"/>
+            <path d="M0 -62 Q-3 -55 0 -52 Q3 -55 0 -62 Z" fill="none" stroke="#1a1410" stroke-width="2"/>
+            <path d="M-8 -45 Q0 -42 8 -45" fill="none" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"/>
+            <ellipse cx="0" cy="-115" rx="20" ry="6" fill="#c9a961" stroke="#1a1410" stroke-width="3"/>
+            <g stroke="#1a1410" stroke-width="2.5" stroke-linecap="round">
+              <line x1="0" y1="-122" x2="0" y2="-138"/>
+              <line x1="-12" y1="-120" x2="-22" y2="-130"/>
+              <line x1="12" y1="-120" x2="22" y2="-130"/>
+            </g>
+            <path d="M-45 -110 l1.5 -4 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 z" fill="#c9a961" stroke="#1a1410" stroke-width="1.5"/>
+            <path d="M45 -110 l1.5 -4 l1.5 4 l4 1.5 l-4 1.5 l-1.5 4 l-1.5 -4 l-4 -1.5 z" fill="#c9a961" stroke="#1a1410" stroke-width="1.5"/>
+          </g>
+
+          <!-- AMMUT (hidden, enters during devour) -->
+          <g id="ammut-scene" opacity="0">
+            <!-- tail -->
+            <path d="M620 280 Q670 270 690 240 Q700 215 685 200 Q670 195 660 215 Q655 230 645 240 Q625 250 615 270 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M685 200 Q692 188 688 178 Q695 180 700 170 Q705 178 705 188 Q712 184 712 195 Q705 205 690 205 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"/>
+            <!-- hindquarters + legs -->
+            <path d="M460 230 Q530 215 580 235 Q625 255 630 295 Q625 340 600 365 Q575 385 540 385 L470 385 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M580 360 L585 440 L565 455 L540 455 L538 360 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M540 455 L540 470 L568 470 L568 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
+            <path d="M510 365 L510 440 L488 455 L462 455 L466 365 Z" fill="#4a4038" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M462 455 L462 470 L492 470 L492 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
+            <!-- body -->
+            <path d="M230 260 Q220 230 250 220 Q320 205 400 215 Q470 225 480 260 L480 350 Q470 380 430 385 L280 385 Q235 380 225 350 Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M460 230 Q470 280 470 360" fill="none" stroke="#1a1410" stroke-width="3"/>
+            <path d="M280 370 Q360 385 430 372 L425 385 L285 385 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
+            <!-- forelegs -->
+            <path d="M360 360 L358 445 L340 458 L318 458 L318 360 Z" fill="#a87a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M318 458 L314 472 L348 472 L344 458 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
+            <path d="M290 360 L280 450 L258 462 L232 462 L240 360 Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M232 462 L226 478 L264 478 L258 462 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
+            <!-- mane -->
+            <path d="M270 220 L258 200 L248 222 L235 205 L224 230 L210 218 L205 245 L195 235 L195 265 L180 260 L188 285 L175 285 L195 305 L185 320 L210 320 L200 345 L230 335 L230 360 L260 350 L270 380 L290 360 Q300 290 295 230 Z" fill="#a0432a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M240 240 Q250 270 245 310" fill="none" stroke="#6e2d18" stroke-width="2.5"/>
+            <path d="M215 250 Q220 285 215 320" fill="none" stroke="#6e2d18" stroke-width="2.5"/>
+            <path d="M265 235 Q273 280 268 340" fill="none" stroke="#6e2d18" stroke-width="2"/>
+            <!-- head + ear -->
+            <path d="M270 220 Q268 250 290 260 L280 235 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <!-- crown -->
+            <circle cx="195" cy="135" r="22" fill="#c9a961" stroke="#1a1410" stroke-width="4"/>
+            <circle cx="195" cy="135" r="11" fill="#a0432a" stroke="#1a1410" stroke-width="3"/>
+            <path d="M175 145 Q158 130 152 95 Q156 75 168 70 Q178 75 180 95 Q184 125 188 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+            <path d="M215 145 Q232 130 238 95 Q234 75 222 70 Q212 75 210 95 Q206 125 202 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+            <line x1="195" y1="157" x2="195" y2="178" stroke="#1a1410" stroke-width="3"/>
+            <!-- upper jaw -->
+            <path d="M280 200 Q245 175 215 178 Q195 175 192 195 Q195 205 210 207 L175 215 Q150 218 125 222 Q90 230 60 235 Q35 240 30 250 Q28 258 38 262 Q70 262 110 258 Q145 252 180 248 Q230 240 270 230 Q290 224 290 210 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+            <g fill="#3a5230" stroke="#1a1410" stroke-width="2">
+              <path d="M240 200 Q245 195 252 200 Q248 204 240 200 Z"/>
+              <path d="M215 198 Q220 192 228 198 Q222 202 215 198 Z"/>
+              <path d="M160 215 Q167 210 175 217 Q168 220 160 215 Z"/>
+              <path d="M100 232 Q108 228 116 234 Q108 237 100 232 Z"/>
+              <path d="M70 240 Q78 236 86 242 Q78 245 70 240 Z"/>
+            </g>
+            <ellipse cx="50" cy="248" rx="5" ry="3" fill="#1a1410"/>
+            <ellipse cx="42" cy="252" rx="3" ry="2" fill="#1a1410"/>
+            <!-- upper teeth -->
+            <g fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M60 262 L65 275 L70 262 Z"/><path d="M85 262 L90 278 L96 262 Z"/>
+              <path d="M115 260 L120 275 L126 260 Z"/><path d="M145 257 L150 272 L156 257 Z"/>
+              <path d="M175 252 L180 270 L186 252 Z"/><path d="M205 246 L210 264 L217 246 Z"/>
+              <path d="M235 240 L241 258 L248 240 Z"/>
+            </g>
+            <!-- eye -->
+            <path d="M222 195 Q240 185 260 195 Q240 203 222 195 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
+            <ellipse cx="244" cy="195" rx="6" ry="6" fill="#1a1410"/>
+            <ellipse cx="244" cy="195" rx="2" ry="5.5" fill="#c9a961"/>
+            <path d="M222 195 Q240 184 262 195 L270 198" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"/>
+            <path d="M240 203 L234 213" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"/>
+            <path d="M220 178 Q240 173 264 180" fill="none" stroke="#1a1410" stroke-width="3.5" stroke-linecap="round"/>
+            <!-- lower jaw (animated) -->
+            <g id="ammut-jaw-lower">
+              <path d="M285 245 Q250 258 215 262 Q175 268 135 272 Q90 277 55 282 Q35 285 32 290 Q32 300 50 302 Q95 302 140 296 Q185 290 230 282 Q270 274 285 265 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
+              <g fill="#3a5230" stroke="#1a1410" stroke-width="1.8">
+                <ellipse cx="80" cy="293" rx="6" ry="3"/><ellipse cx="115" cy="290" rx="6" ry="3"/>
+                <ellipse cx="150" cy="287" rx="6" ry="3"/><ellipse cx="190" cy="280" rx="6" ry="3"/>
+                <ellipse cx="230" cy="274" rx="6" ry="3"/>
+              </g>
+              <g fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
+                <path d="M60 282 L64 270 L70 282 Z"/><path d="M90 280 L94 267 L100 280 Z"/>
+                <path d="M122 277 L126 264 L132 277 Z"/><path d="M154 273 L158 260 L164 273 Z"/>
+                <path d="M188 268 L192 254 L198 268 Z"/><path d="M222 262 L226 248 L232 262 Z"/>
+              </g>
+            </g>
+            <path d="M260 200 Q275 192 290 198" fill="none" stroke="#c9a961" stroke-width="4"/>
+          </g>
+
+        </svg>
+      </div>
+    </div>
+
+    <!-- RIGHT: Choices -->
+    <div class="right-panel">
+      <div class="instruction">
+        <div class="title" id="inst-title">깃털을 선택하라</div>
+        <div class="desc" id="inst-desc">심장과 같은 값의 깃털을 골라라</div>
+      </div>
+      <div class="timer-track"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+      <div class="choices" id="choices"></div>
+      <button class="confirm-btn btn-place" id="btn-place" onclick="onPlace()" disabled>⚖️ 저울에 올리기</button>
+      <div class="msg-area"><div class="msg-box m-info" id="msg-box">깃털을 선택하라, 아누비스여.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div class="result-overlay" id="result-overlay">
+  <div class="result-card" id="result-card">
+    <div class="result-icon" id="res-icon"></div>
+    <div class="result-title" id="res-title"></div>
+    <div class="result-desc" id="res-desc"></div>
+    <button class="result-btn" onclick="onResultContinue()">계속</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+/* ============================================================
+   FEATHER COLORS (matching parts/feather-set.svg)
+   ============================================================ */
+const FCOLORS=[
+  {fill:'#efe2c2',vein:'#1a1410'},
+  {fill:'#c9a961',vein:'#1a1410'},
+  {fill:'#2c5f7a',vein:'#efe2c2'},
+  {fill:'#a0432a',vein:'#efe2c2'},
+  {fill:'#3a2820',vein:'#c9a961'},
+];
+
+function featherSVG(color,label){
+  const c=color||FCOLORS[0];
+  return `<svg viewBox="-42 -95 84 200" class="choice-feather-svg">
+    <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="${c.fill}" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
+    <line x1="0" y1="-82" x2="0" y2="76" stroke="${c.vein}" stroke-width="2" opacity=".6"/>
+    <g stroke="${c.vein}" stroke-width="1.5" fill="none" opacity=".5">
+      <path d="M0 -65 Q-16 -55 -22 -38"/><path d="M0 -40 Q-20 -28 -26 -10"/>
+      <path d="M0 -15 Q-22 -2 -28 18"/><path d="M0 10 Q-20 25 -22 42"/>
+      <path d="M0 -65 Q16 -55 22 -38"/><path d="M0 -40 Q20 -28 26 -10"/>
+      <path d="M0 -15 Q22 -2 28 18"/><path d="M0 10 Q20 25 22 42"/>
+    </g>
+    <line x1="0" y1="78" x2="0" y2="98" stroke="#1a1410" stroke-width="3"/>
+    <ellipse cx="0" cy="-15" rx="18" ry="22" fill="#f4e4bc" stroke="#1a1410" stroke-width="2.5"/>
+    <text x="0" y="-15" font-family="'Noto Sans KR',sans-serif" font-size="16" font-weight="900" fill="#1a1410" text-anchor="middle" dominant-baseline="central">${label||'?'}</text>
+  </svg>`;
+}
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const GOOD_RECORDS=[
+  {name:"네페르",avatar:"👩",record:"가난한 이웃에게 매일 빵을 나누어줌"},
+  {name:"이모텝",avatar:"👨",record:"병든 아이들을 무료로 치료해줌"},
+  {name:"메리트",avatar:"👩",record:"홍수 때 마을 사람들을 높은 곳으로 이끔"},
+  {name:"카이",avatar:"👦",record:"길 잃은 여행자에게 물과 음식을 대접함"},
+  {name:"아셋",avatar:"👩",record:"고아들을 자기 자식처럼 키움"},
+  {name:"센",avatar:"👨",record:"사막에서 쓰러진 낙타를 끝까지 돌봄"},
+  {name:"타이",avatar:"👩",record:"가뭄 때 저장한 곡식을 마을에 나눔"},
+  {name:"호루스",avatar:"👦",record:"노인의 짐을 대신 나일강까지 옮겨줌"},
+  {name:"바스테트",avatar:"👩",record:"전쟁 포로를 풀어주고 집으로 돌려보냄"},
+  {name:"아문",avatar:"👨",record:"진실만을 말하겠다는 맹세를 평생 지킴"},
+  {name:"네이트",avatar:"👩",record:"맹인 악사에게 악기를 만들어줌"},
+  {name:"소베크",avatar:"👨",record:"나일강의 쓰레기를 매일 치움"},
+];
+const EVIL_RECORDS=[
+  {name:"세트",avatar:"😈",record:"남의 보석을 훔치고 거짓말로 무고한 자를 감옥에 보냄"},
+  {name:"아포피스",avatar:"🐍",record:"이웃의 농작물에 독을 뿌리고 시치미를 뗌"},
+  {name:"케크",avatar:"😈",record:"무덤에서 부장품을 약탈하고 팔아넘김"},
+  {name:"레셉",avatar:"🐍",record:"시장에서 저울을 조작하여 부당 이익을 챙김"},
+  {name:"세베크",avatar:"😈",record:"약한 자에게 거짓 빚을 씌워 노예로 만듦"},
+  {name:"누트",avatar:"🐍",record:"신전의 기부금을 몰래 빼돌림"},
+  {name:"메헨",avatar:"😈",record:"동생의 유산을 위조 문서로 가로챔"},
+  {name:"삼타위",avatar:"🐍",record:"전쟁 중 아군을 배신하고 적에게 정보를 넘김"},
+  {name:"케페르",avatar:"😈",record:"가난한 농부의 땅을 사기로 빼앗음"},
+  {name:"와제트",avatar:"🐍",record:"신성한 고양이를 해치고 나일강에 버림"},
+  {name:"아쿠",avatar:"😈",record:"스승의 지식을 훔쳐 자기 것이라 주장함"},
+  {name:"네헵",avatar:"🐍",record:"어린 하인을 학대하고 임금을 주지 않음"},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const G={
+  round:1,score:0,lives:3,combo:0,
+  isGood:true,heartNum:0,heartDen:0,
+  choices:[],correctIdx:-1,selectedIdx:-1,
+  timerInterval:null,timeLeft:0,timeMax:30,
+  answered:false,
+};
+
+/* ============================================================
+   MATH
+   ============================================================ */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b]}return a}
+function isEq(n1,d1,n2,d2){return n1*d2===n2*d1}
+function simplify(n,d){const g=gcd(n,d);return[n/g,d/g]}
+function randInt(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+
+/* ============================================================
+   약분 기반 보기 생성
+   - 모든 보기는 심장 분수의 분자·분모 약수 조합으로만 구성
+   - 정답: 분자·분모를 같은 수로 나눈 진짜 약분
+   - 오답: 분자·분모를 서로 다른 수로 나눈 가짜 약분
+   - 5개 보기의 값은 모두 다름 (중복 값 없음)
+   ============================================================ */
+function getDivisors(n){
+  const d=[];
+  for(let i=1;i*i<=n;i++){if(n%i===0){d.push(i);if(i!==n/i)d.push(n/i)}}
+  return d.sort((a,b)=>a-b);
+}
+
+/* 가짜 약분 후보 생성: hN/a ÷ hD/b (a≠b), 진분수만, 값 중복 제거 */
+function buildWrongYakbun(hN,hD){
+  const dN=getDivisors(hN),dD=getDivisors(hD);
+  const pool=[];
+  const seen=new Set();
+  const[sn,sd]=simplify(hN,hD);
+  seen.add(sn+'/'+sd); // 정답 값 제외
+  for(const a of dN)for(const b of dD){
+    if(a===b)continue; // 같은 수로 나누면 진짜 약분 → 제외
+    const fn=hN/a,fd=hD/b;
+    if(fn<1||fd<1||fn>=fd)continue; // 진분수만
+    if(isEq(fn,fd,hN,hD))continue;
+    const[sf,sg]=simplify(fn,fd);
+    const k=sf+'/'+sg;
+    if(!seen.has(k)){seen.add(k);pool.push({n:fn,d:fd});}
+  }
+  for(let i=pool.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [pool[i],pool[j]]=[pool[j],pool[i]];
+  }
+  return pool;
+}
+
+function generateHeart(stage){
+  const minDen=Math.max(12,10+stage*4);
+  const maxDen=Math.min(20+stage*10,100);
+  for(let i=0;i<500;i++){
+    const d=randInt(minDen,maxDen);
+    const n=randInt(Math.max(10,Math.floor(d*0.2)),d-1);
+    if(gcd(n,d)<2||n<10||d<10)continue;
+    // 가짜 약분 후보가 4개 이상 있어야 보기를 만들 수 있음
+    if(buildWrongYakbun(n,d).length>=4) return{n,d};
+  }
+  return{n:24,d:36};
+}
+
+function buildChoices(hN,hD,isGood){
+  const[sn,sd]=simplify(hN,hD);
+  const eq={n:sn,d:sd}; // 진짜 약분 (정답)
+  const wrongs=buildWrongYakbun(hN,hD).slice(0,4);
+  const choices=[];
+  const correctIdx=randInt(0,4);
+
+  if(isGood){
+    // 선인: 정답 1개(진짜 약분) + 오답 4개(가짜 약분)
+    let w=0;
+    for(let i=0;i<5;i++) choices.push(i===correctIdx?eq:wrongs[w++]);
+  } else {
+    // 악인: 함정 1개(진짜 약분) + 나머지 4개(가짜 약분, 아무거나 고르면 정답)
+    let trapPos;
+    do{trapPos=randInt(0,4)}while(trapPos===correctIdx);
+    let w=0;
+    for(let i=0;i<5;i++){
+      if(i===correctIdx) choices.push(wrongs[w++]);
+      else if(i===trapPos) choices.push(eq);
+      else choices.push(wrongs[w++]);
+    }
+  }
+  return{choices,correctIdx};
+}
+
+/* ============================================================
+   HEART GRID VISUALIZATION (4x4 = 16 cells)
+   ============================================================ */
+function setHeartGrid(num,den){
+  const fillCount=Math.round((num/den)*16);
+  for(let i=0;i<16;i++){
+    const r=Math.floor(i/4),c=i%4;
+    const cell=document.getElementById(`hc-r${r}c${c}`);
+    if(!cell)continue;
+    if(i<fillCount){
+      cell.setAttribute('fill','#a0432a');cell.setAttribute('opacity','1');
+      cell.classList.add('heart-filled');cell.classList.remove('heart-empty');
+    } else {
+      cell.setAttribute('fill','#6e2d18');cell.setAttribute('opacity','0.35');
+      cell.classList.add('heart-empty');cell.classList.remove('heart-filled');
+    }
+  }
+}
+
+/* ============================================================
+   SCALE CONTROL
+   ============================================================ */
+function setBeamAngle(deg){
+  const beam=document.getElementById('scale-beam');
+  if(beam) beam.setAttribute('transform',`rotate(${deg})`);
+}
+
+/* ============================================================
+   ANUBIS ANIMATIONS
+   ============================================================ */
+function anubisIdle(){
+  const af=document.getElementById('anubis-arm-front');
+  const ab=document.getElementById('anubis-arm-back');
+  const h=document.getElementById('anubis-head');
+  if(af)af.style.transform='';
+  if(ab)ab.style.transform='';
+  if(h)h.style.transform='';
+}
+function anubisPoint(){
+  const af=document.getElementById('anubis-arm-front');
+  if(af)af.style.transform='rotate(-22deg)';
+}
+function anubisNod(){
+  const h=document.getElementById('anubis-head');
+  if(!h)return;
+  h.style.transform='rotate(-8deg)';
+  setTimeout(()=>h.style.transform='rotate(4deg)',400);
+  setTimeout(()=>h.style.transform='',800);
+}
+function anubisBlink(){
+  const e=document.getElementById('anubis-eye');
+  if(!e)return;
+  e.style.transform='scaleY(0.05)';
+  setTimeout(()=>e.style.transform='',150);
+}
+function heartGlow(on){
+  const g=document.getElementById('heart-glow');
+  if(g)g.setAttribute('opacity',on?'1':'0');
+}
+function showFeatherOnDish(show){
+  const f=document.getElementById('feather-on-dish');
+  if(f){f.style.transition='opacity .5s';f.setAttribute('opacity',show?'1':'0');}
+}
+
+/* ============================================================
+   TIMER
+   ============================================================ */
+function startTimer(){
+  G.timeMax=Math.max(12,32-G.round*2);G.timeLeft=G.timeMax;
+  updateTimerBar();clearInterval(G.timerInterval);
+  G.timerInterval=setInterval(()=>{
+    if(G.answered)return;
+    G.timeLeft-=0.1;
+    if(G.timeLeft<=0){G.timeLeft=0;clearInterval(G.timerInterval);timeOut();}
+    updateTimerBar();
+  },100);
+}
+function updateTimerBar(){
+  document.getElementById('timer-fill').style.width=Math.max(0,G.timeLeft/G.timeMax*100)+'%';
+}
+function timeOut(){
+  if(G.answered)return;
+  G.answered=true;G.combo=0;G.lives--;updateHUD();
+  revealAnswer();anubisPoint();
+  const[sn,sd]=simplify(G.heartNum,G.heartDen);
+  if(G.lives<=0){
+    showMsg('fail','⏱ 시간 초과! 생명을 모두 잃었다.');
+    setTimeout(gameOver,1000);
+  } else {
+    showMsg('fail','⏱ 시간 초과! 생명 -1');
+    setTimeout(()=>showResult('wrong',
+      `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (${G.isGood?'=':'≠'} ${sn}/${sd})`,
+      '시간이 다 되었다! 더 빠르게 판단하라.'),600);
+  }
+}
+
+/* ============================================================
+   GAME FLOW
+   ============================================================ */
+/* ============================================================
+   DEVOUR ANIMATION (Ammut eats the soul)
+   ============================================================ */
+function playDevourAnimation(callback){
+  const soul=document.getElementById('soul-scene');
+  const ammut=document.getElementById('ammut-scene');
+  const jaw=document.getElementById('ammut-jaw-lower');
+  resetDevourActors();
+  void soul.offsetWidth;
+  soul.classList.add('anim-devour');
+  ammut.classList.add('anim-devour');
+  setTimeout(()=>{if(jaw)jaw.classList.add('anim-chomp')},1800);
+  setTimeout(()=>{resetDevourActors();if(callback)callback()},3400);
+}
+function resetDevourActors(){
+  const s=document.getElementById('soul-scene');
+  const a=document.getElementById('ammut-scene');
+  const j=document.getElementById('ammut-jaw-lower');
+  if(s)s.classList.remove('anim-devour');
+  if(a)a.classList.remove('anim-devour');
+  if(j)j.classList.remove('anim-chomp');
+}
+
+function startGame(){
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('game-screen').style.display='flex';
+  G.round=1;G.score=0;G.lives=3;G.combo=0;
+  updateHUD();newRound();
+}
+
+function newRound(){
+  G.answered=false;G.selectedIdx=-1;
+  anubisIdle();heartGlow(false);showFeatherOnDish(false);
+  setBeamAngle(4);resetDevourActors();
+
+  G.isGood=Math.random()<0.5;
+  const pool=G.isGood?GOOD_RECORDS:EVIL_RECORDS;
+  const soul=pool[randInt(0,pool.length-1)];
+
+  document.getElementById('soul-avatar').textContent=soul.avatar;
+  document.getElementById('soul-name').textContent=soul.name;
+  document.getElementById('soul-record').textContent='「'+soul.record+'」';
+  const vEl=document.getElementById('soul-verdict');
+  vEl.textContent=G.isGood?'선인':'악인';
+  vEl.className='soul-verdict '+(G.isGood?'verdict-good':'verdict-evil');
+
+  const heart=generateHeart(G.round);
+  G.heartNum=heart.n;G.heartDen=heart.d;
+  document.getElementById('hf-num').textContent=G.heartNum;
+  document.getElementById('hf-den').textContent=G.heartDen;
+  setHeartGrid(G.heartNum,G.heartDen);
+
+  const{choices,correctIdx}=buildChoices(G.heartNum,G.heartDen,G.isGood);
+  G.choices=choices;G.correctIdx=correctIdx;
+
+  document.getElementById('inst-title').textContent=G.isGood?'⚖️ 선인을 구원하라':'🐊 악인을 처단하라';
+  document.getElementById('inst-desc').textContent=G.isGood
+    ?`심장(${G.heartNum}/${G.heartDen})과 같은 값의 깃털을 골라라`
+    :`심장(${G.heartNum}/${G.heartDen})과 다른 값의 깃털을 골라라`;
+
+  renderChoices();
+  document.getElementById('btn-place').disabled=true;
+  startTimer();
+  showMsg('info',`제 ${G.round} 재판: ${soul.name}의 심장을 저울에 올렸다.`);
+  setTimeout(anubisBlink,600);
+}
+
+function renderChoices(){
+  const c=document.getElementById('choices');c.innerHTML='';
+  // shuffle feather colors then assign
+  G.choiceColors=[...FCOLORS].sort(()=>Math.random()-.5);
+  G.choices.forEach((ch,i)=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.dataset.idx=i;
+    btn.innerHTML=`
+      ${featherSVG(G.choiceColors[i%5],'')}
+      <div class="choice-frac-col">
+        <span class="cf-num">${ch.n}</span>
+        <div class="cf-bar"></div>
+        <span class="cf-den">${ch.d}</span>
+      </div>`;
+    btn.onclick=()=>selectChoice(i);
+    c.appendChild(btn);
+  });
+}
+
+function selectChoice(i){
+  if(G.answered)return;
+  G.selectedIdx=i;
+  document.querySelectorAll('.choice-btn').forEach((b,j)=>b.classList.toggle('selected',j===i));
+  document.getElementById('btn-place').disabled=false;
+}
+
+function onPlace(){
+  if(G.answered||G.selectedIdx<0)return;
+  G.answered=true;clearInterval(G.timerInterval);
+
+  const sel=G.selectedIdx,chosen=G.choices[sel];
+  const eq=isEq(chosen.n,chosen.d,G.heartNum,G.heartDen);
+  const correct=G.isGood?eq:!eq;
+  const btns=document.querySelectorAll('.choice-btn');
+
+  // Update feather-on-dish color to match selected feather
+  const selColor=G.choiceColors[sel%5];
+  const fod=document.querySelector('#feather-on-dish path');
+  if(fod) fod.setAttribute('fill',selColor.fill);
+
+  // ---- FLY ANIMATION: selected feather flies to dish ----
+  const selBtn=btns[sel];
+  const btnRect=selBtn.getBoundingClientRect();
+  // target: approximate position of right dish in viewport
+  const sceneSvg=document.getElementById('scene-svg');
+  const svgRect=sceneSvg.getBoundingClientRect();
+  // dish-right is roughly at 72% x, 30% y of the scene SVG
+  const targetX=svgRect.left+svgRect.width*0.62;
+  const targetY=svgRect.top+svgRect.height*0.25;
+
+  // Clone the button for flying
+  const flyClone=selBtn.cloneNode(true);
+  flyClone.className='choice-btn flying';
+  flyClone.style.left=btnRect.left+'px';
+  flyClone.style.top=btnRect.top+'px';
+  flyClone.style.width=btnRect.width+'px';
+  flyClone.style.height=btnRect.height+'px';
+  flyClone.style.margin='0';
+  document.body.appendChild(flyClone);
+
+  // Hide original
+  selBtn.style.opacity='0';
+
+  // Trigger fly
+  requestAnimationFrame(()=>{
+    flyClone.style.left=targetX+'px';
+    flyClone.style.top=targetY+'px';
+    flyClone.style.width='40px';
+    flyClone.style.height='40px';
+    flyClone.style.opacity='0.6';
+    flyClone.style.borderRadius='50%';
+  });
+
+  // After fly animation completes
+  setTimeout(()=>{
+    flyClone.remove();
+    showFeatherOnDish(true);
+
+    // Animate scale
+    const targetAngle=eq?0:(chosen.n/chosen.d>G.heartNum/G.heartDen?12:-12);
+    let curAngle=4;const step=(targetAngle-curAngle)/20;let frame=0;
+    const anim=()=>{
+      frame++;curAngle+=step;
+      if(frame>=20)curAngle=targetAngle;
+      setBeamAngle(curAngle);
+      if(frame<20)requestAnimationFrame(anim);
+    };
+    requestAnimationFrame(anim);
+
+    // Mark buttons
+    btns.forEach((b,j)=>{
+      b.disabled=true;b.style.opacity='';
+      if(j===G.correctIdx)b.classList.add('correct');
+      if(j===sel&&!correct)b.classList.add('wrong');
+    });
+
+    if(correct){
+      G.combo++;
+      const earned=100+Math.round(G.timeLeft*3)+G.combo*15+G.round*10;
+      G.score+=earned;
+      anubisNod();heartGlow(G.isGood);
+      if(G.isGood){
+        showMsg('success',`✨ 수평! ${chosen.n}/${chosen.d} = ${G.heartNum}/${G.heartDen}  +${earned}점`);
+        setTimeout(()=>showResult('heaven',
+          `${chosen.n}/${chosen.d}은(는) ${G.heartNum}/${G.heartDen}과 같은 값!`,
+          `영혼이 오시리스의 왕국으로 들어간다.`),700);
+      } else {
+        showMsg('success',`🐊 기울어짐! ${chosen.n}/${chosen.d} ≠ ${G.heartNum}/${G.heartDen}  +${earned}점`);
+        setTimeout(()=>playDevourAnimation(()=>showResult('devour',
+          `${chosen.n}/${chosen.d}은(는) ${G.heartNum}/${G.heartDen}과 다른 값!`,
+          `악인의 심장은 암무트에게 넘겨졌다.`)),700);
+      }
+    } else {
+      G.combo=0;G.lives--;G.score=Math.max(0,G.score-50);
+      anubisPoint();
+      showMsg('fail','❌ 잘못된 판정! 생명 -1, -50점');
+      const[sn,sd]=simplify(G.heartNum,G.heartDen);
+      setTimeout(()=>showResult('wrong',
+        `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (${G.isGood?'=':'≠'} ${sn}/${sd})`,
+        G.isGood?'선인을 잘못 처단하였다!':'악인을 놓쳐버렸다!'),700);
+    }
+    updateHUD();
+    if(G.lives<=0)setTimeout(gameOver,1600);
+  },750);
+}
+
+function revealAnswer(){
+  document.querySelectorAll('.choice-btn').forEach((b,j)=>{
+    b.disabled=true;if(j===G.correctIdx)b.classList.add('correct');
+  });
+}
+
+function showResult(type,title,desc){
+  const overlay=document.getElementById('result-overlay');
+  const card=document.getElementById('result-card');
+  overlay.classList.add('show');
+  card.className='result-card';
+  let icon='';
+  if(type==='heaven'){card.classList.add('result-heaven');icon='🌅';}
+  else if(type==='devour'){card.classList.add('result-devour');icon='🐊';}
+  else{card.classList.add('result-wrong');icon='💀';}
+  document.getElementById('res-icon').textContent=icon;
+  document.getElementById('res-title').textContent=title;
+  document.getElementById('res-desc').textContent=desc;
+}
+
+function closeResult(){document.getElementById('result-overlay').classList.remove('show')}
+
+function onResultContinue(){
+  closeResult();
+  if(G.lives<=0){
+    document.getElementById('game-screen').style.display='none';
+    document.getElementById('start-screen').style.display='flex';
+    return;
+  }
+  G.round++;updateHUD();newRound();
+}
+
+function gameOver(){
+  clearInterval(G.timerInterval);
+  showResult('wrong','재판 종료',`그대의 심판은 끝났다.\n최종 점수: ${G.score}점 | 라운드: ${G.round}`);
+}
+
+function updateHUD(){
+  document.getElementById('h-round').textContent=G.round;
+  document.getElementById('h-score').textContent=G.score;
+  document.getElementById('h-lives').textContent='♥'.repeat(Math.max(0,G.lives))+'♡'.repeat(Math.max(0,3-G.lives));
+  document.getElementById('h-combo').textContent=G.combo;
+}
+
+function showMsg(type,text){
+  const box=document.getElementById('msg-box');
+  box.className='msg-box m-'+type;box.textContent=text;
+  box.style.animation='none';box.offsetHeight;box.style.animation='';
+}
+</script>
+</body>
+</html>
