@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-360 -120 720 720" width="720" height="720">
+  
+
+  
+  <rect x="-360" y="-120" width="720" height="720" fill="#ffffff"></rect>
+
+  <g id="scale-set">
+
+    
+    <g id="scale-base">
+      
+      <rect x="-110" y="450" width="220" height="32" class="terra" stroke="#1a1410" stroke-width="4"></rect>
+      
+      <rect x="-140" y="482" width="280" height="24" class="terra-deep" stroke="#1a1410" stroke-width="4"></rect>
+      
+      <rect x="-170" y="506" width="340" height="20" class="ink" stroke="#1a1410" stroke-width="4"></rect>
+      
+      <line x1="-110" y1="465" x2="110" y2="465" stroke="#c9a961" stroke-width="3"></line>
+      
+      <g transform="translate(-95, 458)">
+        <circle cx="0" cy="8" r="6" class="gold" stroke="#1a1410" stroke-width="2.5"></circle>
+        <circle cx="0" cy="8" r="2" class="ink"></circle>
+      </g>
+      <g transform="translate(0, 458)">
+        <path d="M-8 16 Q0 6 8 16 Z" class="bone" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round"></path>
+      </g>
+      <g transform="translate(95, 458)">
+        <circle cx="0" cy="8" r="6" class="gold" stroke="#1a1410" stroke-width="2.5"></circle>
+        <circle cx="0" cy="8" r="2" class="ink"></circle>
+      </g>
+    </g>
+
+    
+    <g id="scale-pillar">
+      
+      <rect x="-26" y="0" width="52" height="450" class="gold" stroke="#1a1410" stroke-width="4"></rect>
+      
+      <line x1="-12" y1="10" x2="-12" y2="445" class="stroke-thin"></line>
+      <line x1="12" y1="10" x2="12" y2="445" class="stroke-thin"></line>
+      
+      <rect x="-30" y="100" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"></rect>
+      <rect x="-30" y="240" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"></rect>
+      <rect x="-30" y="380" width="60" height="16" class="terra" stroke="#1a1410" stroke-width="3"></rect>
+      
+      <ellipse cx="0" cy="0" rx="36" ry="22" class="teal" stroke="#1a1410" stroke-width="4"></ellipse>
+      
+      <circle cx="-12" cy="-3" r="3" class="bone"></circle>
+      <circle cx="12" cy="-3" r="3" class="bone"></circle>
+      <path d="M-20 5 Q0 14 20 5" class="stroke-thin"></path>
+    </g>
+
+    
+    <g id="scale-pivot">
+      <circle cx="0" cy="0" r="10" class="gold-deep" stroke="#1a1410" stroke-width="4"></circle>
+      <circle cx="0" cy="0" r="3" class="ink"></circle>
+    </g>
+
+    
+    <g id="scale-beam" transform="rotate(0)">
+
+      
+      <rect x="-310" y="-12" width="620" height="20" class="gold" stroke="#1a1410" stroke-width="4"></rect>
+      
+      <g class="stroke">
+        <line x1="-280" y1="-4" x2="-280" y2="0"></line>
+        <line x1="-220" y1="-4" x2="-220" y2="0"></line>
+        <line x1="-160" y1="-4" x2="-160" y2="0"></line>
+        <line x1="160" y1="-4" x2="160" y2="0"></line>
+        <line x1="220" y1="-4" x2="220" y2="0"></line>
+        <line x1="280" y1="-4" x2="280" y2="0"></line>
+      </g>
+      
+      <g>
+        <circle cx="-310" cy="-2" r="14" class="terra" stroke="#1a1410" stroke-width="4"></circle>
+        <path d="M-310 -16 L-310 -28" class="stroke"></path>
+        <path d="M-318 -22 Q-310 -32 -302 -22" class="stroke"></path>
+      </g>
+      <g>
+        <circle cx="310" cy="-2" r="14" class="terra" stroke="#1a1410" stroke-width="4"></circle>
+        <path d="M310 -16 L310 -28" class="stroke"></path>
+        <path d="M302 -22 Q310 -32 318 -22" class="stroke"></path>
+      </g>
+      
+      <rect x="-22" y="-22" width="44" height="14" class="gold-deep" stroke="#1a1410" stroke-width="4"></rect>
+
+      
+      <g id="dish-left">
+        
+        <line x1="-260" y1="8" x2="-292" y2="100" class="stroke"></line>
+        <line x1="-260" y1="8" x2="-228" y2="100" class="stroke"></line>
+        
+        <path d="M-322 100 Q-260 138 -198 100 Q-260 156 -322 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        
+        <ellipse cx="-260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"></ellipse>
+        
+        <line x1="-310" y1="105" x2="-210" y2="105" class="stroke-thin"></line>
+        
+        <circle id="dish-left-anchor" cx="-260" cy="92" r="0.1" fill="none"></circle>
+      </g>
+
+      
+      <g id="dish-right">
+        <line x1="260" y1="8" x2="228" y2="100" class="stroke"></line>
+        <line x1="260" y1="8" x2="292" y2="100" class="stroke"></line>
+        <path d="M198 100 Q260 138 322 100 Q260 156 198 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <ellipse cx="260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"></ellipse>
+        <line x1="210" y1="105" x2="310" y2="105" class="stroke-thin"></line>
+        <circle id="dish-right-anchor" cx="260" cy="92" r="0.1" fill="none"></circle>
+      </g>
+
+    </g>
+
+    
+    <circle cx="0" cy="0" r="6" class="ink"></circle>
+
+  </g>
+</svg>

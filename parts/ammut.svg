@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" width="720" height="520">
+  <rect width="720" height="520" fill="#ffffff"></rect>
+
+  
+
+  <g id="ammut">
+
+    
+    
+    
+    <g id="ammut-tail">
+      
+      <path d="M 620 280&#xA;               Q 670 270 690 240&#xA;               Q 700 215 685 200&#xA;               Q 670 195 660 215&#xA;               Q 655 230 645 240&#xA;               Q 625 250 615 270 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 685 200&#xA;               Q 692 188 688 178&#xA;               Q 695 180 700 170&#xA;               Q 705 178 705 188&#xA;               Q 712 184 712 195&#xA;               Q 705 205 690 205 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"></path>
+      
+      <path d="M 622 282 Q 640 274 660 270" fill="none" stroke="#1a1410" stroke-width="2"></path>
+      <path d="M 632 270 Q 650 263 668 255" fill="none" stroke="#1a1410" stroke-width="2"></path>
+      <path d="M 645 256 Q 660 247 672 235" fill="none" stroke="#1a1410" stroke-width="2"></path>
+    </g>
+
+    
+    
+    
+    <g id="ammut-hindquarters">
+      
+      <path d="M 460 230&#xA;               Q 530 215 580 235&#xA;               Q 625 255 630 295&#xA;               Q 625 340 600 365&#xA;               Q 575 385 540 385&#xA;               L 470 385&#xA;               Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 555 245 Q 590 255 610 285" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <path d="M 545 270 Q 580 285 605 320" fill="none" stroke="#1a1410" stroke-width="2"></path>
+      
+      <path d="M 580 360 L 585 440 L 565 455 L 540 455 L 538 360 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 540 455 L 540 470 L 568 470 L 568 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"></path>
+      <line x1="548" y1="455" x2="548" y2="470" stroke="#efe2c2" stroke-width="2"></line>
+      <line x1="558" y1="455" x2="558" y2="470" stroke="#efe2c2" stroke-width="2"></line>
+      
+      <path d="M 510 365 L 510 440 L 488 455 L 462 455 L 466 365 Z" fill="#4a4038" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M 462 455 L 462 470 L 492 470 L 492 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"></path>
+      <line x1="470" y1="455" x2="470" y2="470" stroke="#efe2c2" stroke-width="2"></line>
+      <line x1="482" y1="455" x2="482" y2="470" stroke="#efe2c2" stroke-width="2"></line>
+    </g>
+
+    
+    
+    
+    <g id="ammut-body">
+      
+      <path d="M 230 260&#xA;               Q 220 230 250 220&#xA;               Q 320 205 400 215&#xA;               Q 470 225 480 260&#xA;               L 480 350&#xA;               Q 470 380 430 385&#xA;               L 280 385&#xA;               Q 235 380 225 350&#xA;               Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 460 230 Q 470 280 470 360" fill="none" stroke="#1a1410" stroke-width="3"></path>
+      
+      <path d="M 290 290 Q 350 300 420 295" fill="none" stroke="#a87a4a" stroke-width="2.5"></path>
+      <path d="M 300 320 Q 360 328 415 320" fill="none" stroke="#a87a4a" stroke-width="2"></path>
+      
+      <path d="M 280 370 Q 360 385 430 372 L 425 385 L 285 385 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"></path>
+    </g>
+
+    
+    
+    
+    <g id="ammut-foreleg-back">
+      
+      <path d="M 360 360 L 358 445 L 340 458 L 318 458 L 318 360 Z" fill="#a87a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 318 458 L 314 472 L 348 472 L 344 458 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"></path>
+      
+      <line x1="322" y1="458" x2="320" y2="475" stroke="#efe2c2" stroke-width="2.5"></line>
+      <line x1="332" y1="458" x2="332" y2="475" stroke="#efe2c2" stroke-width="2.5"></line>
+      <line x1="342" y1="458" x2="344" y2="475" stroke="#efe2c2" stroke-width="2.5"></line>
+    </g>
+
+    <g id="ammut-foreleg-front">
+      
+      <path d="M 290 360 L 280 450 L 258 462 L 232 462 L 240 360 Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 232 462 L 226 478 L 264 478 L 258 462 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"></path>
+      
+      <line x1="234" y1="462" x2="232" y2="480" stroke="#efe2c2" stroke-width="2.5"></line>
+      <line x1="246" y1="462" x2="245" y2="480" stroke="#efe2c2" stroke-width="2.5"></line>
+      <line x1="258" y1="462" x2="260" y2="480" stroke="#efe2c2" stroke-width="2.5"></line>
+      
+      <path d="M 244 410 Q 260 410 278 410" fill="none" stroke="#a87a4a" stroke-width="2"></path>
+    </g>
+
+    
+    
+    
+    <g id="ammut-mane">
+      
+      <path d="M 270 220&#xA;               L 258 200 L 248 222 L 235 205 L 224 230&#xA;               L 210 218 L 205 245 L 195 235 L 195 265&#xA;               L 180 260 L 188 285 L 175 285 L 195 305&#xA;               L 185 320 L 210 320 L 200 345 L 230 335&#xA;               L 230 360 L 260 350 L 270 380 L 290 360&#xA;               Q 300 290 295 230 Z" fill="#a0432a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M 240 240 Q 250 270 245 310" fill="none" stroke="#6e2d18" stroke-width="2.5"></path>
+      <path d="M 215 250 Q 220 285 215 320" fill="none" stroke="#6e2d18" stroke-width="2.5"></path>
+      <path d="M 265 235 Q 273 280 268 340" fill="none" stroke="#6e2d18" stroke-width="2"></path>
+      
+      <path d="M 260 232 Q 275 226 290 234" fill="none" stroke="#c9a961" stroke-width="3"></path>
+    </g>
+
+    
+    
+    
+    
+    <g id="ammut-head">
+
+      
+      <path d="M 270 220 Q 268 250 290 260 L 280 235 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+
+      
+      <g id="ammut-crown">
+        
+        <circle cx="195" cy="135" r="22" fill="#c9a961" stroke="#1a1410" stroke-width="4"></circle>
+        <circle cx="195" cy="135" r="11" fill="#a0432a" stroke="#1a1410" stroke-width="3"></circle>
+        
+        <path d="M 175 145&#xA;                 Q 158 130 152 95&#xA;                 Q 156 75 168 70&#xA;                 Q 178 75 180 95&#xA;                 Q 184 125 188 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"></path>
+        <line x1="170" y1="145" x2="166" y2="80" stroke="#1a1410" stroke-width="2"></line>
+        <path d="M 215 145&#xA;                 Q 232 130 238 95&#xA;                 Q 234 75 222 70&#xA;                 Q 212 75 210 95&#xA;                 Q 206 125 202 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"></path>
+        <line x1="220" y1="145" x2="224" y2="80" stroke="#1a1410" stroke-width="2"></line>
+        
+        <line x1="195" y1="157" x2="195" y2="178" stroke="#1a1410" stroke-width="3"></line>
+      </g>
+
+      
+      
+
+      
+      <g id="ammut-jaw-upper">
+        
+        <path d="M 280 200&#xA;                 Q 245 175 215 178&#xA;                 Q 195 175 192 195&#xA;                 Q 195 205 210 207&#xA;                 L 175 215&#xA;                 Q 150 218 125 222&#xA;                 Q 90 230 60 235&#xA;                 Q 35 240 30 250&#xA;                 Q 28 258 38 262&#xA;                 Q 70 262 110 258&#xA;                 Q 145 252 180 248&#xA;                 Q 230 240 270 230&#xA;                 Q 290 224 290 210 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+
+        
+        <g fill="#3a5230" stroke="#1a1410" stroke-width="2">
+          <path d="M 240 200 Q 245 195 252 200 Q 248 204 240 200 Z"></path>
+          <path d="M 215 198 Q 220 192 228 198 Q 222 202 215 198 Z"></path>
+          <path d="M 190 205 Q 196 200 204 206 Q 198 209 190 205 Z"></path>
+          <path d="M 160 215 Q 167 210 175 217 Q 168 220 160 215 Z"></path>
+          <path d="M 130 224 Q 138 220 145 226 Q 138 230 130 224 Z"></path>
+          <path d="M 100 232 Q 108 228 116 234 Q 108 237 100 232 Z"></path>
+          <path d="M 70 240 Q 78 236 86 242 Q 78 245 70 240 Z"></path>
+        </g>
+
+        
+        <ellipse cx="50" cy="248" rx="5" ry="3" fill="#1a1410"></ellipse>
+        <ellipse cx="42" cy="252" rx="3" ry="2" fill="#1a1410"></ellipse>
+
+        
+        <g id="ammut-teeth-upper" fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
+          <path d="M 60 262 L 65 275 L 70 262 Z"></path>
+          <path d="M 85 262 L 90 278 L 96 262 Z"></path>
+          <path d="M 115 260 L 120 275 L 126 260 Z"></path>
+          <path d="M 145 257 L 150 272 L 156 257 Z"></path>
+          <path d="M 175 252 L 180 270 L 186 252 Z"></path>
+          <path d="M 205 246 L 210 264 L 217 246 Z"></path>
+          <path d="M 235 240 L 241 258 L 248 240 Z"></path>
+        </g>
+
+        
+        <g id="ammut-eye">
+          
+          <ellipse cx="240" cy="195" rx="22" ry="14" fill="#5a7a4a" stroke="#1a1410" stroke-width="3"></ellipse>
+          
+          <path d="M 222 195 Q 240 185 260 195 Q 240 203 222 195 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"></path>
+          
+          <ellipse cx="244" cy="195" rx="6" ry="6" fill="#1a1410"></ellipse>
+          
+          <ellipse cx="244" cy="195" rx="2" ry="5.5" fill="#c9a961"></ellipse>
+          
+          <path d="M 222 195 Q 240 184 262 195 L 270 198" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"></path>
+          <path d="M 240 203 L 234 213" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"></path>
+        </g>
+
+        
+        <path d="M 220 178 Q 240 173 264 180" fill="none" stroke="#1a1410" stroke-width="3.5" stroke-linecap="round"></path>
+      </g>
+
+      
+      
+      <g id="ammut-jaw-lower">
+        <path d="M 285 245&#xA;                 Q 250 258 215 262&#xA;                 Q 175 268 135 272&#xA;                 Q 90 277 55 282&#xA;                 Q 35 285 32 290&#xA;                 Q 32 300 50 302&#xA;                 Q 95 302 140 296&#xA;                 Q 185 290 230 282&#xA;                 Q 270 274 285 265 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        
+        <g fill="#3a5230" stroke="#1a1410" stroke-width="1.8">
+          <ellipse cx="80" cy="293" rx="6" ry="3"></ellipse>
+          <ellipse cx="115" cy="290" rx="6" ry="3"></ellipse>
+          <ellipse cx="150" cy="287" rx="6" ry="3"></ellipse>
+          <ellipse cx="190" cy="280" rx="6" ry="3"></ellipse>
+          <ellipse cx="230" cy="274" rx="6" ry="3"></ellipse>
+        </g>
+        
+        <g fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
+          <path d="M 60 282 L 64 270 L 70 282 Z"></path>
+          <path d="M 90 280 L 94 267 L 100 280 Z"></path>
+          <path d="M 122 277 L 126 264 L 132 277 Z"></path>
+          <path d="M 154 273 L 158 260 L 164 273 Z"></path>
+          <path d="M 188 268 L 192 254 L 198 268 Z"></path>
+          <path d="M 222 262 L 226 248 L 232 262 Z"></path>
+        </g>
+        
+        <path d="M 286 250 Q 282 255 285 262" fill="none" stroke="#1a1410" stroke-width="3"></path>
+      </g>
+
+      
+      <path d="M 260 200 Q 275 192 290 198" fill="none" stroke="#c9a961" stroke-width="4"></path>
+
+    </g>
+
+  </g>
+</svg>

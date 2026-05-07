@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-120 -120 240 240" width="240" height="240">
+  <rect x="-120" y="-120" width="240" height="240" fill="#ffffff"></rect>
+
+  <g id="heart-item">
+
+    <g id="heart-glow" opacity="0">
+      <circle r="105" fill="#c9a961" opacity="0.25"></circle>
+      <circle r="80" fill="#c9a961" opacity="0.35"></circle>
+    </g>
+
+    <g id="heart-shell">
+      <path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z" fill="#6e2d18" stroke="#1a1410" stroke-width="5" stroke-linejoin="round"></path>
+    </g>
+
+    <defs>
+      <clipPath id="heart-clip">
+        <path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z"></path>
+      </clipPath>
+    </defs>
+
+    <g id="heart-grid" clip-path="url(#heart-clip)">
+      <rect id="heart-cell-r0c0" x="-90" y="-70" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r0c1" x="-45" y="-70" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r0c2" x="0" y="-70" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r0c3" x="45" y="-70" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r1c0" x="-90" y="-35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r1c1" x="-45" y="-35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r1c2" x="0" y="-35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r1c3" x="45" y="-35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r2c0" x="-90" y="0" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r2c1" x="-45" y="0" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r2c2" x="0" y="0" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r2c3" x="45" y="0" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r3c0" x="-90" y="35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r3c1" x="-45" y="35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r3c2" x="0" y="35" width="45" height="35" fill="#a0432a"></rect>
+      <rect id="heart-cell-r3c3" x="45" y="35" width="45" height="35" fill="#a0432a"></rect>
+
+      <line x1="-45" y1="-90" x2="-45" y2="90" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="0" y1="-90" x2="0" y2="90" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="45" y1="-90" x2="45" y2="90" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="-100" y1="-35" x2="100" y2="-35" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="-100" y1="0" x2="100" y2="0" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="-100" y1="35" x2="100" y2="35" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+    </g>
+
+    <path d="M0 -55 Q-35 -85 -65 -65 Q-92 -42 -85 -8 Q-72 32 0 80 Q72 32 85 -8 Q92 -42 65 -65 Q35 -85 0 -55 Z" fill="none" stroke="#1a1410" stroke-width="5" stroke-linejoin="round"></path>
+    <path d="M-20 -50 L0 -30 L20 -50" stroke="#1a1410" stroke-width="2.5" fill="none"></path>
+
+  </g>
+</svg>

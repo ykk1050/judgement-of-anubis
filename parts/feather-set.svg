@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 280" width="800" height="280">
+  
+
+  
+  <rect width="800" height="280" fill="#ffffff"></rect>
+
+  
+  <defs>
+    <symbol id="feather-shape-sym" viewBox="-60 -100 120 220">
+      
+      <path d="M0 -90&#xA;               Q-35 -45 -38 25&#xA;               Q-35 65 -8 78&#xA;               Q0 80 8 78&#xA;               Q35 65 38 25&#xA;               Q35 -45 0 -90 Z" class="feather-shape" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <line x1="0" y1="-82" x2="0" y2="76" class="stroke-thin"></line>
+      
+      <g class="stroke-thin">
+        <path d="M0 -65 Q-18 -55 -25 -38"></path>
+        <path d="M0 -45 Q-22 -33 -30 -15"></path>
+        <path d="M0 -25 Q-25 -10 -32 10"></path>
+        <path d="M0 0 Q-25 15 -28 35"></path>
+        <path d="M0 25 Q-22 38 -22 55"></path>
+      </g>
+      
+      <g class="stroke-thin">
+        <path d="M0 -65 Q18 -55 25 -38"></path>
+        <path d="M0 -45 Q22 -33 30 -15"></path>
+        <path d="M0 -25 Q25 -10 32 10"></path>
+        <path d="M0 0 Q25 15 28 35"></path>
+        <path d="M0 25 Q22 38 22 55"></path>
+      </g>
+      
+      <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+      
+      <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+    </symbol>
+  </defs>
+
+  <g id="feather-set">
+
+    
+    <g id="feather-1" transform="translate(80, 140)">
+      <g style="--c:#efe2c2">
+        <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <line x1="0" y1="-82" x2="0" y2="76" class="stroke-thin"></line>
+        <g class="stroke-thin">
+          <path d="M0 -65 Q-18 -55 -25 -38"></path>
+          <path d="M0 -45 Q-22 -33 -30 -15"></path>
+          <path d="M0 -25 Q-25 -10 -32 10"></path>
+          <path d="M0 0 Q-25 15 -28 35"></path>
+          <path d="M0 25 Q-22 38 -22 55"></path>
+          <path d="M0 -65 Q18 -55 25 -38"></path>
+          <path d="M0 -45 Q22 -33 30 -15"></path>
+          <path d="M0 -25 Q25 -10 32 10"></path>
+          <path d="M0 0 Q25 15 28 35"></path>
+          <path d="M0 25 Q22 38 22 55"></path>
+        </g>
+        <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+        <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+        <g id="feather-1-label">
+          <text x="0" y="-15" class="label-text">?</text>
+        </g>
+      </g>
+    </g>
+
+    
+    <g id="feather-2" transform="translate(220, 140)">
+      <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <line x1="0" y1="-82" x2="0" y2="76" class="stroke-thin"></line>
+      <g class="stroke-thin">
+        <path d="M0 -65 Q-18 -55 -25 -38"></path>
+        <path d="M0 -45 Q-22 -33 -30 -15"></path>
+        <path d="M0 -25 Q-25 -10 -32 10"></path>
+        <path d="M0 0 Q-25 15 -28 35"></path>
+        <path d="M0 25 Q-22 38 -22 55"></path>
+        <path d="M0 -65 Q18 -55 25 -38"></path>
+        <path d="M0 -45 Q22 -33 30 -15"></path>
+        <path d="M0 -25 Q25 -10 32 10"></path>
+        <path d="M0 0 Q25 15 28 35"></path>
+        <path d="M0 25 Q22 38 22 55"></path>
+      </g>
+      <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+      <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+      <g id="feather-2-label">
+        <text x="0" y="-15" class="label-text">?</text>
+      </g>
+    </g>
+
+    
+    <g id="feather-3" transform="translate(360, 140)">
+      <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#2c5f7a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <line x1="0" y1="-82" x2="0" y2="76" stroke="#efe2c2" stroke-width="2.5" stroke-linejoin="round" fill="none"></line>
+      <g stroke="#efe2c2" stroke-width="2" stroke-linejoin="round" fill="none">
+        <path d="M0 -65 Q-18 -55 -25 -38"></path>
+        <path d="M0 -45 Q-22 -33 -30 -15"></path>
+        <path d="M0 -25 Q-25 -10 -32 10"></path>
+        <path d="M0 0 Q-25 15 -28 35"></path>
+        <path d="M0 25 Q-22 38 -22 55"></path>
+        <path d="M0 -65 Q18 -55 25 -38"></path>
+        <path d="M0 -45 Q22 -33 30 -15"></path>
+        <path d="M0 -25 Q25 -10 32 10"></path>
+        <path d="M0 0 Q25 15 28 35"></path>
+        <path d="M0 25 Q22 38 22 55"></path>
+      </g>
+      <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+      <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+      <g id="feather-3-label">
+        <text x="0" y="-15" class="label-text">?</text>
+      </g>
+    </g>
+
+    
+    <g id="feather-4" transform="translate(500, 140)">
+      <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#a0432a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <line x1="0" y1="-82" x2="0" y2="76" stroke="#efe2c2" stroke-width="2.5" stroke-linejoin="round" fill="none"></line>
+      <g stroke="#efe2c2" stroke-width="2" stroke-linejoin="round" fill="none">
+        <path d="M0 -65 Q-18 -55 -25 -38"></path>
+        <path d="M0 -45 Q-22 -33 -30 -15"></path>
+        <path d="M0 -25 Q-25 -10 -32 10"></path>
+        <path d="M0 0 Q-25 15 -28 35"></path>
+        <path d="M0 25 Q-22 38 -22 55"></path>
+        <path d="M0 -65 Q18 -55 25 -38"></path>
+        <path d="M0 -45 Q22 -33 30 -15"></path>
+        <path d="M0 -25 Q25 -10 32 10"></path>
+        <path d="M0 0 Q25 15 28 35"></path>
+        <path d="M0 25 Q22 38 22 55"></path>
+      </g>
+      <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+      <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+      <g id="feather-4-label">
+        <text x="0" y="-15" class="label-text">?</text>
+      </g>
+    </g>
+
+    
+    <g id="feather-5" transform="translate(640, 140)">
+      <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#3a2820" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <line x1="0" y1="-82" x2="0" y2="76" stroke="#c9a961" stroke-width="2.5" stroke-linejoin="round" fill="none"></line>
+      <g stroke="#c9a961" stroke-width="2" stroke-linejoin="round" fill="none">
+        <path d="M0 -65 Q-18 -55 -25 -38"></path>
+        <path d="M0 -45 Q-22 -33 -30 -15"></path>
+        <path d="M0 -25 Q-25 -10 -32 10"></path>
+        <path d="M0 0 Q-25 15 -28 35"></path>
+        <path d="M0 25 Q-22 38 -22 55"></path>
+        <path d="M0 -65 Q18 -55 25 -38"></path>
+        <path d="M0 -45 Q22 -33 30 -15"></path>
+        <path d="M0 -25 Q25 -10 32 10"></path>
+        <path d="M0 0 Q25 15 28 35"></path>
+        <path d="M0 25 Q22 38 22 55"></path>
+      </g>
+      <line x1="0" y1="78" x2="0" y2="100" class="stroke"></line>
+      <ellipse cx="0" cy="-15" rx="20" ry="26" class="label-bg" stroke="#1a1410" stroke-width="3"></ellipse>
+      <g id="feather-5-label">
+        <text x="0" y="-15" class="label-text">?</text>
+      </g>
+    </g>
+
+  </g>
+</svg>

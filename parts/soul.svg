@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-140 -180 280 360" width="280" height="360">
+  <rect x="-140" y="-180" width="280" height="360" fill="#ffffff"></rect>
+
+  
+
+  <g id="soul">
+
+    
+    <g id="soul-aura" opacity="0.7">
+      <ellipse cx="0" cy="0" rx="115" ry="155" fill="#d8eaf2" stroke="none"></ellipse>
+      <ellipse cx="0" cy="0" rx="92" ry="130" fill="#efe2c2" stroke="none" opacity="0.5"></ellipse>
+    </g>
+
+    
+    <g id="soul-trail">
+      <path d="M -28 130&#xA;               Q -20 150 -10 165&#xA;               Q 0 175 10 165&#xA;               Q 20 150 28 130&#xA;               Q 14 142 0 145&#xA;               Q -14 142 -28 130 Z" fill="#d8eaf2" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"></path>
+      
+      <circle cx="0" cy="155" r="3" fill="#c9a961"></circle>
+    </g>
+
+    
+    <g id="soul-wings">
+      
+      <path d="M -45 -10&#xA;               Q -85 -25 -110 -10&#xA;               Q -120 5 -115 25&#xA;               Q -100 35 -75 30&#xA;               Q -55 22 -45 5 Z" fill="#b3d4e0" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <path d="M -55 -5 Q -70 0 -85 5" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <path d="M -52 5 Q -68 12 -85 20" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <path d="M -50 15 Q -65 22 -80 28" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      
+      <line x1="-110" y1="-5" x2="-115" y2="-15" stroke="#1a1410" stroke-width="2.5"></line>
+      <line x1="-118" y1="10" x2="-128" y2="10" stroke="#1a1410" stroke-width="2.5"></line>
+      <line x1="-115" y1="25" x2="-125" y2="32" stroke="#1a1410" stroke-width="2.5"></line>
+
+      
+      <path d="M 45 -10&#xA;               Q 85 -25 110 -10&#xA;               Q 120 5 115 25&#xA;               Q 100 35 75 30&#xA;               Q 55 22 45 5 Z" fill="#b3d4e0" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M 55 -5 Q 70 0 85 5" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <path d="M 52 5 Q 68 12 85 20" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <path d="M 50 15 Q 65 22 80 28" fill="none" stroke="#1a1410" stroke-width="2.5"></path>
+      <line x1="110" y1="-5" x2="115" y2="-15" stroke="#1a1410" stroke-width="2.5"></line>
+      <line x1="118" y1="10" x2="128" y2="10" stroke="#1a1410" stroke-width="2.5"></line>
+      <line x1="115" y1="25" x2="125" y2="32" stroke="#1a1410" stroke-width="2.5"></line>
+    </g>
+
+    
+    <g id="soul-body">
+      
+      <path d="M -42 -8&#xA;               L -45 50&#xA;               Q -42 100 -32 125&#xA;               L 32 125&#xA;               Q 42 100 45 50&#xA;               L 42 -8&#xA;               Q 28 -18 0 -18&#xA;               Q -28 -18 -42 -8 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <line x1="-22" y1="20" x2="-26" y2="120" stroke="#1a1410" stroke-width="2"></line>
+      <line x1="0" y1="20" x2="0" y2="120" stroke="#1a1410" stroke-width="2"></line>
+      <line x1="22" y1="20" x2="26" y2="120" stroke="#1a1410" stroke-width="2"></line>
+      
+      <path d="M -38 -5&#xA;               Q 0 18 38 -5&#xA;               L 38 12&#xA;               Q 0 32 -38 12 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"></path>
+      <circle cx="-20" cy="6" r="2.5" fill="#a0432a"></circle>
+      <circle cx="0" cy="14" r="2.5" fill="#2c5f7a"></circle>
+      <circle cx="20" cy="6" r="2.5" fill="#a0432a"></circle>
+      
+      <rect x="-32" y="60" width="64" height="8" fill="#c9a961" stroke="#1a1410" stroke-width="2.5"></rect>
+    </g>
+
+    
+    <g id="soul-arms">
+      
+      <path d="M -38 8&#xA;               Q -28 30 -10 38&#xA;               Q 0 40 8 35&#xA;               L 5 50&#xA;               Q -10 52 -28 45&#xA;               Q -42 35 -42 15 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"></path>
+      
+      <path d="M 38 8&#xA;               Q 28 30 10 38&#xA;               Q 0 40 -8 35&#xA;               L -5 50&#xA;               Q 10 52 28 45&#xA;               Q 42 35 42 15 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"></path>
+      
+      <ellipse cx="0" cy="38" rx="14" ry="8" fill="#d4a574" stroke="#1a1410" stroke-width="3"></ellipse>
+      <line x1="-8" y1="38" x2="8" y2="38" stroke="#1a1410" stroke-width="2"></line>
+    </g>
+
+    
+    <g id="soul-head">
+      
+      <path d="M -38 -50&#xA;               Q -42 -90 -28 -110&#xA;               Q 0 -125 28 -110&#xA;               Q 42 -90 38 -50&#xA;               L 38 -25&#xA;               L -38 -25 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      
+      <line x1="-32" y1="-95" x2="-32" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="-22" y1="-105" x2="-22" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="-12" y1="-112" x2="-12" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="0" y1="-115" x2="0" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="12" y1="-112" x2="12" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="22" y1="-105" x2="22" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+      <line x1="32" y1="-95" x2="32" y2="-26" stroke="#c9a961" stroke-width="1.8"></line>
+
+      
+      <ellipse cx="0" cy="-65" rx="26" ry="32" fill="#d4a574" stroke="#1a1410" stroke-width="4"></ellipse>
+
+      
+      <g>
+        
+        <ellipse cx="-10" cy="-68" rx="6" ry="3.5" fill="#efe2c2" stroke="#1a1410" stroke-width="2.5"></ellipse>
+        <ellipse cx="-9" cy="-68" rx="2.5" ry="2.5" fill="#1a1410"></ellipse>
+        <line x1="-16" y1="-68" x2="-22" y2="-66" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"></line>
+        <line x1="-16" y1="-72" x2="-22" y2="-76" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"></line>
+        
+        <ellipse cx="10" cy="-68" rx="6" ry="3.5" fill="#efe2c2" stroke="#1a1410" stroke-width="2.5"></ellipse>
+        <ellipse cx="9" cy="-68" rx="2.5" ry="2.5" fill="#1a1410"></ellipse>
+        <line x1="16" y1="-68" x2="22" y2="-66" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"></line>
+        <line x1="16" y1="-72" x2="22" y2="-76" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"></line>
+      </g>
+
+      
+      <path d="M 0 -62 Q -3 -55 0 -52 Q 3 -55 0 -62 Z" fill="none" stroke="#1a1410" stroke-width="2"></path>
+
+      
+      <path d="M -8 -45 Q 0 -42 8 -45" fill="none" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round"></path>
+
+      
+      <path d="M -20 -55 Q -22 -42 -10 -36" fill="none" stroke="#1a1410" stroke-width="2"></path>
+      <path d="M 20 -55 Q 22 -42 10 -36" fill="none" stroke="#1a1410" stroke-width="2"></path>
+    </g>
+
+    
+    <g id="soul-halo">
+      
+      <ellipse cx="0" cy="-115" rx="20" ry="6" fill="#c9a961" stroke="#1a1410" stroke-width="3"></ellipse>
+      
+      <g stroke="#1a1410" stroke-width="2.5" stroke-linecap="round">
+        <line x1="0" y1="-122" x2="0" y2="-138"></line>
+        <line x1="-12" y1="-120" x2="-22" y2="-130"></line>
+        <line x1="12" y1="-120" x2="22" y2="-130"></line>
+        <line x1="-18" y1="-115" x2="-30" y2="-118"></line>
+        <line x1="18" y1="-115" x2="30" y2="-118"></line>
+      </g>
+      
+      <path d="M -45 -110 l 1.5 -4 l 1.5 4 l 4 1.5 l -4 1.5 l -1.5 4 l -1.5 -4 l -4 -1.5 z" fill="#c9a961" stroke="#1a1410" stroke-width="1.5"></path>
+      <path d="M 45 -110 l 1.5 -4 l 1.5 4 l 4 1.5 l -4 1.5 l -1.5 4 l -1.5 -4 l -4 -1.5 z" fill="#c9a961" stroke="#1a1410" stroke-width="1.5"></path>
+    </g>
+
+  </g>
+</svg>

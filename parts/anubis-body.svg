@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <rect width="400" height="600" fill="#ffffff"></rect>
+
+  <g id="anubis-body">
+
+    
+    <g id="anubis-legs">
+      <path d="M150 380 L143 540 L120 552 L195 552 L195 380 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M210 380 L228 552 L210 562 L290 562 L268 552 L262 380 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M115 555 Q105 552 100 558 L100 565 Q140 568 165 562 L165 555 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M205 562 Q195 560 190 568 L190 575 Q240 578 270 572 L270 562 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <line x1="150" y1="460" x2="195" y2="460" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      <line x1="215" y1="470" x2="262" y2="470" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+    </g>
+
+    <g id="anubis-torso">
+
+      <g id="anubis-skirt">
+        <path d="M115 295 L290 295 L310 400 L100 400 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <line x1="150" y1="305" x2="142" y2="395" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+        <line x1="190" y1="305" x2="188" y2="395" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+        <line x1="230" y1="305" x2="234" y2="395" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+        <line x1="270" y1="305" x2="278" y2="395" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+        <rect x="115" y="282" width="175" height="22" fill="#a0432a" stroke="#1a1410" stroke-width="4"></rect>
+        <rect x="130" y="289" width="9" height="9" fill="#efe2c2"></rect>
+        <rect x="160" y="289" width="9" height="9" fill="#efe2c2"></rect>
+        <rect x="190" y="289" width="9" height="9" fill="#efe2c2"></rect>
+        <rect x="220" y="289" width="9" height="9" fill="#efe2c2"></rect>
+        <rect x="250" y="289" width="9" height="9" fill="#efe2c2"></rect>
+        <rect x="275" y="289" width="9" height="9" fill="#efe2c2"></rect>
+      </g>
+
+      <g id="anubis-chest">
+        <path d="M130 145 L275 145 L290 295 L115 295 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <path d="M150 160 Q200 195 255 160 L250 195 Q200 220 155 195 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <circle cx="172" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"></circle>
+        <circle cx="200" cy="200" r="6" fill="#a0432a" stroke="#1a1410" stroke-width="2.5"></circle>
+        <circle cx="228" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"></circle>
+        <line x1="200" y1="220" x2="200" y2="285" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      </g>
+
+      <g id="anubis-head">
+        <path d="M165 140 L240 140 L240 165 L165 165 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4"></path>
+        <path d="M150 80 Q145 55 165 48 Q190 38 215 45 L260 50 Q295 55 305 75 Q307 92 285 98 L255 102 Q252 122 230 138 L170 140 Q142 132 148 100 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <path d="M170 50 L160 12 L195 45 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <path d="M188 42 L215 8 L222 48 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+        <path d="M173 47 L168 25 L188 42 Z" fill="#a0432a"></path>
+        <path d="M196 42 L213 18 L218 44 Z" fill="#a0432a"></path>
+        <path d="M158 80 Q152 55 175 48" stroke="#c9a961" stroke-width="3" fill="none"></path>
+        <path d="M180 55 Q190 47 215 50" stroke="#c9a961" stroke-width="3" fill="none"></path>
+        <path d="M225 50 Q250 50 270 60" stroke="#c9a961" stroke-width="3" fill="none"></path>
+
+        <g id="anubis-eye">
+          <path d="M195 90 Q215 80 240 90 Q225 100 210 98 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"></path>
+          <circle cx="220" cy="91" r="5" fill="#1a1410"></circle>
+          <path d="M192 90 Q210 78 245 88 L255 95" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"></path>
+          <path d="M225 98 L245 108" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"></path>
+        </g>
+
+        <ellipse cx="298" cy="78" rx="4" ry="3" fill="#1a1410"></ellipse>
+        <line x1="290" y1="92" x2="280" y2="98" stroke="#1a1410" stroke-width="2.5" fill="none"></line>
+      </g>
+
+    </g>
+
+    <g id="anubis-arm-back">
+      <path d="M125 160 L100 295 L122 300 L145 162 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <ellipse cx="108" cy="305" rx="14" ry="18" fill="#1a1410" stroke="#1a1410" stroke-width="4"></ellipse>
+      <rect x="93" y="288" width="32" height="12" fill="#c9a961" stroke="#1a1410" stroke-width="3"></rect>
+      <g transform="translate(108, 315)">
+        <circle cx="0" cy="10" r="11" fill="#c9a961" stroke="#1a1410" stroke-width="4"></circle>
+        <circle cx="0" cy="10" r="5" fill="#f4e4bc" stroke="#1a1410" stroke-width="2.5"></circle>
+        <line x1="0" y1="21" x2="0" y2="55" stroke="#1a1410" stroke-width="4" stroke-linecap="round"></line>
+        <line x1="-13" y1="35" x2="13" y2="35" stroke="#1a1410" stroke-width="4" stroke-linecap="round"></line>
+      </g>
+    </g>
+
+    <g id="anubis-arm-front">
+      <path d="M270 162 L362 188 L370 210 L278 188 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M362 188 L390 130 L375 122 L350 184 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M378 130 Q392 120 395 110 Q392 102 384 105 Q378 112 372 124 Z" fill="#1a1410" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"></path>
+      <path d="M353 178 L380 132 L390 138 L362 184 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"></path>
+    </g>
+
+  </g>
+</svg>

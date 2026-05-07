@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>아누비스의 심판 — 부품 인덱스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Cinzel:wght@600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --papyrus: #f4e4bc;
+    --papyrus-shade: #e8d3a0;
+    --ink: #1a1410;
+    --gold: #c9a961;
+    --teal: #2c5f7a;
+    --terra: #a0432a;
+    --bone: #efe2c2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #2a2018;
+    font-family: "Noto Serif KR", serif;
+    color: var(--ink);
+    min-height: 100%;
+  }
+  body { padding: 32px 16px 64px; display: flex; justify-content: center; }
+  main { width: min(1280px, 100%); }
+
+  header {
+    background: var(--papyrus);
+    border: 3px solid var(--ink);
+    padding: 28px 40px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  header::before, header::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 10px;
+    background: repeating-linear-gradient(90deg,
+      var(--ink) 0 10px, var(--gold) 10px 20px,
+      var(--ink) 20px 30px, var(--terra) 30px 40px);
+  }
+  header::before { top: 0; } header::after { bottom: 0; }
+  header h1 {
+    font-family: "Cinzel", serif;
+    font-size: 13px; letter-spacing: 0.4em; margin-top: 6px;
+  }
+  header .ko { font-size: 28px; font-weight: 900; letter-spacing: 0.06em; }
+  header p { margin-top: 10px; font-size: 13px; line-height: 1.7; max-width: 720px; }
+
+  .card {
+    background: var(--papyrus);
+    border: 3px solid var(--ink);
+    margin-bottom: 24px;
+  }
+  .card-head {
+    padding: 16px 28px;
+    border-bottom: 2px solid var(--ink);
+    background: rgba(217, 191, 133, 0.3);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .card-head h2 {
+    font-family: "Cinzel", serif;
+    font-size: 12px; letter-spacing: 0.3em;
+  }
+  .card-head .ko {
+    font-size: 22px; font-weight: 900; letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .card-head .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: rgba(26,20,16,0.7);
+  }
+
+  .card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .preview {
+    background: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    border-right: 2px solid var(--ink);
+    min-height: 360px;
+  }
+  .preview svg, .preview object { max-width: 100%; max-height: 480px; display: block; }
+  .info { padding: 24px 28px; background: rgba(217, 191, 133, 0.18); }
+  .info h3 {
+    font-family: "Cinzel", serif;
+    font-size: 10px; letter-spacing: 0.3em; margin-bottom: 8px;
+    color: rgba(26,20,16,0.8);
+  }
+  .info ul { padding-left: 18px; margin-bottom: 16px; }
+  .info li {
+    font-size: 12.5px; line-height: 1.7;
+    font-family: "JetBrains Mono", monospace;
+  }
+  .info li b { font-family: "Noto Serif KR", serif; font-weight: 700; }
+
+  .controls { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .controls button, .controls input[type="range"], .controls input[type="number"] {
+    font-family: "Cinzel", serif;
+    font-size: 11px; letter-spacing: 0.15em;
+    padding: 8px 14px;
+    background: var(--papyrus);
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .controls button:hover { background: var(--gold); }
+  .controls button.active { background: var(--ink); color: var(--papyrus); }
+  .controls label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono", monospace; font-size: 11px;
+  }
+  .controls input[type="range"] { padding: 0; height: 28px; cursor: grab; }
+
+  details {
+    margin-top: 12px;
+    border: 1.5px solid var(--ink);
+    background: rgba(255,255,255,0.4);
+  }
+  details summary {
+    padding: 8px 14px; font-family: "Cinzel", serif;
+    font-size: 10px; letter-spacing: 0.3em; cursor: pointer;
+    user-select: none;
+  }
+  details[open] summary { border-bottom: 1.5px solid var(--ink); background: rgba(201,169,97,0.2); }
+  details pre {
+    padding: 12px; font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px; line-height: 1.5; overflow-x: auto;
+    background: #1a1410; color: #efe2c2; max-height: 240px;
+  }
+
+  @media (max-width: 880px) {
+    .card-body { grid-template-columns: 1fr; }
+    .preview { border-right: none; border-bottom: 2px solid var(--ink); }
+  }
+
+  /* feather number input row */
+  .feather-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
+  .feather-row input {
+    width: 100%; padding: 6px 8px; border: 2px solid var(--ink);
+    font-family: "JetBrains Mono", monospace; font-size: 12px;
+    background: var(--papyrus); text-align: center;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header data-screen-label="00 Parts Index">
+    <h1>JUDGMENT · OF · ANUBIS  ·  PARTS · INDEX</h1>
+    <div class="ko">아누비스의 심판 — 부품 라이브러리</div>
+    <p>아트 스타일 가이드를 따라 4개의 핵심 SVG 부품을 분리 제작했습니다. 각 부품은 <code style="font-family: 'JetBrains Mono', monospace; background: #1a1410; color: #efe2c2; padding: 1px 6px;">&lt;g id="..."&gt;</code> 으로 그룹화되어 코드에서 개별 변형/회전/색상 변경이 가능합니다. 아래 인터랙티브 데모로 회전·분수·숫자 주입을 직접 시험해 보세요.</p>
+  </header>
+
+  <!-- =================================================== -->
+  <!-- 1. ANUBIS BODY                                       -->
+  <!-- =================================================== -->
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>01 · ANUBIS · BODY</h2>
+        <div class="ko">아누비스 (몸체 + 분리된 팔)</div>
+      </div>
+      <div class="meta">parts/anubis-body.svg · 400 × 600</div>
+    </div>
+    <div class="card-body">
+      <div class="preview" id="preview-anubis"></div>
+      <div class="info">
+        <h3>부품 ID</h3>
+        <ul>
+          <li><b>#anubis-legs</b> — 다리 (정지)</li>
+          <li><b>#anubis-torso</b> — 상체 + 허리천</li>
+          <li><b>#anubis-arm-back</b> — 뒤쪽 팔 (앙크)</li>
+          <li><b>#anubis-arm-front</b> — 앞쪽 팔 (저울 가리킴)</li>
+          <li><b>#anubis-head</b> — 자칼 머리</li>
+          <li><b>#anubis-eye</b> — 눈 (깜빡임)</li>
+        </ul>
+        <h3>인터랙션 테스트</h3>
+        <div class="controls">
+          <button data-anubis-anim="point">앞팔 들기</button>
+          <button data-anubis-anim="ankh">뒷팔 들기</button>
+          <button data-anubis-anim="nod">머리 끄덕</button>
+          <button data-anubis-anim="blink">눈 깜빡</button>
+          <button data-anubis-anim="reset">정지</button>
+        </div>
+        <details>
+          <summary>사용 예시 (JS)</summary>
+          <pre>const arm = svg.querySelector('#anubis-arm-front');
+arm.style.transformOrigin = '270px 162px';
+arm.style.transform = 'rotate(-25deg)';
+arm.style.transition = 'transform .4s';</pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- 2. HEART ITEM                                        -->
+  <!-- =================================================== -->
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>02 · HEART · ITEM</h2>
+        <div class="ko">심장 (분수 그리드)</div>
+      </div>
+      <div class="meta">parts/heart-item.svg · 16칸 (4×4) 그리드</div>
+    </div>
+    <div class="card-body">
+      <div class="preview" id="preview-heart"></div>
+      <div class="info">
+        <h3>부품 ID</h3>
+        <ul>
+          <li><b>#heart-shell</b> — 심장 외곽</li>
+          <li><b>#heart-grid</b> — 분수 그리드</li>
+          <li><b>#heart-cell-rXcY</b> — 개별 셀 (r,c = 0..3)</li>
+          <li><b>#heart-glow</b> — 빛 (선인 연출)</li>
+        </ul>
+        <h3>분수 시각화</h3>
+        <div class="controls">
+          <button data-fraction="3/4">¾</button>
+          <button data-fraction="1/2">½</button>
+          <button data-fraction="5/8">⅝</button>
+          <button data-fraction="11/16">11/16</button>
+          <button data-fraction="1/16">1/16</button>
+          <button data-fraction="16/16">16/16</button>
+        </div>
+        <div class="controls" style="margin-top:8px">
+          <button data-heart-fx="glow-on">빛 ON</button>
+          <button data-heart-fx="glow-off">빛 OFF</button>
+        </div>
+        <details>
+          <summary>사용 예시 (JS)</summary>
+          <pre>// 분수 N/16 시각화
+function setFraction(n) {
+  for (let i = 0; i &lt; 16; i++) {
+    const r = Math.floor(i/4), c = i%4;
+    const cell = svg.querySelector(`#heart-cell-r${r}c${c}`);
+    cell.classList.toggle('filled', i &lt; n);
+    cell.classList.toggle('empty', i &gt;= n);
+  }
+}
+setFraction(12); // = 12/16 = 3/4</pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- 3. SCALE SET                                         -->
+  <!-- =================================================== -->
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>03 · SCALE · SET</h2>
+        <div class="ko">저울 (피봇 + 빔 + 좌우 접시)</div>
+      </div>
+      <div class="meta">parts/scale-set.svg · 빔 회전축 (0,0)</div>
+    </div>
+    <div class="card-body">
+      <div class="preview" id="preview-scale"></div>
+      <div class="info">
+        <h3>부품 ID</h3>
+        <ul>
+          <li><b>#scale-base</b> — 받침 (정지)</li>
+          <li><b>#scale-pillar</b> — 중앙 기둥 (정지)</li>
+          <li><b>#scale-pivot</b> — 회전 중심</li>
+          <li><b>#scale-beam</b> — 가로 빔 (회전)</li>
+          <li><b>#dish-left / #dish-right</b> — 좌우 접시 (빔의 자식)</li>
+          <li><b>#dish-left-anchor / #dish-right-anchor</b> — 아이템 부착점</li>
+        </ul>
+        <h3>빔 기울기</h3>
+        <div class="controls">
+          <label>각도
+            <input type="range" id="beam-angle" min="-25" max="25" step="0.5" value="0" style="width: 200px"/>
+            <span id="beam-angle-val" style="font-family: 'JetBrains Mono', monospace; min-width: 48px; text-align: right">0°</span>
+          </label>
+        </div>
+        <div class="controls" style="margin-top:8px">
+          <button data-beam="-15">좌측 무거움</button>
+          <button data-beam="0">수평</button>
+          <button data-beam="15">우측 무거움</button>
+          <button data-beam="wobble">흔들림</button>
+        </div>
+        <details>
+          <summary>사용 예시 (JS)</summary>
+          <pre>const beam = svg.querySelector('#scale-beam');
+beam.style.transition = 'transform .6s cubic-bezier(.4,1.6,.5,1)';
+beam.setAttribute('transform', 'rotate(-12)'); // 좌측이 가벼워 우측이 내려감
+// (visual: positive angle = 시계방향, 우측이 내려감)</pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================================================== -->
+  <!-- 4. FEATHER SET                                       -->
+  <!-- =================================================== -->
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2>04 · FEATHER · SET</h2>
+        <div class="ko">깃털 5종 (숫자 카르투슈)</div>
+      </div>
+      <div class="meta">parts/feather-set.svg · 5 colors</div>
+    </div>
+    <div class="card-body">
+      <div class="preview" id="preview-feather" style="min-height: 280px"></div>
+      <div class="info">
+        <h3>부품 ID</h3>
+        <ul>
+          <li><b>#feather-1</b> — bone (#efe2c2)</li>
+          <li><b>#feather-2</b> — gold (#c9a961)</li>
+          <li><b>#feather-3</b> — teal (#2c5f7a)</li>
+          <li><b>#feather-4</b> — terra (#a0432a)</li>
+          <li><b>#feather-5</b> — dark (#3a2820)</li>
+          <li><b>#feather-N-label</b> — 숫자 카르투슈</li>
+        </ul>
+        <h3>숫자 주입 (각 깃털)</h3>
+        <div class="feather-row">
+          <input type="text" class="feather-input" data-fi="1" value="½" />
+          <input type="text" class="feather-input" data-fi="2" value="⅔" />
+          <input type="text" class="feather-input" data-fi="3" value="¾" />
+          <input type="text" class="feather-input" data-fi="4" value="⅘" />
+          <input type="text" class="feather-input" data-fi="5" value="⅚" />
+        </div>
+        <div class="controls" style="margin-top:10px">
+          <button id="apply-feather">숫자 적용</button>
+          <button id="reset-feather">초기화 (?)</button>
+        </div>
+        <details>
+          <summary>사용 예시 (JS)</summary>
+          <pre>// 깃털 N의 카르투슈에 텍스트 넣기
+const lbl = svg.querySelector('#feather-3-label text');
+lbl.textContent = '¾';</pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// 4개 SVG 파일을 인라인으로 fetch해서 미리보기에 삽입 (DOM 직접 조작 가능하도록)
+(async function () {
+  async function inject(targetId, path) {
+    const res = await fetch(path);
+    const text = await res.text();
+    const target = document.getElementById(targetId);
+    target.innerHTML = '';
+    // DOMParser ensures <style> blocks inside SVG remain active.
+    const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+    const svgNode = doc.documentElement;
+    // import into the host document so styles activate in this context
+    const imported = document.importNode(svgNode, true);
+    target.appendChild(imported);
+    return imported;
+  }
+
+  // ============== ANUBIS ==============
+  const anubisSvg = await inject('preview-anubis', 'parts/anubis-body.svg');
+  function setAnim(name) {
+    const armFront = anubisSvg.querySelector('#anubis-arm-front');
+    const armBack  = anubisSvg.querySelector('#anubis-arm-back');
+    const head     = anubisSvg.querySelector('#anubis-head');
+    const eye      = anubisSvg.querySelector('#anubis-eye');
+
+    [armFront, armBack, head].forEach(el => {
+      el.style.transition = 'transform .5s cubic-bezier(.4,1.5,.5,1)';
+    });
+    armFront.style.transformOrigin = '270px 162px';
+    armBack.style.transformOrigin  = '135px 160px';
+    head.style.transformOrigin     = '195px 140px';
+
+    armFront.style.transform = '';
+    armBack.style.transform  = '';
+    head.style.transform     = '';
+
+    if (name === 'point') armFront.style.transform = 'rotate(-22deg)';
+    if (name === 'ankh')  armBack.style.transform  = 'rotate(-30deg)';
+    if (name === 'nod')   {
+      head.style.transform = 'rotate(-8deg)';
+      setTimeout(() => head.style.transform = 'rotate(4deg)', 500);
+      setTimeout(() => head.style.transform = '', 1000);
+    }
+    if (name === 'blink') {
+      eye.style.transition = 'transform .12s';
+      eye.style.transformOrigin = '220px 91px';
+      eye.style.transform = 'scaleY(0.05)';
+      setTimeout(() => eye.style.transform = '', 140);
+    }
+  }
+  document.querySelectorAll('[data-anubis-anim]').forEach(b => {
+    b.addEventListener('click', () => setAnim(b.dataset.anubisAnim));
+  });
+
+  // ============== HEART ==============
+  const heartSvg = await inject('preview-heart', 'parts/heart-item.svg');
+  function setFraction(num, den) {
+    // 16칸 그리드 — den이 16이 아니어도 비율로 환산
+    const fillCount = Math.round((num / den) * 16);
+    for (let i = 0; i < 16; i++) {
+      const r = Math.floor(i / 4), c = i % 4;
+      const cell = heartSvg.querySelector(`#heart-cell-r${r}c${c}`);
+      if (!cell) continue;
+      const filled = i < fillCount;
+      cell.classList.toggle('filled', filled);
+      cell.classList.toggle('empty', !filled);
+    }
+  }
+  document.querySelectorAll('[data-fraction]').forEach(b => {
+    b.addEventListener('click', () => {
+      const [n, d] = b.dataset.fraction.split('/').map(Number);
+      setFraction(n, d);
+    });
+  });
+  document.querySelectorAll('[data-heart-fx]').forEach(b => {
+    b.addEventListener('click', () => {
+      const glow = heartSvg.querySelector('#heart-glow');
+      glow.style.transition = 'opacity .5s';
+      glow.setAttribute('opacity', b.dataset.heartFx === 'glow-on' ? '1' : '0');
+    });
+  });
+
+  // ============== SCALE ==============
+  const scaleSvg = await inject('preview-scale', 'parts/scale-set.svg');
+  const beam = scaleSvg.querySelector('#scale-beam');
+  beam.style.transition = 'transform .6s cubic-bezier(.4,1.5,.5,1)';
+  const slider = document.getElementById('beam-angle');
+  const sliderVal = document.getElementById('beam-angle-val');
+  function setBeam(deg) {
+    beam.setAttribute('transform', `rotate(${deg})`);
+    sliderVal.textContent = deg.toFixed(1) + '°';
+  }
+  slider.addEventListener('input', e => {
+    beam.style.transition = 'none';
+    setBeam(parseFloat(e.target.value));
+  });
+  document.querySelectorAll('[data-beam]').forEach(b => {
+    b.addEventListener('click', () => {
+      beam.style.transition = 'transform .6s cubic-bezier(.4,1.5,.5,1)';
+      const v = b.dataset.beam;
+      if (v === 'wobble') {
+        let i = 0;
+        const seq = [10, -8, 6, -4, 2, 0];
+        const tick = () => {
+          if (i >= seq.length) return;
+          setBeam(seq[i++]);
+          slider.value = seq[i-1];
+          setTimeout(tick, 300);
+        };
+        tick();
+      } else {
+        setBeam(parseFloat(v));
+        slider.value = v;
+      }
+    });
+  });
+
+  // ============== FEATHER ==============
+  const featherSvg = await inject('preview-feather', 'parts/feather-set.svg');
+  function applyFeathers() {
+    document.querySelectorAll('.feather-input').forEach(inp => {
+      const n = inp.dataset.fi;
+      const txt = featherSvg.querySelector(`#feather-${n}-label text`);
+      if (txt) txt.textContent = inp.value || '?';
+    });
+  }
+  document.getElementById('apply-feather').addEventListener('click', applyFeathers);
+  document.getElementById('reset-feather').addEventListener('click', () => {
+    document.querySelectorAll('.feather-input').forEach(inp => inp.value = '');
+    applyFeathers();
+    document.querySelectorAll('.feather-input').forEach(inp => inp.value = '?');
+  });
+  // 초기 적용
+  applyFeathers();
+
+})().catch(err => console.error(err));
+</script>
+</body>
+</html>
