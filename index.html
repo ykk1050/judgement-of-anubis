@@ -46,6 +46,33 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 .hud{display:flex;gap:clamp(6px,2vw,14px);align-items:center;flex-wrap:wrap}
 .hud-item{font-size:clamp(.6rem,1.4vw,.75rem);display:flex;align-items:center;gap:3px}
 .hud-item strong{color:var(--gold)}
+.hud-title{
+  font-size:clamp(.55rem,1.3vw,.7rem);padding:1px 8px;border-radius:10px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#fff;font-weight:700;letter-spacing:.5px;white-space:nowrap;
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
+}
+
+/* 칭호 승급 팝업 */
+.title-popup{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  z-index:150;background:linear-gradient(135deg,#2c1e12,#3d2b1f);
+  border:3px solid var(--gold);border-radius:20px;padding:24px 36px;
+  text-align:center;pointer-events:none;
+  animation:titlePopAnim 2.8s cubic-bezier(.2,.8,.3,1) forwards;
+  box-shadow:0 0 60px rgba(201,169,97,.5),inset 0 0 30px rgba(201,169,97,.1);
+}
+@keyframes titlePopAnim{
+  0%{transform:translate(-50%,-50%) scale(0);opacity:0}
+  15%{transform:translate(-50%,-50%) scale(1.1);opacity:1}
+  25%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  75%{transform:translate(-50%,-50%) scale(1);opacity:1}
+  100%{transform:translate(-50%,-50%) scale(.8);opacity:0}
+}
+.title-popup .tp-label{font-size:.7rem;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
+.title-popup .tp-icon{font-size:2.2rem;margin:6px 0}
+.title-popup .tp-name{font-size:1.3rem;font-weight:900;color:#fff;text-shadow:0 0 12px rgba(201,169,97,.7)}
+.title-popup .tp-desc{font-size:.7rem;color:#b8a070;margin-top:6px;line-height:1.4}
 
 /* ====== START SCREEN ====== */
 #start-screen{
@@ -204,6 +231,213 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 }
 .result-btn:hover{transform:scale(1.05)}
 
+/* 업적 배지 패널 */
+.badge-toggle{
+  position:absolute;top:6px;right:6px;z-index:20;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  border:2px solid var(--gold);border-radius:50%;width:32px;height:32px;
+  font-size:1rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.4);transition:transform .2s;
+}
+.badge-toggle:hover{transform:scale(1.1)}
+.badge-panel{
+  position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.82);
+}
+.badge-panel.show{display:flex}
+.badge-inner{
+  background:linear-gradient(135deg,#2c1e12,#3d2b1f);border:3px solid var(--gold);
+  border-radius:16px;padding:18px 20px;max-width:92vw;max-height:86vh;overflow-y:auto;
+  min-width:min(460px,88vw);animation:popIn .4s ease;
+}
+.badge-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.badge-header h3{font-size:1rem;color:var(--gold);margin:0}
+.badge-close{background:none;border:none;color:#aaa;font-size:1.2rem;cursor:pointer}
+.badge-close:hover{color:#fff}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.badge-card{
+  padding:8px 10px;border-radius:10px;border:2px solid #3d2b1f;
+  background:rgba(61,43,31,.3);display:flex;gap:8px;align-items:center;
+  transition:all .3s;
+}
+.badge-card.unlocked{border-color:var(--gold);background:rgba(201,169,97,.1)}
+.badge-card.locked{opacity:.45;filter:grayscale(.7)}
+.badge-icon{font-size:1.5rem;flex-shrink:0;width:36px;text-align:center}
+.badge-info{flex:1;min-width:0}
+.badge-name{font-size:.72rem;font-weight:700;color:var(--gold)}
+.badge-card.locked .badge-name{color:#888}
+.badge-desc{font-size:.58rem;color:#b8a070;line-height:1.3;margin-top:1px}
+.badge-card.locked .badge-desc{color:#666}
+.badge-progress{font-size:.5rem;color:var(--teal);margin-top:2px}
+.badge-reset-wrap{text-align:center;margin-top:12px}
+.badge-reset{
+  font-size:.65rem;color:#888;background:none;border:1px solid #555;
+  border-radius:6px;padding:4px 14px;cursor:pointer;font-family:inherit;
+}
+.badge-reset:hover{color:#ef5350;border-color:#ef5350}
+
+/* 골든 파티클 (호루스 업적) */
+.golden-particles{
+  position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:5;
+}
+.golden-particles .gp{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:radial-gradient(circle,#ffd700,#c9a961);
+  box-shadow:0 0 6px 2px rgba(255,215,0,.5);
+  animation:gpFloat linear infinite;
+}
+@keyframes gpFloat{
+  0%{transform:translateY(0) scale(1);opacity:0}
+  10%{opacity:.9}
+  90%{opacity:.7}
+  100%{transform:translateY(-120px) scale(.3);opacity:0}
+}
+
+/* ====== ITEM SYSTEM ====== */
+.item-bar{display:flex;gap:8px;justify-content:center;padding:4px 0;min-height:44px;flex-wrap:wrap}
+.item-slot{
+  position:relative;display:flex;flex-direction:column;align-items:center;
+  background:rgba(30,20,10,.7);border:2px solid rgba(212,175,55,.4);
+  border-radius:10px;padding:3px 10px 2px;cursor:pointer;
+  color:#e8d5a3;transition:all .2s;min-width:44px;
+}
+.item-slot:hover:not(:disabled):not(.empty){
+  background:rgba(60,40,15,.9);border-color:rgba(212,175,55,.8);
+  transform:translateY(-2px);box-shadow:0 3px 10px rgba(212,175,55,.3);
+}
+.item-slot.empty{opacity:.35;cursor:default;filter:grayscale(.7)}
+.item-slot:disabled{cursor:default}
+.item-icon{font-size:1.2rem;line-height:1.2}
+.item-label{font-size:.5rem;font-weight:700;color:var(--gold);line-height:1;letter-spacing:.5px;white-space:nowrap}
+.item-count{
+  position:absolute;top:-5px;right:-5px;
+  background:#d4af37;color:#1a1410;font-size:.6rem;font-weight:800;
+  width:16px;height:16px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  line-height:1;
+}
+.nile-active{font-size:.65rem;margin-left:1px}
+
+/* 아이템 설명 팝오버 */
+.item-popover-backdrop{
+  position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.45);
+  display:flex;align-items:center;justify-content:center;
+  animation:popBdIn .15s ease;
+}
+@keyframes popBdIn{from{opacity:0}to{opacity:1}}
+.item-popover{
+  background:linear-gradient(135deg,#2c1e12 0%,#3d2b1f 60%,#2c1e12 100%);
+  border:2px solid var(--gold);border-radius:16px;padding:18px 22px;
+  min-width:220px;max-width:280px;z-index:91;
+  box-shadow:0 6px 30px rgba(0,0,0,.8),0 0 15px rgba(201,169,97,.15);
+  animation:popoverIn .25s ease;
+  text-align:center;
+}
+@keyframes popoverIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+.item-popover .pop-icon{font-size:2rem;display:block;margin-bottom:6px}
+.item-popover .pop-name{font-size:.95rem;font-weight:900;color:var(--gold);margin-bottom:4px}
+.item-popover .pop-desc{font-size:.72rem;color:#ccc;line-height:1.5;margin-bottom:10px}
+.item-popover .pop-stock{font-size:.6rem;color:var(--teal);margin-bottom:10px}
+.item-popover .pop-btns{display:flex;gap:8px;justify-content:center}
+.item-popover .pop-use{
+  padding:7px 22px;border-radius:10px;font-size:.82rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  border:none;cursor:pointer;font-family:inherit;transition:transform .15s;
+  box-shadow:0 2px 8px rgba(201,169,97,.3);
+}
+.item-popover .pop-use:hover{transform:scale(1.05)}
+.item-popover .pop-close{
+  padding:7px 16px;border-radius:10px;font-size:.82rem;font-weight:700;
+  background:rgba(255,255,255,.08);color:#aaa;border:1px solid #555;
+  cursor:pointer;font-family:inherit;transition:all .15s;
+}
+.item-popover .pop-close:hover{color:#fff;border-color:#999}
+.item-popup{
+  position:fixed;inset:0;z-index:110;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.85);
+}
+.item-popup.show{display:flex}
+.item-popup-card{
+  background:linear-gradient(145deg,#2a1f0e,#1a1410);
+  border:2px solid #d4af37;border-radius:16px;
+  padding:24px;max-width:420px;width:90%;
+  box-shadow:0 0 40px rgba(212,175,55,.3);
+  text-align:center;color:#e8d5a3;
+}
+.item-popup-title{font-size:1.3rem;font-weight:700;color:#d4af37;margin-bottom:6px}
+.item-popup-subtitle{font-size:.8rem;opacity:.7;margin-bottom:16px}
+.item-options{display:flex;flex-direction:column;gap:8px}
+.item-option{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(40,30,15,.8);border:1px solid rgba(212,175,55,.3);
+  border-radius:10px;padding:10px 14px;cursor:pointer;
+  color:#e8d5a3;text-align:left;transition:all .2s;
+}
+.item-option:hover:not(:disabled){
+  border-color:var(--item-color,#d4af37);
+  background:rgba(60,40,15,.9);
+  box-shadow:0 0 15px color-mix(in srgb,var(--item-color) 30%,transparent);
+  transform:translateX(4px);
+}
+.item-option.maxed{opacity:.4;cursor:not-allowed}
+.item-opt-icon{font-size:1.6rem;min-width:36px;text-align:center}
+.item-opt-info{flex:1}
+.item-opt-name{font-weight:700;font-size:.9rem;color:#d4af37}
+.item-opt-desc{font-size:.75rem;opacity:.7;margin-top:2px}
+.item-opt-count{font-size:.65rem;opacity:.5;margin-top:3px}
+.item-opt-max{font-size:.65rem;color:#e57373;margin-top:3px}
+
+.item-use-effect{
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  font-size:1.5rem;animation:itemEffectFloat 1.2s ease forwards;pointer-events:none;
+}
+@keyframes itemEffectFloat{
+  0%{opacity:1;transform:translate(-50%,0) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-40px) scale(1.5)}
+}
+
+.hint-factors{
+  position:absolute;top:50%;right:-10px;transform:translateY(-50%);
+  display:none;flex-direction:column;gap:5px;z-index:20;
+}
+.hint-factor{
+  background:rgba(255,167,38,.15);border:1px solid #ffa726;
+  border-radius:50%;width:30px;height:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:800;color:#ffa726;
+  animation:factorGlow 1.2s ease-in-out infinite alternate;
+}
+@keyframes factorGlow{
+  0%{box-shadow:0 0 4px rgba(255,167,38,.3);text-shadow:0 0 4px rgba(255,167,38,.3)}
+  100%{box-shadow:0 0 12px rgba(255,167,38,.7);text-shadow:0 0 10px rgba(255,167,38,.8)}
+}
+
+.choice-btn.eliminated{
+  opacity:.2!important;pointer-events:none;
+  filter:grayscale(1);transform:scale(.9)!important;
+  transition:all .4s;
+}
+.choice-btn.ra-glow{
+  animation:raGlow 0.5s ease-in-out infinite alternate;
+  transform:scale(1.25)!important;z-index:5;position:relative;
+  border-color:#ffd54f!important;
+  background:rgba(255,213,79,.25)!important;
+}
+@keyframes raGlow{
+  0%{box-shadow:0 0 15px rgba(255,213,79,.6),0 0 30px rgba(255,213,79,.3),inset 0 0 12px rgba(255,213,79,.15);filter:brightness(1.2)}
+  100%{box-shadow:0 0 35px rgba(255,213,79,1),0 0 70px rgba(255,213,79,.5),inset 0 0 20px rgba(255,213,79,.3);filter:brightness(1.5)}
+}
+
+.nile-shield{font-size:.6rem;position:absolute;bottom:-2px;right:-2px}
+.timer-fill.timer-frozen{
+  background:linear-gradient(90deg,#ab47bc,#ce93d8)!important;
+  animation:frozenPulse 1s ease-in-out infinite alternate;
+}
+@keyframes frozenPulse{
+  0%{opacity:.7}100%{opacity:1}
+}
+
 /* Anubis animation classes */
 #anubis-arm-front{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:270px 162px}
 #anubis-arm-back{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:135px 160px}
@@ -212,36 +446,91 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 #scale-beam{transition:transform .7s cubic-bezier(.4,1.5,.5,1)}
 #heart-glow{transition:opacity .6s}
 
-/* Devour animation (Ammut + Soul) */
-#soul-scene,#ammut-scene{pointer-events:none}
-#ammut-jaw-lower{transform-origin:285px 245px}
-@keyframes soulSequence{
-  0%{opacity:0;transform:translate(-87px,-20px) scale(0.22)}
-  20%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
-  40%{opacity:1;transform:translate(-87px,-92px) scale(0.245)}
-  58%{opacity:1;transform:translate(-87px,-82px) scale(0.24)}
-  72%{opacity:.8;transform:translate(20px,20px) scale(0.16)}
-  88%{opacity:.3;transform:translate(100px,120px) scale(0.06)}
-  100%{opacity:0;transform:translate(140px,170px) scale(0.01)}
+/* ====== SCENE ANIMATION SYSTEM ====== */
+#soul-scene,#ammut-scene,#osiris-scene{pointer-events:none}
+
+/* -- 말풍선 -- */
+.soul-bubble{
+  position:absolute;z-index:30;pointer-events:none;
+  background:rgba(255,255,255,.92);color:#1a1410;
+  border-radius:14px;padding:8px 14px;font-size:clamp(.6rem,1.3vw,.78rem);
+  font-weight:700;line-height:1.5;text-align:center;
+  box-shadow:0 3px 12px rgba(0,0,0,.4);
+  max-width:220px;white-space:pre-line;
+  opacity:0;transform:scale(0);
+  animation:bubblePop .4s ease forwards;
 }
-@keyframes ammutSequence{
+.soul-bubble::after{
+  content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  border:8px solid transparent;border-top-color:rgba(255,255,255,.92);border-bottom:0;
+}
+.soul-bubble.bubble-evil{background:rgba(183,28,28,.88);color:#ffcdd2}
+.soul-bubble.bubble-evil::after{border-top-color:rgba(183,28,28,.88)}
+.soul-bubble.bubble-sad{background:rgba(26,20,16,.88);color:#b8a070}
+.soul-bubble.bubble-sad::after{border-top-color:rgba(26,20,16,.88)}
+@keyframes bubblePop{
+  0%{opacity:0;transform:scale(0) translateY(10px)}
+  100%{opacity:1;transform:scale(1) translateY(0)}
+}
+@keyframes bubbleFade{
+  0%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(.7) translateY(-15px)}
+}
+
+/* -- 암무트 심판 (devour): 영혼 우하향 → 삼켜짐 -- */
+@keyframes soulDevour{
+  0%{opacity:0;transform:translate(-87px,-20px) scale(0.22)}
+  15%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  30%{opacity:1;transform:translate(-87px,-92px) scale(0.245)}
+  50%{opacity:1;transform:translate(-87px,-82px) scale(0.24)}
+  62%{opacity:.9;transform:translate(20px,10px) scale(0.18)}
+  74%{opacity:.7;transform:translate(90px,80px) scale(0.13)}
+  86%{opacity:.4;transform:translate(150px,170px) scale(0.07)}
+  100%{opacity:0;transform:translate(200px,240px) scale(0.01)}
+}
+@keyframes ammutEnter{
   0%{opacity:0;transform:translate(720px,230px) scale(0.9)}
-  28%{opacity:1;transform:translate(180px,230px) scale(0.9)}
-  78%{opacity:1;transform:translate(180px,230px) scale(0.9)}
+  25%{opacity:1;transform:translate(180px,230px) scale(0.9)}
+  80%{opacity:1;transform:translate(180px,230px) scale(0.9)}
   100%{opacity:0;transform:translate(720px,230px) scale(0.9)}
 }
-/* jawChomp disabled — PNG image has no separate jaw element
-@keyframes jawChomp{
-  0%,100%{transform:rotate(0)}
-  20%{transform:rotate(15deg)}
-  45%{transform:rotate(0)}
-  65%{transform:rotate(12deg)}
-  85%{transform:rotate(0)}
+#soul-scene.anim-devour{animation:soulDevour 4s ease both}
+#ammut-scene.anim-devour{animation:ammutEnter 3.8s ease .4s both}
+
+/* -- 오시리스 구원 (heaven): 오시리스 오른쪽에서 등장 → 영혼 데려감 → 함께 퇴장 -- */
+@keyframes soulHeaven{
+  0%{opacity:0;transform:translate(-87px,-20px) scale(0.22)}
+  12%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  28%{opacity:1;transform:translate(-87px,-95px) scale(0.25)}
+  42%{opacity:1;transform:translate(-87px,-95px) scale(0.25)}
+  58%{opacity:1;transform:translate(120px,40px) scale(0.2)}
+  72%{opacity:.9;transform:translate(280px,100px) scale(0.16)}
+  84%{opacity:.5;transform:translate(400px,150px) scale(0.1)}
+  100%{opacity:0;transform:translate(520px,180px) scale(0.05)}
 }
-#ammut-jaw-lower.anim-chomp{animation:jawChomp .6s ease 2 both}
-*/
-#soul-scene.anim-devour{animation:soulSequence 3s ease both}
-#ammut-scene.anim-devour{animation:ammutSequence 2.8s ease .4s both}
+@keyframes osirisEnter{
+  0%{opacity:0;transform:translate(720px,100px) scale(0.7)}
+  18%{opacity:1;transform:translate(300px,100px) scale(0.7)}
+  78%{opacity:1;transform:translate(300px,100px) scale(0.7)}
+  100%{opacity:0;transform:translate(720px,100px) scale(0.7)}
+}
+#soul-scene.anim-heaven{animation:soulHeaven 5s ease both}
+#osiris-scene.anim-heaven{animation:osirisEnter 5s ease .3s both}
+
+/* -- 오판 시 영혼 반응 -- */
+@keyframes soulShake{
+  0%{opacity:0;transform:translate(-87px,-20px) scale(0.22)}
+  15%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  25%{opacity:1;transform:translate(-82px,-82px) scale(0.24)}
+  32%{opacity:1;transform:translate(-92px,-78px) scale(0.24)}
+  39%{opacity:1;transform:translate(-84px,-82px) scale(0.24)}
+  46%{opacity:1;transform:translate(-90px,-80px) scale(0.24)}
+  55%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  75%{opacity:1;transform:translate(-87px,-80px) scale(0.24)}
+  88%{opacity:.5;transform:translate(-87px,-60px) scale(0.2)}
+  100%{opacity:0;transform:translate(-87px,-40px) scale(0.16)}
+}
+#soul-scene.anim-wrong{animation:soulShake 3.5s ease both}
 
 /* Responsive */
 @media (max-width:700px),(max-aspect-ratio:4/3){
@@ -262,6 +551,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 <div class="top-bar">
   <h1>𓂀 아누비스의 재판 — 진실의 저울</h1>
   <div class="hud">
+    <span class="hud-title" id="h-title">𓋹 견습 서기관</span>
     <div class="hud-item">𓁟 라운드 <strong id="h-round">1</strong></div>
     <div class="hud-item">𓂋 점수 <strong id="h-score">0</strong></div>
     <div class="hud-item">☥ <strong id="h-lives">♥♥♥</strong></div>
@@ -300,6 +590,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
       </div>
 
       <div class="scene-area">
+        <div class="golden-particles" id="golden-particles"></div>
         <div class="heart-frac-overlay">
           <div class="hfo-label">심장의 무게</div>
           <div class="hfo-frac">
@@ -307,6 +598,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
             <div class="bar"></div>
             <span class="d" id="hf-den">18</span>
           </div>
+          <div class="hint-factors" id="hint-factors"></div>
         </div>
 
         <!-- MAIN SCENE SVG -->
@@ -468,7 +760,16 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
               style="mix-blend-mode:screen"/>
           </g>
 
+          <!-- OSIRIS (hidden, enters during heaven) -->
+          <g id="osiris-scene" opacity="0">
+            <image href="osiris.png"
+              x="0" y="0" width="440" height="560"
+              preserveAspectRatio="xMidYMid meet"/>
+          </g>
+
         </svg>
+        <!-- Speech bubble overlay (positioned over scene) -->
+        <div class="soul-bubble" id="soul-bubble"></div>
       </div>
     </div>
 
@@ -479,6 +780,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
         <div class="desc" id="inst-desc">심장과 같은 값의 깃털을 골라라</div>
       </div>
       <div class="timer-track"><div class="timer-fill" id="timer-fill" style="width:100%"></div></div>
+      <div class="item-bar" id="item-bar"></div>
       <div class="choices" id="choices"></div>
       <button class="confirm-btn btn-place" id="btn-place" onclick="onPlace()" disabled>⚖️ 저울에 올리기</button>
       <div class="msg-area"><div class="msg-box m-info" id="msg-box">깃털을 선택하라, 아누비스여.</div></div>
@@ -494,6 +796,26 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="result-title" id="res-title"></div>
     <div class="result-desc" id="res-desc"></div>
     <button class="result-btn" onclick="onResultContinue()">계속</button>
+  </div>
+</div>
+
+<!-- ITEM POPUP -->
+<div class="item-popup" id="item-popup">
+  <div class="item-popup-card" id="item-popup-card"></div>
+</div>
+
+<!-- BADGE PANEL -->
+<button class="badge-toggle" id="badge-toggle" onclick="toggleBadgePanel()" title="업적">🏆</button>
+<div class="badge-panel" id="badge-panel">
+  <div class="badge-inner">
+    <div class="badge-header">
+      <h3>🏆 업적 칭호</h3>
+      <button class="badge-close" onclick="toggleBadgePanel()">✕</button>
+    </div>
+    <div class="badge-grid" id="badge-grid"></div>
+    <div class="badge-reset-wrap">
+      <button class="badge-reset" onclick="resetBadges()">업적 초기화</button>
+    </div>
   </div>
 </div>
 
@@ -568,8 +890,421 @@ const G={
   isGood:true,heartNum:0,heartDen:0,
   choices:[],correctIdx:-1,selectedIdx:-1,
   timerInterval:null,timeLeft:0,timeMax:30,
-  answered:false,
+  answered:false,titleIdx:0,
 };
+
+/* ============================================================
+   칭호 시스템 — 라운드 달성에 따른 승급
+   ============================================================ */
+const TITLES=[
+  {round:1,   icon:'𓋹', name:'견습 서기관',     desc:'두아트의 문을 열다'},
+  {round:5,   icon:'𓂀', name:'하급 서기관',     desc:'약분의 기초를 익히다'},
+  {round:11,  icon:'𓃭', name:'서기관',          desc:'진실의 깃털을 읽기 시작하다'},
+  {round:21,  icon:'𓅃', name:'상급 서기관',     desc:'호루스의 눈이 그대를 주시한다'},
+  {round:31,  icon:'𓆣', name:'신관 보좌',       desc:'스카라베의 가호를 받다'},
+  {round:41,  icon:'𓋴', name:'하급 신관',       desc:'더 큰 수의 약분에 도전하다'},
+  {round:51,  icon:'𓊝', name:'신관',            desc:'마아트의 깃털이 가벼워진다'},
+  {round:61,  icon:'𓉐', name:'상급 신관',       desc:'거대한 수의 비밀을 풀다'},
+  {round:71,  icon:'𓁢', name:'대신관',          desc:'토트 신의 지혜에 가까워지다'},
+  {round:81,  icon:'𓂝', name:'심판의 수호자',   desc:'세 자릿수의 벽을 넘다'},
+  {round:91,  icon:'𓃀', name:'진실의 대행자',   desc:'아누비스의 신뢰를 얻다'},
+  {round:101, icon:'𓅊', name:'마아트의 현자',   desc:'최고 난이도에 돌입하다'},
+  {round:111, icon:'𓁟', name:'저승의 재판장',   desc:'두아트의 모든 비밀을 꿰뚫다'},
+  {round:121, icon:'⚖️',name:'아누비스의 대리인',desc:'신들도 인정한 재판관'},
+];
+
+function getCurrentTitle(round){
+  let idx=0;
+  for(let i=TITLES.length-1;i>=0;i--){
+    if(round>=TITLES[i].round){idx=i;break;}
+  }
+  return idx;
+}
+
+function checkTitlePromotion(){
+  const newIdx=getCurrentTitle(G.round);
+  if(newIdx>G.titleIdx){
+    G.titleIdx=newIdx;
+    updateTitleHUD();
+    showTitlePopup(TITLES[newIdx]);
+  }
+}
+
+function updateTitleHUD(){
+  const t=TITLES[G.titleIdx];
+  document.getElementById('h-title').textContent=t.icon+' '+t.name;
+}
+
+function showTitlePopup(t){
+  const el=document.createElement('div');
+  el.className='title-popup';
+  el.innerHTML=`<div class="tp-label">— 칭호 승급 —</div>`
+    +`<div class="tp-icon">${t.icon}</div>`
+    +`<div class="tp-name">${t.name}</div>`
+    +`<div class="tp-desc">${t.desc}</div>`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+/* ============================================================
+   업적 (ACHIEVEMENTS) — localStorage 영구 저장
+   ============================================================ */
+const ACHV_KEY='anubis-achievements';
+const STAT_KEY='anubis-stats';
+
+const ACHIEVEMENTS=[
+  /* ── 시간 & 긴장감 ── */
+  {id:'one_sec_gambler',icon:'⏱️',name:'1초의 승부사',
+   desc:'제한 시간 1초 이하에서 정답',
+   check:s=>s.clutch1sec>=1},
+  {id:'horus_speed',icon:'⚡',name:'빛의 속도를 가진 호루스',
+   desc:'제한 시간 3초 이하에서 5회 연속 정답',
+   check:s=>s.clutch3best>=5},
+  {id:'ra_blessing',icon:'☀️',name:'라의 축복',
+   desc:'제한 시간 절반 이상 남기고 10회 연속 정답',
+   check:s=>s.fastBest>=10, progress:s=>`${Math.min(s.fastBest,10)}/10`},
+  {id:'lightning_scribe',icon:'🌩️',name:'번개의 서기관',
+   desc:'5초 안에 정답을 50회 달성',
+   check:s=>s.under5sec>=50, progress:s=>`${Math.min(s.under5sec,50)}/50`},
+
+  /* ── 콤보 & 연속 ── */
+  {id:'maat_feather',icon:'🪶',name:'마아트의 깃털',
+   desc:'10콤보 달성', check:s=>s.maxCombo>=10},
+  {id:'thoth_wisdom',icon:'𓅝',name:'토트의 지혜',
+   desc:'25콤보 달성', check:s=>s.maxCombo>=25},
+  {id:'osiris_judge',icon:'👑',name:'오시리스의 심판',
+   desc:'50콤보 달성', check:s=>s.maxCombo>=50},
+  {id:'perfect_judge',icon:'💎',name:'완벽한 재판관',
+   desc:'한 게임에서 실수 없이 20라운드 클리어',
+   check:s=>s.perfectBest>=20, progress:s=>`${Math.min(s.perfectBest,20)}/20`},
+
+  /* ── 점수 ── */
+  {id:'pyramid_builder',icon:'🔺',name:'피라미드 건설자',
+   desc:'누적 점수 10,000점 달성',
+   check:s=>s.totalScore>=10000, progress:s=>`${Math.min(s.totalScore,10000).toLocaleString()}/10,000`},
+  {id:'pharaoh_wealth',icon:'💰',name:'파라오의 재산',
+   desc:'누적 점수 50,000점 달성',
+   check:s=>s.totalScore>=50000, progress:s=>`${Math.min(s.totalScore,50000).toLocaleString()}/50,000`},
+  {id:'sun_treasure',icon:'🌞',name:'태양신의 보물',
+   desc:'누적 점수 100,000점 달성',
+   check:s=>s.totalScore>=100000, progress:s=>`${Math.min(s.totalScore,100000).toLocaleString()}/100,000`},
+
+  /* ── 선악 판정 ── */
+  {id:'guardian_angel',icon:'😇',name:'수호천사',
+   desc:'선인을 5연속 올바르게 구원',
+   check:s=>s.goodStreakBest>=5},
+  {id:'osiris_mercy',icon:'🕊️',name:'오시리스의 자비',
+   desc:'선인을 30회 이상 올바르게 구원',
+   check:s=>s.goodCorrect>=30, progress:s=>`${Math.min(s.goodCorrect,30)}/30`},
+  {id:'executioner',icon:'⚔️',name:'연속 처형관',
+   desc:'악인을 5연속 올바르게 처단',
+   check:s=>s.evilStreakBest>=5},
+  {id:'ammut_feeder',icon:'🥩',name:'암무트의 배식자',
+   desc:'악인을 30회 이상 올바르게 처단',
+   check:s=>s.evilCorrect>=30, progress:s=>`${Math.min(s.evilCorrect,30)}/30`},
+
+  /* ── 숫자 특화 ── */
+  {id:'even_slayer',icon:'🔪',name:'짝수 학살자',
+   desc:'분모·분자가 모두 짝수인 문제를 50회 정답',
+   check:s=>s.evenCorrect>=50, progress:s=>`${Math.min(s.evenCorrect,50)}/50`},
+  {id:'bless_of_5',icon:'🌟',name:'5의 축복을 받은 자',
+   desc:'분모가 5의 배수인 문제를 30회 연속 정답',
+   check:s=>s.fiveBest>=30, progress:s=>`${Math.min(s.fiveBest,30)}/30`},
+  {id:'triple_master',icon:'🔱',name:'3의 지배자',
+   desc:'분모가 3의 배수인 문제를 40회 정답',
+   check:s=>s.threeCorrect>=40, progress:s=>`${Math.min(s.threeCorrect,40)}/40`},
+  {id:'seven_riddle',icon:'🎰',name:'7의 수수께끼',
+   desc:'분모가 7의 배수인 문제를 20회 정답',
+   check:s=>s.sevenCorrect>=20, progress:s=>`${Math.min(s.sevenCorrect,20)}/20`},
+  {id:'big_number',icon:'🧮',name:'세 자릿수의 벽',
+   desc:'분모가 100 이상인 문제를 20회 정답',
+   check:s=>s.bigDenCorrect>=20, progress:s=>`${Math.min(s.bigDenCorrect,20)}/20`},
+
+  /* ── 도전 & 근성 ── */
+  {id:'ammut_regular',icon:'🐊',name:'암무트의 단골손님',
+   desc:'선인 오판 10회 이상이지만 포기하지 않고 50라운드 도전',
+   check:s=>s.ammutLoss>=10&&s.totalRounds>=50},
+  {id:'phoenix',icon:'🔥',name:'불사조의 부활',
+   desc:'생명 1개에서 10라운드 이상 생존',
+   check:s=>s.clutchSurviveBest>=10, progress:s=>`${Math.min(s.clutchSurviveBest,10)}/10`},
+  {id:'never_give_up',icon:'💪',name:'끝없는 도전자',
+   desc:'게임 오버 10회 이상 후에도 재도전',
+   check:s=>s.totalGames>=10, progress:s=>`${Math.min(s.totalGames,10)}/10`},
+  {id:'marathon',icon:'🏃',name:'나일강 마라토너',
+   desc:'누적 200라운드 도전',
+   check:s=>s.totalRounds>=200, progress:s=>`${Math.min(s.totalRounds,200)}/200`},
+  {id:'veteran',icon:'🎖️',name:'사막의 고참',
+   desc:'누적 500라운드 도전',
+   check:s=>s.totalRounds>=500, progress:s=>`${Math.min(s.totalRounds,500)}/500`},
+
+  /* ── 난이도 티어 ── */
+  {id:'tier_mid',icon:'📗',name:'중급 도전자',
+   desc:'중급 티어(라운드 41) 도달',
+   check:s=>s.maxRound>=41},
+  {id:'tier_hard',icon:'📕',name:'고급 돌파',
+   desc:'고급 티어(라운드 81) 도달',
+   check:s=>s.maxRound>=81},
+  {id:'tier_legend',icon:'📜',name:'전설의 시작',
+   desc:'최고 티어(라운드 101) 도달',
+   check:s=>s.maxRound>=101},
+
+  /* ── 수집 & 탐험 ── */
+  {id:'book_of_dead',icon:'📚',name:'사자의 서 기록관',
+   desc:'모든 종류의 망자를 최소 한 번씩 재판',
+   check:s=>s.seenSouls.length>=(GOOD_RECORDS.length+EVIL_RECORDS.length)},
+  {id:'first_trial',icon:'🌱',name:'첫 번째 재판',
+   desc:'첫 라운드에서 정답을 맞힘',
+   check:s=>s.firstRoundCorrect>=1},
+  {id:'night_owl',icon:'🦉',name:'밤의 올빼미',
+   desc:'30라운드 이상 플레이한 게임을 3회 달성',
+   check:s=>s.longGames>=3, progress:s=>`${Math.min(s.longGames,3)}/3`},
+];
+
+function loadStats(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STAT_KEY));
+    if(!saved)return defaultStats();
+    // 기존 저장 데이터에 새 필드 병합
+    const base=defaultStats();
+    for(const k in base){if(!(k in saved))saved[k]=base[k];}
+    return saved;
+  }catch(e){return defaultStats();}
+}
+function defaultStats(){
+  return{
+    /* 시간 관련 */
+    clutch1sec:0,       // 1초 이하 정답 횟수
+    clutch3streak:0,    // 연속 3초이하 정답 (현재)
+    clutch3best:0,      // 최대 연속 3초이하 정답 (영구)
+    fastStreak:0,       // 제한시간 절반이상 남기고 연속 정답 (현재)
+    fastBest:0,         // 위 최대 (영구)
+    under5sec:0,        // 5초 안에 정답 횟수
+    /* 콤보 & 연속 */
+    maxCombo:0,         // 역대 최대 콤보
+    perfectStreak:0,    // 현재 게임 연속 정답
+    perfectBest:0,      // 역대 한 게임 최대 연속 정답
+    /* 점수 */
+    totalScore:0,       // 누적 총점
+    /* 선악 판정 */
+    goodCorrect:0,      // 선인 올바른 판정
+    evilCorrect:0,      // 악인 올바른 판정
+    goodStreak:0,       // 선인 연속 정답 (현재)
+    goodStreakBest:0,    // 위 최대
+    evilStreak:0,       // 악인 연속 정답 (현재)
+    evilStreakBest:0,    // 위 최대
+    /* 숫자 특화 */
+    evenCorrect:0,      // 짝수 분모·분자 정답
+    fiveStreak:0,       // 5배수 분모 연속 (현재)
+    fiveBest:0,         // 위 최대
+    threeCorrect:0,     // 3배수 분모 정답
+    sevenCorrect:0,     // 7배수 분모 정답
+    bigDenCorrect:0,    // 분모 100+ 정답
+    /* 도전 & 근성 */
+    ammutLoss:0,        // 선인 오판 횟수
+    totalRounds:0,      // 누적 라운드
+    totalGames:0,       // 게임 오버 횟수
+    clutchSurvive:0,    // 생명1에서 연속 생존 (현재)
+    clutchSurviveBest:0,// 위 최대
+    maxRound:0,         // 도달한 최고 라운드
+    longGames:0,        // 30라운드 이상 플레이한 게임 수
+    /* 수집 */
+    seenSouls:[],       // 재판한 망자 이름
+    firstRoundCorrect:0,// 첫 라운드 정답 횟수
+  };
+}
+function saveStats(s){
+  try{localStorage.setItem(STAT_KEY,JSON.stringify(s));}catch(e){}
+}
+function loadUnlocked(){
+  try{return JSON.parse(localStorage.getItem(ACHV_KEY))||[];}
+  catch(e){return[];}
+}
+function saveUnlocked(arr){
+  try{localStorage.setItem(ACHV_KEY,JSON.stringify(arr));}catch(e){}
+}
+
+let ACH_STATS=loadStats();
+let ACH_UNLOCKED=loadUnlocked();
+
+/* 업적 달성 체크 → 새로 달성 시 팝업 */
+function checkAchievements(){
+  let changed=false;
+  for(const a of ACHIEVEMENTS){
+    if(ACH_UNLOCKED.includes(a.id))continue;
+    if(a.check(ACH_STATS)){
+      ACH_UNLOCKED.push(a.id);changed=true;
+      showTitlePopup({icon:a.icon,name:a.name,desc:a.desc});
+      if(a.id==='horus_speed') startGoldenParticles();
+    }
+  }
+  if(changed) saveUnlocked(ACH_UNLOCKED);
+}
+
+/* 라운드 시작 시 호출 — 망자 기록 */
+function trackSoulSeen(soulName){
+  if(!ACH_STATS.seenSouls.includes(soulName)){
+    ACH_STATS.seenSouls.push(soulName);
+    saveStats(ACH_STATS);
+  }
+}
+
+/* 정답 시 호출 — isGood: 선인여부, combo: 현재 콤보, earned: 획득 점수 */
+function trackCorrectAnswer(timeLeft,heartNum,heartDen,isGood,combo,earned){
+  const s=ACH_STATS;
+  s.totalRounds++;
+  s.totalScore+=(earned||0);
+
+  // 라운드 기록
+  if(G.round>s.maxRound) s.maxRound=G.round;
+
+  // 첫 라운드 정답
+  if(G.round===1) s.firstRoundCorrect++;
+
+  // 1초 승부사
+  if(timeLeft<=1) s.clutch1sec++;
+
+  // 3초 이하 연속
+  if(timeLeft<=3){
+    s.clutch3streak++;
+    if(s.clutch3streak>s.clutch3best) s.clutch3best=s.clutch3streak;
+  }else{ s.clutch3streak=0; }
+
+  // 빠른 정답 (제한시간 절반 이상 남음)
+  if(timeLeft>=G.timeMax/2){
+    s.fastStreak++;
+    if(s.fastStreak>s.fastBest) s.fastBest=s.fastStreak;
+  }else{ s.fastStreak=0; }
+
+  // 5초 안에 정답
+  if((G.timeMax-timeLeft)<=5) s.under5sec++;
+
+  // 콤보 기록
+  if((combo||0)>s.maxCombo) s.maxCombo=(combo||0);
+
+  // 한 게임 연속 정답
+  s.perfectStreak++;
+  if(s.perfectStreak>s.perfectBest) s.perfectBest=s.perfectStreak;
+
+  // 선악 판정
+  if(isGood){
+    s.goodCorrect++;
+    s.goodStreak++;
+    if(s.goodStreak>s.goodStreakBest) s.goodStreakBest=s.goodStreak;
+    s.evilStreak=0;
+  }else{
+    s.evilCorrect++;
+    s.evilStreak++;
+    if(s.evilStreak>s.evilStreakBest) s.evilStreakBest=s.evilStreak;
+    s.goodStreak=0;
+  }
+
+  // 숫자 특화
+  if(heartNum%2===0&&heartDen%2===0) s.evenCorrect++;
+  if(heartDen%3===0) s.threeCorrect++;
+  if(heartDen%7===0) s.sevenCorrect++;
+  if(heartDen>=100) s.bigDenCorrect++;
+
+  // 5배수 연속
+  if(heartDen%5===0){
+    s.fiveStreak++;
+    if(s.fiveStreak>s.fiveBest) s.fiveBest=s.fiveStreak;
+  }else{ s.fiveStreak=0; }
+
+  // 불사조 — 생명 1개에서 생존
+  if(G.lives===1){
+    s.clutchSurvive++;
+    if(s.clutchSurvive>s.clutchSurviveBest) s.clutchSurviveBest=s.clutchSurvive;
+  }else{ s.clutchSurvive=0; }
+
+  saveStats(s);
+  checkAchievements();
+}
+
+/* 오답/시간초과 시 호출 */
+function trackWrongAnswer(wasGoodSoul){
+  const s=ACH_STATS;
+  s.totalRounds++;
+  s.clutch3streak=0;
+  s.fastStreak=0;
+  s.fiveStreak=0;
+  s.perfectStreak=0;
+  s.goodStreak=0;
+  s.evilStreak=0;
+  s.clutchSurvive=0;
+  if(wasGoodSoul) s.ammutLoss++;
+  if(G.round>s.maxRound) s.maxRound=G.round;
+  saveStats(s);
+  checkAchievements();
+}
+
+/* 게임 오버 시 호출 */
+function trackGameOver(){
+  const s=ACH_STATS;
+  s.totalGames++;
+  if(G.round>=30) s.longGames++;
+  s.perfectStreak=0;
+  s.clutchSurvive=0;
+  saveStats(s);
+  checkAchievements();
+}
+
+/* 배지 패널 */
+function toggleBadgePanel(){
+  document.getElementById('badge-panel').classList.toggle('show');
+  if(document.getElementById('badge-panel').classList.contains('show')) renderBadges();
+}
+function renderBadges(){
+  const grid=document.getElementById('badge-grid');grid.innerHTML='';
+  for(const a of ACHIEVEMENTS){
+    const unlocked=ACH_UNLOCKED.includes(a.id);
+    const card=document.createElement('div');
+    card.className='badge-card '+(unlocked?'unlocked':'locked');
+    let prog='';
+    if(!unlocked&&a.progress) prog=`<div class="badge-progress">${a.progress(ACH_STATS)}</div>`;
+    card.innerHTML=`<div class="badge-icon">${unlocked?a.icon:'🔒'}</div>`
+      +`<div class="badge-info"><div class="badge-name">${a.name}</div>`
+      +`<div class="badge-desc">${a.desc}</div>${prog}</div>`;
+    grid.appendChild(card);
+  }
+}
+function resetBadges(){
+  if(!confirm('모든 업적과 통계를 초기화하시겠습니까?'))return;
+  ACH_STATS=defaultStats();ACH_UNLOCKED=[];
+  saveStats(ACH_STATS);saveUnlocked(ACH_UNLOCKED);
+  stopGoldenParticles();
+  renderBadges();
+}
+
+/* ============================================================
+   골든 파티클 이펙트 (호루스 업적)
+   ============================================================ */
+let gpInterval=null;
+function startGoldenParticles(){
+  if(gpInterval)return;
+  const box=document.getElementById('golden-particles');
+  if(!box)return;
+  gpInterval=setInterval(()=>{
+    if(!document.getElementById('game-screen')||document.getElementById('game-screen').style.display==='none')return;
+    const p=document.createElement('div');
+    p.className='gp';
+    const x=10+Math.random()*80;
+    const dur=2+Math.random()*3;
+    const sz=2+Math.random()*4;
+    p.style.cssText=`left:${x}%;bottom:${5+Math.random()*20}%;width:${sz}px;height:${sz}px;animation-duration:${dur}s;`;
+    box.appendChild(p);
+    setTimeout(()=>p.remove(),dur*1000);
+  },200);
+}
+function stopGoldenParticles(){
+  clearInterval(gpInterval);gpInterval=null;
+  const box=document.getElementById('golden-particles');
+  if(box)box.innerHTML='';
+}
+
+/* 페이지 로드 시 호루스 업적 보유면 파티클 시작 */
+if(ACH_UNLOCKED.includes('horus_speed')){
+  document.addEventListener('DOMContentLoaded',()=>startGoldenParticles());
+}
 
 /* ============================================================
    MATH
@@ -616,14 +1351,42 @@ function buildWrongYakbun(hN,hD){
   return pool;
 }
 
+/* ============================================================
+   난이도 티어 시스템
+   - 라운드가 올라갈수록 분모가 커지고 약수가 많아져 약분이 어려워짐
+   ============================================================ */
+const DIFFICULTY_TIERS=[
+  /* 티어0  라운드  1~20   입문: 작은 분모, 약분 감잡기 */
+  {min:12, max:36,  pool:null,                                         numLo:0.3},
+  /* 티어1  라운드 21~40  기초: 중소 분모 */
+  {min:24, max:56,  pool:null,                                         numLo:0.25},
+  /* 티어2  라운드 41~60  중급: 약수 많은 중간 수 */
+  {min:0,  max:0,   pool:[36,42,48,54,60,66,72],                      numLo:0.2},
+  /* 티어3  라운드 61~80  상급: 약수 많은 큰 수 */
+  {min:0,  max:0,   pool:[60,72,80,84,90,96,108],                     numLo:0.15},
+  /* 티어4  라운드 81~100 고급: 세 자릿수 약수 풍부 */
+  {min:0,  max:0,   pool:[120,132,140,144,150,156,160],               numLo:0.12},
+  /* 티어5  라운드 101+   최고: 약수가 매우 많은 큰 수 */
+  {min:0,  max:0,   pool:[144,156,160,168,180,192,200],               numLo:0.10},
+];
+
+function getDifficultyTier(stage){
+  if(stage<=20)  return DIFFICULTY_TIERS[0];
+  if(stage<=40)  return DIFFICULTY_TIERS[1];
+  if(stage<=60)  return DIFFICULTY_TIERS[2];
+  if(stage<=80)  return DIFFICULTY_TIERS[3];
+  if(stage<=100) return DIFFICULTY_TIERS[4];
+  return DIFFICULTY_TIERS[5];
+}
+
 function generateHeart(stage){
-  const minDen=Math.max(12,10+stage*4);
-  const maxDen=Math.min(20+stage*10,100);
+  const tier=getDifficultyTier(stage);
   for(let i=0;i<500;i++){
-    const d=randInt(minDen,maxDen);
-    const n=randInt(Math.max(10,Math.floor(d*0.2)),d-1);
+    const d=tier.pool
+      ? tier.pool[Math.floor(Math.random()*tier.pool.length)]
+      : randInt(tier.min,tier.max);
+    const n=randInt(Math.max(10,Math.floor(d*tier.numLo)),d-1);
     if(gcd(n,d)<2||n<10||d<10)continue;
-    // 가짜 약분 후보가 4개 이상 있어야 보기를 만들 수 있음
     if(buildWrongYakbun(n,d).length>=4) return{n,d};
   }
   return{n:24,d:36};
@@ -722,11 +1485,14 @@ function showFeatherOnDish(show){
    TIMER
    ============================================================ */
 function startTimer(){
-  G.timeMax=Math.max(12,32-G.round*2);G.timeLeft=G.timeMax;
+  /* 티어별 시간 배분: 큰 분모일수록 계산 시간 더 부여 */
+  const tIdx=G.round<=20?0:G.round<=40?1:G.round<=60?2:G.round<=80?3:G.round<=100?4:5;
+  const timeCap=[30,26,22,24,26,28];   /* 고급 티어는 분모가 크므로 시간 다시 늘림 */
+  G.timeMax=timeCap[tIdx];G.timeLeft=G.timeMax;
   updateTimerBar();clearInterval(G.timerInterval);
   G.timerInterval=setInterval(()=>{
     if(G.answered)return;
-    G.timeLeft-=0.1;
+    if(!G.timerFrozen && !G.popoverPause) G.timeLeft-=0.1;
     if(G.timeLeft<=0){G.timeLeft=0;clearInterval(G.timerInterval);timeOut();}
     updateTimerBar();
   },100);
@@ -736,14 +1502,18 @@ function updateTimerBar(){
 }
 function timeOut(){
   if(G.answered)return;
-  G.answered=true;G.combo=0;G.lives--;updateHUD();
+  G.answered=true;G.combo=0;
+  const nileOk=tryNileShield();
+  if(!nileOk){G.lives--;}
+  updateHUD();
+  trackWrongAnswer(G.isGood);
   revealAnswer();anubisPoint();
   const[sn,sd]=simplify(G.heartNum,G.heartDen);
   if(G.lives<=0){
     showMsg('fail','⏱ 시간 초과! 생명을 모두 잃었다.');
     setTimeout(gameOver,1000);
   } else {
-    showMsg('fail','⏱ 시간 초과! 생명 -1');
+    showMsg('fail',nileOk?'⏱ 시간 초과! 나일강의 축복이 보호!':'⏱ 시간 초과! 생명 -1');
     setTimeout(()=>showResult('wrong',
       `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (${G.isGood?'=':'≠'} ${sn}/${sd})`,
       '시간이 다 되었다! 더 빠르게 판단하라.'),600);
@@ -754,38 +1524,400 @@ function timeOut(){
    GAME FLOW
    ============================================================ */
 /* ============================================================
-   DEVOUR ANIMATION (Ammut eats the soul)
+   영혼 대사 풀
    ============================================================ */
+const SOUL_LINES={
+  /* 선인 구원 (heaven) — 감사, 기쁨 */
+  goodHeaven:[
+    '고마워요…\n드디어 평화를 찾았어요.',
+    '마아트의 깃털이\n저를 인도하네요…',
+    '오시리스님,\n당신의 왕국에 갈 수 있군요!',
+    '진실된 삶이\n보상받는 순간이에요.',
+    '가족들이\n저를 기다리고 있어요…',
+    '영원한 안식의 땅으로…\n감사합니다.',
+    '나일강 너머\n아름다운 세계가 보여요!',
+    '선한 일은\n결코 헛되지 않았군요.',
+  ],
+  /* 악인 심판 (devour) — 공포, 후회 */
+  evilDevour:[
+    '안 돼! 용서해주세요!\n제발…!',
+    '으아아…!\n암무트가 오고 있어…!',
+    '내 죄를…\n이제야 깨달았다…',
+    '다시 태어나면\n착하게 살겠어…!',
+    '저울은 거짓말을\n하지 않는구나…',
+    '이것이…\n나의 업보인가…',
+    '도망칠 수 없다…\n심장이 너무 무거워…',
+    '제발 한 번만 더\n기회를…!',
+  ],
+  /* 선인 오판 — 슬픔, 억울함 */
+  goodWrong:[
+    '왜… 저는\n착하게 살았는데…',
+    '재판관님,\n다시 보아주세요…!',
+    '억울해요…\n진실을 알아주세요…',
+    '마아트의 깃털이\n울고 있어요…',
+  ],
+  /* 악인 오판 — 오시리스가 데려감, 쾌재/비웃음 */
+  evilWrong:[
+    '하하! 오시리스님,\n저 선인 맞아요~!',
+    '바보 같은 재판관!\n천국행이다~!',
+    '속았지? 나는\n이제 자유다! 하하!',
+    '오시리스님 감사!\n재판관은 멍청이!',
+    '이렇게 쉬울 줄이야…\n천국이 날 기다려!',
+    '헤헤… 악인도\n천국 갈 수 있구나!',
+  ],
+};
+
+function pickLine(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+/* ============================================================
+   말풍선 표시/숨김
+   ============================================================ */
+function showBubble(text,type,delay,duration){
+  const bub=document.getElementById('soul-bubble');
+  if(!bub)return;
+  bub.textContent=text;
+  bub.className='soul-bubble'+(type?' bubble-'+type:'');
+  bub.style.animation='none';
+  bub.style.opacity='0';
+  setTimeout(()=>{
+    bub.style.animation='bubblePop .4s ease forwards';
+  },delay||0);
+  setTimeout(()=>{
+    bub.style.animation='bubbleFade .5s ease forwards';
+  },(delay||0)+(duration||2000));
+  setTimeout(()=>{
+    bub.style.opacity='0';bub.style.animation='none';
+  },(delay||0)+(duration||2000)+600);
+}
+function hideBubble(){
+  const bub=document.getElementById('soul-bubble');
+  if(bub){bub.style.opacity='0';bub.style.animation='none';}
+}
+
+/* ============================================================
+   SCENE ANIMATIONS
+   ============================================================ */
+function resetAllActors(){
+  const s=document.getElementById('soul-scene');
+  const a=document.getElementById('ammut-scene');
+  const o=document.getElementById('osiris-scene');
+  if(s){s.className.baseVal='';s.setAttribute('opacity','0');}
+  if(a){a.className.baseVal='';a.setAttribute('opacity','0');}
+  if(o){o.className.baseVal='';o.setAttribute('opacity','0');}
+  hideBubble();
+}
+
+/* 악인 정답 → 암무트 심판 */
 function playDevourAnimation(callback){
+  resetAllActors();
   const soul=document.getElementById('soul-scene');
   const ammut=document.getElementById('ammut-scene');
-  resetDevourActors();
   void soul.offsetWidth;
   soul.classList.add('anim-devour');
   ammut.classList.add('anim-devour');
-  // jaw chomp disabled — PNG image has no separate jaw element
-  // setTimeout(()=>{if(jaw)jaw.classList.add('anim-chomp')},1800);
-  setTimeout(()=>{resetDevourActors();if(callback)callback()},3400);
+  showBubble(pickLine(SOUL_LINES.evilDevour),'evil',1200,2200);
+  setTimeout(()=>{resetAllActors();if(callback)callback()},4400);
 }
-function resetDevourActors(){
-  const s=document.getElementById('soul-scene');
-  const a=document.getElementById('ammut-scene');
-  if(s)s.classList.remove('anim-devour');
-  if(a)a.classList.remove('anim-devour');
-  // if(j)j.classList.remove('anim-chomp');
+
+/* 오시리스 구원 (선인 정답 / 악인 오판 공통) */
+function playHeavenAnimation(callback,isEvil){
+  resetAllActors();
+  const soul=document.getElementById('soul-scene');
+  const osiris=document.getElementById('osiris-scene');
+  void soul.offsetWidth;
+  soul.classList.add('anim-heaven');
+  osiris.classList.add('anim-heaven');
+  if(isEvil){
+    showBubble(pickLine(SOUL_LINES.evilWrong),'evil',1000,2500);
+  }else{
+    showBubble(pickLine(SOUL_LINES.goodHeaven),'',1000,2500);
+  }
+  setTimeout(()=>{resetAllActors();if(callback)callback()},5600);
+}
+
+/* 오답 — 선인 오판: 암무트 등장 + 슬픈 영혼 */
+function playWrongGoodAnimation(callback){
+  resetAllActors();
+  const soul=document.getElementById('soul-scene');
+  const ammut=document.getElementById('ammut-scene');
+  void soul.offsetWidth;
+  soul.classList.add('anim-devour');
+  ammut.classList.add('anim-devour');
+  showBubble(pickLine(SOUL_LINES.goodWrong),'sad',1000,2200);
+  setTimeout(()=>{resetAllActors();if(callback)callback()},4400);
+}
+
+/* 오답 — 악인 오판: 악인 비웃으며 떠남 */
+function playWrongEvilAnimation(callback){
+  resetAllActors();
+  const soul=document.getElementById('soul-scene');
+  void soul.offsetWidth;
+  soul.classList.add('anim-wrong');
+  showBubble(pickLine(SOUL_LINES.evilWrong),'evil',600,2200);
+  setTimeout(()=>{resetAllActors();if(callback)callback()},3800);
+}
+
+/* ============================================================
+   ITEM SYSTEM — 신의 축복
+   ============================================================ */
+const ITEMS={
+  eye:   {icon:'👁️',  label:'눈',  name:'호루스의 눈',       desc:'오답 2개를 제거한다',       color:'#4fc3f7'},
+  book:  {icon:'📜', label:'서',  name:'토트의 서',         desc:'10초간 시간을 멈춘다',      color:'#ab47bc'},
+  nile:  {icon:'💧', label:'축복',name:'나일강의 축복',     desc:'오답 시 생명 1회 보호',     color:'#66bb6a'},
+  bastet:{icon:'🔍', label:'힌트',name:'바스테트의 돋보기', desc:'공약수 힌트를 보여준다',    color:'#ffa726'},
+  ra:    {icon:'☀️',  label:'심판',name:'라(Ra)의 심판',     desc:'정답을 황금빛으로 밝힌다',  color:'#ffd54f'},
+};
+
+function initItems(){
+  G.items={eye:0,book:0,nile:0,bastet:0,ra:0};
+  G.nileShield=false;
+  G.timerFrozen=false;
+  G.popoverPause=false;
+  G.lastRewardCombo=0;
+  G.pendingItemReward=false;
+  G.pendingItemIsRa=false;
+  renderItemBar();
+}
+
+function renderItemBar(){
+  const bar=document.getElementById('item-bar');
+  if(!bar)return;
+  bar.innerHTML='';
+  const keys=['eye','book','nile','bastet','ra'];
+  keys.forEach(k=>{
+    const it=ITEMS[k];
+    const count=G.items[k]||0;
+    const slot=document.createElement('button');
+    slot.className='item-slot'+(count<=0?' empty':'');
+    slot.title=it.name+': '+it.desc;
+    slot.dataset.item=k;
+    let extra='';
+    if(k==='nile'&&G.nileShield) extra='<span class="nile-active">\u{1F6E1}️</span>';
+    slot.innerHTML='<span class="item-icon">'+it.icon+'</span><span class="item-label">'+it.label+'</span>'+extra+'<span class="item-count">'+count+'</span>';
+    slot.disabled=(count<=0||G.answered);
+    if(k==='nile'){
+      slot.disabled=true;
+      slot.style.cursor='default';
+    } else {
+      slot.onclick=()=>showItemPopover(k);
+    }
+    bar.appendChild(slot);
+  });
+}
+
+function checkItemReward(){
+  if(G.combo>0 && G.combo%5===0 && G.combo>G.lastRewardCombo){
+    G.lastRewardCombo=G.combo;
+    G.pendingItemReward=true;
+    G.pendingItemIsRa=(G.combo%10===0);
+  }
+}
+
+function showItemPopup(includeRa){
+  const popup=document.getElementById('item-popup');
+  const card=document.getElementById('item-popup-card');
+  if(!popup||!card)return;
+
+  let html='<div class="item-popup-title">\u{132B9} 신의 축복을 선택하라</div>';
+  html+='<div class="item-popup-subtitle">'+G.combo+'콤보 달성! 아이템을 하나 선택하세요.</div>';
+  html+='<div class="item-options">';
+
+  const available=['eye','book','nile','bastet'];
+  if(includeRa) available.push('ra');
+
+  available.forEach(k=>{
+    const it=ITEMS[k];
+    const cur=G.items[k]||0;
+    const maxed=cur>=3;
+    html+='<button class="item-option'+(maxed?' maxed':'')+'" onclick="pickItem(\''+k+'\')" '+(maxed?'disabled':'')+' style="--item-color:'+it.color+'">'
+      +'<span class="item-opt-icon">'+it.icon+'</span>'
+      +'<div class="item-opt-info">'
+      +'<div class="item-opt-name">'+it.name+(k==='ra'?' ⭐':'')+'</div>'
+      +'<div class="item-opt-desc">'+it.desc+'</div>'
+      +(maxed?'<div class="item-opt-max">최대 보유</div>':'<div class="item-opt-count">보유: '+cur+'/3</div>')
+      +'</div></button>';
+  });
+
+  html+='</div>';
+  card.innerHTML=html;
+  popup.classList.add('show');
+}
+
+function pickItem(key){
+  if((G.items[key]||0)>=3)return;
+  G.items[key]=(G.items[key]||0)+1;
+  if(key==='nile') G.nileShield=true;
+  document.getElementById('item-popup').classList.remove('show');
+  renderItemBar();
+  const it=ITEMS[key];
+  showMsg('success',it.icon+' '+it.name+' 획득! (보유: '+G.items[key]+'/3)');
+  G.round++;updateHUD();checkTitlePromotion();newRound();
+}
+
+/* 아이템 팝오버 (탭 → 설명 → 사용 확인) */
+function showItemPopover(key){
+  if(G.answered||!G.items[key]||G.items[key]<=0)return;
+  closeItemPopover(); // 기존 팝오버 닫기
+  const it=ITEMS[key];
+  const slot=document.querySelector('.item-slot[data-item="'+key+'"]');
+  if(!slot)return;
+
+  /* 타이머 일시정지 */
+  G.popoverPause=true;
+
+  /* 백드롭 + 중앙 팝오버 */
+  const backdrop=document.createElement('div');
+  backdrop.className='item-popover-backdrop';
+  backdrop.id='popover-backdrop';
+  backdrop.onclick=(e)=>{if(e.target===backdrop)closeItemPopover();};
+  document.body.appendChild(backdrop);
+
+  const pop=document.createElement('div');
+  pop.className='item-popover';
+  pop.id='active-popover';
+  pop.innerHTML=
+    '<span class="pop-icon">'+it.icon+'</span>'+
+    '<div class="pop-name">'+it.name+'</div>'+
+    '<div class="pop-desc">'+it.desc+'</div>'+
+    '<div class="pop-stock">보유: '+G.items[key]+'/3</div>'+
+    '<div class="pop-btns">'+
+      '<button class="pop-use" id="pop-use-btn">⚡ 사용</button>'+
+      '<button class="pop-close" id="pop-close-btn">취소</button>'+
+    '</div>';
+  backdrop.appendChild(pop);
+
+  document.getElementById('pop-use-btn').onclick=(e)=>{
+    e.stopPropagation();
+    closeItemPopover();
+    useItem(key);
+  };
+  document.getElementById('pop-close-btn').onclick=(e)=>{
+    e.stopPropagation();
+    closeItemPopover();
+  };
+  pop.onclick=(e)=>e.stopPropagation();
+}
+
+function closeItemPopover(){
+  const bd=document.getElementById('popover-backdrop');
+  if(bd)bd.remove();
+  G.popoverPause=false;
+}
+
+function useItem(key){
+  if(G.answered||!G.items[key]||G.items[key]<=0)return;
+  switch(key){
+    case 'eye': useEyeOfHorus(); break;
+    case 'book': useBookOfThoth(); break;
+    case 'bastet': useBastetMagnifier(); break;
+    case 'ra': useRaJudgment(); break;
+  }
+  G.items[key]--;
+  renderItemBar();
+  showItemUseEffect(ITEMS[key].icon);
+}
+
+function showItemUseEffect(icon){
+  const eff=document.createElement('div');
+  eff.className='item-use-effect';
+  eff.textContent=icon;
+  document.getElementById('item-bar').appendChild(eff);
+  setTimeout(()=>eff.remove(),1200);
+}
+
+function useEyeOfHorus(){
+  const btns=document.querySelectorAll('.choice-btn');
+  const wrongIdxs=[];
+  btns.forEach((b,i)=>{
+    if(i!==G.correctIdx && !b.classList.contains('eliminated')) wrongIdxs.push(i);
+  });
+  for(let i=wrongIdxs.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [wrongIdxs[i],wrongIdxs[j]]=[wrongIdxs[j],wrongIdxs[i]];
+  }
+  const toRemove=wrongIdxs.slice(0,2);
+  toRemove.forEach(idx=>{
+    btns[idx].classList.add('eliminated');
+    btns[idx].disabled=true;
+    if(G.selectedIdx===idx){
+      G.selectedIdx=-1;
+      document.getElementById('btn-place').disabled=true;
+      btns[idx].classList.remove('selected');
+    }
+  });
+}
+
+function useBookOfThoth(){
+  if(G.timerFrozen)return;
+  G.timerFrozen=true;
+  const timerFill=document.getElementById('timer-fill');
+  timerFill.classList.add('timer-frozen');
+  setTimeout(()=>{
+    G.timerFrozen=false;
+    timerFill.classList.remove('timer-frozen');
+  },10000);
+}
+
+function useBastetMagnifier(){
+  const n=G.heartNum, d=G.heartDen;
+  const factors=[];
+  for(let f=2;f<=Math.min(n,d);f++){
+    if(n%f===0 && d%f===0) factors.push(f);
+    if(factors.length>=5) break;
+  }
+  const container=document.getElementById('hint-factors');
+  if(!container)return;
+  container.innerHTML='';
+  container.style.display='flex';
+  factors.forEach((f,i)=>{
+    const span=document.createElement('span');
+    span.className='hint-factor';
+    span.textContent=f;
+    span.style.animationDelay=(i*0.15)+'s';
+    container.appendChild(span);
+  });
+  setTimeout(()=>{
+    container.style.display='none';
+    container.innerHTML='';
+  },8000);
+}
+
+function useRaJudgment(){
+  const btns=document.querySelectorAll('.choice-btn');
+  btns[G.correctIdx].classList.add('ra-glow');
+  setTimeout(()=>{
+    btns[G.correctIdx].classList.remove('ra-glow');
+  },3000);
+}
+
+function tryNileShield(){
+  if(G.nileShield && G.items.nile>0){
+    G.items.nile--;
+    G.nileShield=(G.items.nile>0);
+    renderItemBar();
+    showItemUseEffect('\u{13216}');
+    showMsg('success','\u{13216} 나일강의 축복이 생명을 보호했다!');
+    return true;
+  }
+  return false;
 }
 
 function startGame(){
   document.getElementById('start-screen').style.display='none';
   document.getElementById('game-screen').style.display='flex';
-  G.round=1;G.score=0;G.lives=3;G.combo=0;
-  updateHUD();newRound();
+  G.round=1;G.score=0;G.lives=3;G.combo=0;G.titleIdx=0;
+  initItems();
+  /* 세션 연속 기록 초기화 (영구 기록은 유지) */
+  ACH_STATS.perfectStreak=0;ACH_STATS.clutchSurvive=0;
+  ACH_STATS.goodStreak=0;ACH_STATS.evilStreak=0;
+  saveStats(ACH_STATS);
+  updateTitleHUD();updateHUD();newRound();
 }
 
 function newRound(){
   G.answered=false;G.selectedIdx=-1;
   anubisIdle();heartGlow(false);showFeatherOnDish(false);
-  setBeamAngle(4);resetDevourActors();
+  setBeamAngle(4);resetAllActors();
 
   G.isGood=Math.random()<0.5;
   const pool=G.isGood?GOOD_RECORDS:EVIL_RECORDS;
@@ -815,8 +1947,12 @@ function newRound(){
   renderChoices();
   document.getElementById('btn-place').disabled=true;
   startTimer();
+  trackSoulSeen(soul.name);
   showMsg('info',`제 ${G.round} 재판: ${soul.name}의 심장을 저울에 올렸다.`);
   setTimeout(anubisBlink,600);
+  const hf=document.getElementById('hint-factors');
+  if(hf){hf.style.display='none';hf.innerHTML='';}
+  renderItemBar();
 }
 
 function renderChoices(){
@@ -927,12 +2063,14 @@ function onPlace(){
       G.combo++;
       const earned=100+Math.round(G.timeLeft*3)+G.combo*15+G.round*10;
       G.score+=earned;
+      trackCorrectAnswer(G.timeLeft,G.heartNum,G.heartDen,G.isGood,G.combo,earned);
+      checkItemReward();
       anubisNod();heartGlow(G.isGood);
       if(G.isGood){
         showMsg('success',`✨ 수평! ${chosen.n}/${chosen.d} = ${G.heartNum}/${G.heartDen}  +${earned}점`);
-        setTimeout(()=>showResult('heaven',
+        setTimeout(()=>playHeavenAnimation(()=>showResult('heaven',
           `${chosen.n}/${chosen.d}은(는) ${G.heartNum}/${G.heartDen}과 같은 값!`,
-          `영혼이 오시리스의 왕국으로 들어간다.`),700);
+          `영혼이 오시리스의 왕국으로 들어간다.`)),700);
       } else {
         showMsg('success',`🐊 기울어짐! ${chosen.n}/${chosen.d} ≠ ${G.heartNum}/${G.heartDen}  +${earned}점`);
         setTimeout(()=>playDevourAnimation(()=>showResult('devour',
@@ -940,13 +2078,26 @@ function onPlace(){
           `악인의 심장은 암무트에게 넘겨졌다.`)),700);
       }
     } else {
-      G.combo=0;G.lives--;G.score=Math.max(0,G.score-50);
+      G.combo=0;
+      const shielded=tryNileShield();
+      if(!shielded){G.lives--;G.score=Math.max(0,G.score-50);}
+      else{G.score=Math.max(0,G.score-25);}
+      trackWrongAnswer(G.isGood);
       anubisPoint();
-      showMsg('fail','❌ 잘못된 판정! 생명 -1, -50점');
+      if(shielded) showMsg('fail','❌ 잘못된 판정! 나일강의 축복이 생명을 보호! -25점');
+      else showMsg('fail','❌ 잘못된 판정! 생명 -1, -50점');
       const[sn,sd]=simplify(G.heartNum,G.heartDen);
-      setTimeout(()=>showResult('wrong',
-        `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (${G.isGood?'=':'≠'} ${sn}/${sd})`,
-        G.isGood?'선인을 잘못 처단하였다!':'악인을 놓쳐버렸다!'),700);
+      if(G.isGood){
+        /* 선인 오판 → 암무트에게 넘어감 + 슬픈 말풍선 */
+        setTimeout(()=>playWrongGoodAnimation(()=>showResult('wrong',
+          `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (= ${sn}/${sd})`,
+          '선인을 잘못 처단하였다!\n무고한 영혼이 암무트에게 넘겨졌다…')),700);
+      }else{
+        /* 악인 오판 → 저울 수평이라 오시리스가 데려감 */
+        setTimeout(()=>playHeavenAnimation(()=>showResult('wrong',
+          `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (≠ ${sn}/${sd})`,
+          '악인을 놓쳐버렸다!\n오시리스가 악인을 천국으로 데려갔다…'),true),700);
+      }
     }
     updateHUD();
     if(G.lives<=0)setTimeout(gameOver,1600);
@@ -982,12 +2133,20 @@ function onResultContinue(){
     document.getElementById('start-screen').style.display='flex';
     return;
   }
-  G.round++;updateHUD();newRound();
+  if(G.pendingItemReward){
+    G.pendingItemReward=false;
+    showItemPopup(G.pendingItemIsRa);
+    return;
+  }
+  G.round++;updateHUD();checkTitlePromotion();newRound();
 }
 
 function gameOver(){
   clearInterval(G.timerInterval);
-  showResult('wrong','재판 종료',`그대의 심판은 끝났다.\n최종 점수: ${G.score}점 | 라운드: ${G.round}`);
+  trackGameOver();
+  const t=TITLES[G.titleIdx];
+  const achvCount=ACH_UNLOCKED.length;
+  showResult('wrong','재판 종료',`그대의 심판은 끝났다.\n최종 칭호: ${t.icon} ${t.name}\n최종 점수: ${G.score}점 | 라운드: ${G.round}\n업적: ${achvCount}/${ACHIEVEMENTS.length} 달성`);
 }
 
 function updateHUD(){
