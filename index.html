@@ -51,10 +51,10 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 #start-screen{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  text-align:center;gap:10px;padding:16px;
+  text-align:center;gap:6px;padding:12px;
   background:radial-gradient(ellipse at center,#2c1e12 0%,var(--ink) 70%);
 }
-#start-screen .start-anubis{width:min(200px,32vw);height:auto;filter:drop-shadow(0 0 30px rgba(201,169,97,.6));border-radius:12px;}
+#start-screen .start-anubis{width:min(380px,42vw);max-height:62vh;object-fit:contain;filter:drop-shadow(0 0 30px rgba(201,169,97,.6));border-radius:12px;}
 #start-screen h2{font-size:clamp(1.1rem,3vw,1.5rem);color:var(--gold)}
 #start-screen p{font-size:clamp(.7rem,1.6vw,.85rem);color:#b8a070;max-width:500px;line-height:1.7}
 .start-btn{
@@ -215,11 +215,12 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   100%{opacity:0;transform:translate(140px,170px) scale(0.01)}
 }
 @keyframes ammutSequence{
-  0%{opacity:0;transform:translate(620px,80px) scale(0.42)}
-  28%{opacity:1;transform:translate(130px,80px) scale(0.42)}
-  78%{opacity:1;transform:translate(130px,80px) scale(0.42)}
-  100%{opacity:0;transform:translate(620px,80px) scale(0.42)}
+  0%{opacity:0;transform:translate(720px,230px) scale(0.9)}
+  28%{opacity:1;transform:translate(180px,230px) scale(0.9)}
+  78%{opacity:1;transform:translate(180px,230px) scale(0.9)}
+  100%{opacity:0;transform:translate(720px,230px) scale(0.9)}
 }
+/* jawChomp disabled — PNG image has no separate jaw element
 @keyframes jawChomp{
   0%,100%{transform:rotate(0)}
   20%{transform:rotate(15deg)}
@@ -227,9 +228,10 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   65%{transform:rotate(12deg)}
   85%{transform:rotate(0)}
 }
+#ammut-jaw-lower.anim-chomp{animation:jawChomp .6s ease 2 both}
+*/
 #soul-scene.anim-devour{animation:soulSequence 3s ease both}
 #ammut-scene.anim-devour{animation:ammutSequence 2.8s ease .4s both}
-#ammut-jaw-lower.anim-chomp{animation:jawChomp .6s ease 2 both}
 
 /* Responsive */
 @media (max-width:700px),(max-aspect-ratio:4/3){
@@ -308,8 +310,8 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
           <!-- ANUBIS (png image) -->
           <image id="anubis-image" href="anubis.png"
-            x="-510" y="-158" width="480" height="650"
-            preserveAspectRatio="xMidYMid meet"
+            x="-520" y="-158" width="370" height="720"
+            preserveAspectRatio="xMidYMax meet"
             style="mix-blend-mode:screen"/>
 
           <!-- SCALE SET -->
@@ -353,7 +355,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
                 <path d="M-322 100 Q-260 138 -198 100 Q-260 156 -322 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
                 <ellipse cx="-260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"/>
                 <!-- HEART on dish -->
-                <g id="heart-on-dish" transform="translate(-260,40) scale(0.5)">
+                <g id="heart-on-dish" transform="translate(-260,52) scale(0.5)">
                   <g id="heart-glow" opacity="0">
                     <circle r="105" fill="#c9a961" opacity="0.25"/><circle r="80" fill="#c9a961" opacity="0.35"/>
                   </g>
@@ -388,7 +390,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
                 <path d="M198 100 Q260 138 322 100 Q260 156 198 100 Z" class="gold" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
                 <ellipse cx="260" cy="100" rx="62" ry="8" class="gold-deep" stroke="#1a1410" stroke-width="3"/>
                 <!-- Feather on dish (shown after placing) -->
-                <g id="feather-on-dish" transform="translate(260,30) scale(0.45)" opacity="0">
+                <g id="feather-on-dish" transform="translate(260,56) scale(0.45)" opacity="0">
                   <path d="M0 -90 Q-35 -45 -38 25 Q-35 65 -8 78 Q0 80 8 78 Q35 65 38 25 Q35 -45 0 -90 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
                   <line x1="0" y1="-82" x2="0" y2="76" stroke="#1a1410" stroke-width="2.5"/>
                   <g stroke="#1a1410" stroke-width="2" fill="none">
@@ -448,77 +450,10 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
           <!-- AMMUT (hidden, enters during devour) -->
           <g id="ammut-scene" opacity="0">
-            <!-- tail -->
-            <path d="M620 280 Q670 270 690 240 Q700 215 685 200 Q670 195 660 215 Q655 230 645 240 Q625 250 615 270 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M685 200 Q692 188 688 178 Q695 180 700 170 Q705 178 705 188 Q712 184 712 195 Q705 205 690 205 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3" stroke-linejoin="round"/>
-            <!-- hindquarters + legs -->
-            <path d="M460 230 Q530 215 580 235 Q625 255 630 295 Q625 340 600 365 Q575 385 540 385 L470 385 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M580 360 L585 440 L565 455 L540 455 L538 360 Z" fill="#6e6258" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M540 455 L540 470 L568 470 L568 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
-            <path d="M510 365 L510 440 L488 455 L462 455 L466 365 Z" fill="#4a4038" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M462 455 L462 470 L492 470 L492 455 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
-            <!-- body -->
-            <path d="M230 260 Q220 230 250 220 Q320 205 400 215 Q470 225 480 260 L480 350 Q470 380 430 385 L280 385 Q235 380 225 350 Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M460 230 Q470 280 470 360" fill="none" stroke="#1a1410" stroke-width="3"/>
-            <path d="M280 370 Q360 385 430 372 L425 385 L285 385 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
-            <!-- forelegs -->
-            <path d="M360 360 L358 445 L340 458 L318 458 L318 360 Z" fill="#a87a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M318 458 L314 472 L348 472 L344 458 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
-            <path d="M290 360 L280 450 L258 462 L232 462 L240 360 Z" fill="#d4a574" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M232 462 L226 478 L264 478 L258 462 Z" fill="#1a1410" stroke="#1a1410" stroke-width="3"/>
-            <!-- mane -->
-            <path d="M270 220 L258 200 L248 222 L235 205 L224 230 L210 218 L205 245 L195 235 L195 265 L180 260 L188 285 L175 285 L195 305 L185 320 L210 320 L200 345 L230 335 L230 360 L260 350 L270 380 L290 360 Q300 290 295 230 Z" fill="#a0432a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <path d="M240 240 Q250 270 245 310" fill="none" stroke="#6e2d18" stroke-width="2.5"/>
-            <path d="M215 250 Q220 285 215 320" fill="none" stroke="#6e2d18" stroke-width="2.5"/>
-            <path d="M265 235 Q273 280 268 340" fill="none" stroke="#6e2d18" stroke-width="2"/>
-            <!-- head + ear -->
-            <path d="M270 220 Q268 250 290 260 L280 235 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <!-- crown -->
-            <circle cx="195" cy="135" r="22" fill="#c9a961" stroke="#1a1410" stroke-width="4"/>
-            <circle cx="195" cy="135" r="11" fill="#a0432a" stroke="#1a1410" stroke-width="3"/>
-            <path d="M175 145 Q158 130 152 95 Q156 75 168 70 Q178 75 180 95 Q184 125 188 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
-            <path d="M215 145 Q232 130 238 95 Q234 75 222 70 Q212 75 210 95 Q206 125 202 150 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3.5" stroke-linejoin="round"/>
-            <line x1="195" y1="157" x2="195" y2="178" stroke="#1a1410" stroke-width="3"/>
-            <!-- upper jaw -->
-            <path d="M280 200 Q245 175 215 178 Q195 175 192 195 Q195 205 210 207 L175 215 Q150 218 125 222 Q90 230 60 235 Q35 240 30 250 Q28 258 38 262 Q70 262 110 258 Q145 252 180 248 Q230 240 270 230 Q290 224 290 210 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-            <g fill="#3a5230" stroke="#1a1410" stroke-width="2">
-              <path d="M240 200 Q245 195 252 200 Q248 204 240 200 Z"/>
-              <path d="M215 198 Q220 192 228 198 Q222 202 215 198 Z"/>
-              <path d="M160 215 Q167 210 175 217 Q168 220 160 215 Z"/>
-              <path d="M100 232 Q108 228 116 234 Q108 237 100 232 Z"/>
-              <path d="M70 240 Q78 236 86 242 Q78 245 70 240 Z"/>
-            </g>
-            <ellipse cx="50" cy="248" rx="5" ry="3" fill="#1a1410"/>
-            <ellipse cx="42" cy="252" rx="3" ry="2" fill="#1a1410"/>
-            <!-- upper teeth -->
-            <g fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
-              <path d="M60 262 L65 275 L70 262 Z"/><path d="M85 262 L90 278 L96 262 Z"/>
-              <path d="M115 260 L120 275 L126 260 Z"/><path d="M145 257 L150 272 L156 257 Z"/>
-              <path d="M175 252 L180 270 L186 252 Z"/><path d="M205 246 L210 264 L217 246 Z"/>
-              <path d="M235 240 L241 258 L248 240 Z"/>
-            </g>
-            <!-- eye -->
-            <path d="M222 195 Q240 185 260 195 Q240 203 222 195 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
-            <ellipse cx="244" cy="195" rx="6" ry="6" fill="#1a1410"/>
-            <ellipse cx="244" cy="195" rx="2" ry="5.5" fill="#c9a961"/>
-            <path d="M222 195 Q240 184 262 195 L270 198" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"/>
-            <path d="M240 203 L234 213" fill="none" stroke="#1a1410" stroke-width="3" stroke-linecap="round"/>
-            <path d="M220 178 Q240 173 264 180" fill="none" stroke="#1a1410" stroke-width="3.5" stroke-linecap="round"/>
-            <!-- lower jaw (animated) -->
-            <g id="ammut-jaw-lower">
-              <path d="M285 245 Q250 258 215 262 Q175 268 135 272 Q90 277 55 282 Q35 285 32 290 Q32 300 50 302 Q95 302 140 296 Q185 290 230 282 Q270 274 285 265 Z" fill="#5a7a4a" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-              <g fill="#3a5230" stroke="#1a1410" stroke-width="1.8">
-                <ellipse cx="80" cy="293" rx="6" ry="3"/><ellipse cx="115" cy="290" rx="6" ry="3"/>
-                <ellipse cx="150" cy="287" rx="6" ry="3"/><ellipse cx="190" cy="280" rx="6" ry="3"/>
-                <ellipse cx="230" cy="274" rx="6" ry="3"/>
-              </g>
-              <g fill="#efe2c2" stroke="#1a1410" stroke-width="2.5" stroke-linejoin="round">
-                <path d="M60 282 L64 270 L70 282 Z"/><path d="M90 280 L94 267 L100 280 Z"/>
-                <path d="M122 277 L126 264 L132 277 Z"/><path d="M154 273 L158 260 L164 273 Z"/>
-                <path d="M188 268 L192 254 L198 268 Z"/><path d="M222 262 L226 248 L232 262 Z"/>
-              </g>
-            </g>
-            <path d="M260 200 Q275 192 290 198" fill="none" stroke="#c9a961" stroke-width="4"/>
+            <image href="ammut.png"
+              x="0" y="0" width="720" height="420"
+              preserveAspectRatio="xMinYMid meet"
+              style="mix-blend-mode:screen"/>
           </g>
 
         </svg>
@@ -811,21 +746,20 @@ function timeOut(){
 function playDevourAnimation(callback){
   const soul=document.getElementById('soul-scene');
   const ammut=document.getElementById('ammut-scene');
-  const jaw=document.getElementById('ammut-jaw-lower');
   resetDevourActors();
   void soul.offsetWidth;
   soul.classList.add('anim-devour');
   ammut.classList.add('anim-devour');
-  setTimeout(()=>{if(jaw)jaw.classList.add('anim-chomp')},1800);
+  // jaw chomp disabled — PNG image has no separate jaw element
+  // setTimeout(()=>{if(jaw)jaw.classList.add('anim-chomp')},1800);
   setTimeout(()=>{resetDevourActors();if(callback)callback()},3400);
 }
 function resetDevourActors(){
   const s=document.getElementById('soul-scene');
   const a=document.getElementById('ammut-scene');
-  const j=document.getElementById('ammut-jaw-lower');
   if(s)s.classList.remove('anim-devour');
   if(a)a.classList.remove('anim-devour');
-  if(j)j.classList.remove('anim-chomp');
+  // if(j)j.classList.remove('anim-chomp');
 }
 
 function startGame(){
