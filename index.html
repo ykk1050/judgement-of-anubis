@@ -591,6 +591,7 @@ function buildWrongYakbun(hN,hD){
     if(a===b)continue; // 같은 수로 나누면 진짜 약분 → 제외
     const fn=hN/a,fd=hD/b;
     if(fn<1||fd<1||fn>=fd)continue; // 진분수만
+    if(fd===hD)continue;            // 심장과 같은 분모 제외
     if(isEq(fn,fd,hN,hD))continue;
     const[sf,sg]=simplify(fn,fd);
     const k=sf+'/'+sg;
