@@ -54,7 +54,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   text-align:center;gap:10px;padding:16px;
   background:radial-gradient(ellipse at center,#2c1e12 0%,var(--ink) 70%);
 }
-#start-screen .start-anubis{width:min(180px,30vw);height:auto;filter:drop-shadow(0 0 30px rgba(201,169,97,.4))}
+#start-screen .start-anubis{width:min(200px,32vw);height:auto;filter:drop-shadow(0 0 30px rgba(201,169,97,.6));border-radius:12px;}
 #start-screen h2{font-size:clamp(1.1rem,3vw,1.5rem);color:var(--gold)}
 #start-screen p{font-size:clamp(.7rem,1.6vw,.85rem);color:#b8a070;max-width:500px;line-height:1.7}
 .start-btn{
@@ -67,12 +67,12 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 .start-btn:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(201,169,97,.6)}
 
 /* ====== GAME SCREEN ====== */
-#game-screen{display:none;flex:1;overflow:hidden}
-.game-layout{display:flex;width:100%;height:100%;overflow:hidden}
+#game-screen{display:none;flex:1;overflow:hidden;width:100%}
+.game-layout{display:flex;height:100%;overflow:hidden;width:100%}
 
 /* -- LEFT PANEL (scene) -- */
 .left-panel{
-  flex:1 1 65%;display:flex;flex-direction:column;
+  flex:1;display:flex;flex-direction:column;
   padding:4px 6px;min-width:0;overflow:hidden;
   background:radial-gradient(ellipse at 50% 70%,#2c1e12,var(--ink));
 }
@@ -110,7 +110,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 /* -- RIGHT PANEL -- */
 .right-panel{
-  width:clamp(220px,28vw,320px);flex-shrink:0;
+  width:clamp(260px,38vw,380px);flex-shrink:0;
   background:linear-gradient(180deg,#2c1e12,var(--ink));
   border-left:3px solid var(--gold-deep);
   display:flex;flex-direction:column;padding:6px 8px;gap:4px;
@@ -129,14 +129,14 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 /* Feather choices — horizontal compact grid */
 .choices{
   display:grid;grid-template-columns:repeat(5,1fr);
-  gap:4px;flex:1;align-content:center;
+  gap:4px;flex:1;align-content:stretch;
 }
 .choice-btn{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;padding:4px 2px;border-radius:10px;cursor:pointer;
+  gap:4px;padding:8px 2px;border-radius:10px;cursor:pointer;
   border:2px solid #5a3e2b;background:rgba(61,43,31,.3);
   transition:all .2s;font-family:inherit;color:var(--papyrus);
-  aspect-ratio:1/1.05;min-height:0;position:relative;
+  min-height:100px;position:relative;
 }
 .choice-btn:hover{border-color:var(--gold);background:rgba(201,169,97,.12)}
 .choice-btn:active{transform:scale(.95)}
@@ -149,7 +149,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   transition:all .7s cubic-bezier(.25,.46,.45,.94);
 }
 
-.choice-feather-svg{width:28px;height:40px;flex-shrink:0}
+.choice-feather-svg{width:34px;height:52px;flex-shrink:0}
 .choice-frac-col{display:flex;flex-direction:column;align-items:center}
 .choice-frac-col .cf-num,.choice-frac-col .cf-den{font-size:clamp(.7rem,1.5vw,1rem);font-weight:900;line-height:1.1}
 .choice-frac-col .cf-bar{width:22px;height:2px;background:var(--papyrus);border-radius:2px}
@@ -194,6 +194,11 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 }
 .result-btn:hover{transform:scale(1.05)}
 
+/* Anubis animation classes */
+#anubis-arm-front{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:270px 162px}
+#anubis-arm-back{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:135px 160px}
+#anubis-head{transition:transform .4s cubic-bezier(.4,1.5,.5,1);transform-origin:195px 140px}
+#anubis-eye{transition:transform .12s;transform-origin:220px 91px}
 #scale-beam{transition:transform .7s cubic-bezier(.4,1.5,.5,1)}
 #heart-glow{transition:opacity .6s}
 
@@ -254,7 +259,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 <!-- ==================== START ==================== -->
 <div id="start-screen">
-  <img class="start-anubis" src="parts/anubis.png" alt="아누비스"/>
+  <img class="start-anubis" src="anubis.png" alt="아누비스">
   <h2>진실의 저울</h2>
   <p>
     그대는 재판관 아누비스.<br>
@@ -291,7 +296,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
         </div>
 
         <!-- MAIN SCENE SVG -->
-        <svg class="scene-svg" id="scene-svg" viewBox="-480 -100 920 700" preserveAspectRatio="xMidYMid meet">
+        <svg class="scene-svg" id="scene-svg" viewBox="-520 -160 1100 780" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#3d2b1f" stop-opacity="0.6"/>
@@ -301,8 +306,11 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
           <!-- floor shadow -->
           <ellipse cx="0" cy="560" rx="480" ry="40" fill="url(#gFloor)"/>
 
-          <!-- ANUBIS (PNG image) -->
-          <image href="parts/anubis.png" x="-480" y="-20" width="420" height="560" preserveAspectRatio="xMidYMid meet"/>
+          <!-- ANUBIS (png image) -->
+          <image id="anubis-image" href="anubis.png"
+            x="-510" y="-158" width="480" height="650"
+            preserveAspectRatio="xMidYMid meet"
+            style="mix-blend-mode:screen"/>
 
           <!-- SCALE SET -->
           <g transform="translate(100,50) scale(0.72)">
@@ -527,7 +535,6 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
       <div class="choices" id="choices"></div>
       <button class="confirm-btn btn-place" id="btn-place" onclick="onPlace()" disabled>⚖️ 저울에 올리기</button>
       <div class="msg-area"><div class="msg-box m-info" id="msg-box">깃털을 선택하라, 아누비스여.</div></div>
-      <div style="text-align:right;font-size:.45rem;color:#5a3e2b;padding:1px 4px;flex-shrink:0">v0.00011</div>
     </div>
 
   </div>
@@ -729,10 +736,31 @@ function setBeamAngle(deg){
 /* ============================================================
    ANUBIS ANIMATIONS
    ============================================================ */
-function anubisIdle(){}
-function anubisPoint(){}
-function anubisNod(){}
-function anubisBlink(){}
+function anubisIdle(){
+  const af=document.getElementById('anubis-arm-front');
+  const ab=document.getElementById('anubis-arm-back');
+  const h=document.getElementById('anubis-head');
+  if(af)af.style.transform='';
+  if(ab)ab.style.transform='';
+  if(h)h.style.transform='';
+}
+function anubisPoint(){
+  const af=document.getElementById('anubis-arm-front');
+  if(af)af.style.transform='rotate(-22deg)';
+}
+function anubisNod(){
+  const h=document.getElementById('anubis-head');
+  if(!h)return;
+  h.style.transform='rotate(-8deg)';
+  setTimeout(()=>h.style.transform='rotate(4deg)',400);
+  setTimeout(()=>h.style.transform='',800);
+}
+function anubisBlink(){
+  const e=document.getElementById('anubis-eye');
+  if(!e)return;
+  e.style.transform='scaleY(0.05)';
+  setTimeout(()=>e.style.transform='',150);
+}
 function heartGlow(on){
   const g=document.getElementById('heart-glow');
   if(g)g.setAttribute('opacity',on?'1':'0');
@@ -888,12 +916,19 @@ function onPlace(){
   // ---- FLY ANIMATION: selected feather flies to dish ----
   const selBtn=btns[sel];
   const btnRect=selBtn.getBoundingClientRect();
-  // target: approximate position of right dish in viewport
-  const sceneSvg=document.getElementById('scene-svg');
-  const svgRect=sceneSvg.getBoundingClientRect();
-  // dish-right is roughly at 72% x, 30% y of the scene SVG
-  const targetX=svgRect.left+svgRect.width*0.62;
-  const targetY=svgRect.top+svgRect.height*0.25;
+  // target: actual bounding rect of the right dish
+  const dishEl=document.getElementById('dish-right');
+  let targetX,targetY;
+  if(dishEl){
+    const dishRect=dishEl.getBoundingClientRect();
+    targetX=dishRect.left+dishRect.width/2;
+    targetY=dishRect.top+dishRect.height*0.4;
+  }else{
+    const sceneSvg=document.getElementById('scene-svg');
+    const svgRect=sceneSvg.getBoundingClientRect();
+    targetX=svgRect.left+svgRect.width*0.72;
+    targetY=svgRect.top+svgRect.height*0.35;
+  }
 
   // Clone the button for flying
   const flyClone=selBtn.cloneNode(true);
