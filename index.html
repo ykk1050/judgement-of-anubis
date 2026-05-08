@@ -51,12 +51,22 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 #start-screen{
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  text-align:center;gap:6px;padding:12px;
+  text-align:center;gap:10px;padding:12px;
   background:radial-gradient(ellipse at center,#2c1e12 0%,var(--ink) 70%);
 }
-#start-screen .start-anubis{width:min(380px,42vw);max-height:62vh;object-fit:contain;filter:drop-shadow(0 0 30px rgba(201,169,97,.6));border-radius:12px;}
+#start-screen .start-anubis{width:min(380px,42vw);max-height:55dvh;object-fit:contain;filter:drop-shadow(0 0 30px rgba(201,169,97,.6));border-radius:12px;}
+.start-content{display:flex;flex-direction:column;align-items:center;gap:6px}
 #start-screen h2{font-size:clamp(1.1rem,3vw,1.5rem);color:var(--gold)}
 #start-screen p{font-size:clamp(.7rem,1.6vw,.85rem);color:#b8a070;max-width:500px;line-height:1.7}
+
+/* 태블릿 가로모드: 이미지 좌 / 텍스트+버튼 우 */
+@media (orientation:landscape) and (max-height:900px){
+  #start-screen{flex-direction:row;gap:24px;padding:10px 32px;justify-content:center;align-items:center}
+  #start-screen .start-anubis{max-height:86dvh;width:auto;flex-shrink:0}
+  .start-content{align-items:center;max-width:420px;gap:8px}
+  #start-screen p{font-size:clamp(.65rem,1.5vh,.82rem);line-height:1.5;max-width:none}
+  .start-btn{margin-top:4px;padding:10px 30px}
+}
 .start-btn{
   margin-top:6px;padding:11px 36px;font-size:clamp(.9rem,2.5vw,1.1rem);
   font-weight:900;font-family:inherit;
@@ -262,14 +272,16 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 <!-- ==================== START ==================== -->
 <div id="start-screen">
   <img class="start-anubis" src="anubis.png" alt="아누비스">
-  <h2>진실의 저울</h2>
-  <p>
-    그대는 재판관 아누비스.<br>
-    망자의 심장을 저울에 올리고, 진리의 깃털과 비교하라.<br><br>
-    <b>선인</b>이면 심장과 <b>같은 값</b>의 깃털을 골라 <b>수평</b>을 맞춰 구원하고,<br>
-    <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 암무트에게 넘겨라.
-  </p>
-  <button class="start-btn" onclick="startGame()">재판 시작 ⚖️</button>
+  <div class="start-content">
+    <h2>진실의 저울</h2>
+    <p>
+      그대는 재판관 아누비스.<br>
+      망자의 심장을 저울에 올리고, 진리의 깃털과 비교하라.<br><br>
+      <b>선인</b>이면 심장과 <b>같은 값</b>의 깃털을 골라 <b>수평</b>을 맞춰 구원하고,<br>
+      <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 암무트에게 넘겨라.
+    </p>
+    <button class="start-btn" onclick="startGame()">재판 시작 ⚖️</button>
+  </div>
 </div>
 
 <!-- ==================== GAME ==================== -->
