@@ -68,11 +68,11 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 /* ====== GAME SCREEN ====== */
 #game-screen{display:none;flex:1;overflow:hidden}
-.game-layout{display:flex;height:100%;overflow:hidden}
+.game-layout{display:flex;width:100%;height:100%;overflow:hidden}
 
 /* -- LEFT PANEL (scene) -- */
 .left-panel{
-  flex:1;display:flex;flex-direction:column;
+  flex:1 1 65%;display:flex;flex-direction:column;
   padding:4px 6px;min-width:0;overflow:hidden;
   background:radial-gradient(ellipse at 50% 70%,#2c1e12,var(--ink));
 }
@@ -110,7 +110,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 /* -- RIGHT PANEL -- */
 .right-panel{
-  width:clamp(260px,38vw,380px);flex-shrink:0;
+  width:clamp(220px,28vw,320px);flex-shrink:0;
   background:linear-gradient(180deg,#2c1e12,var(--ink));
   border-left:3px solid var(--gold-deep);
   display:flex;flex-direction:column;padding:6px 8px;gap:4px;
@@ -194,11 +194,6 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 }
 .result-btn:hover{transform:scale(1.05)}
 
-/* Anubis animation classes */
-#anubis-arm-front{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:270px 162px}
-#anubis-arm-back{transition:transform .5s cubic-bezier(.4,1.5,.5,1);transform-origin:135px 160px}
-#anubis-head{transition:transform .4s cubic-bezier(.4,1.5,.5,1);transform-origin:195px 140px}
-#anubis-eye{transition:transform .12s;transform-origin:220px 91px}
 #scale-beam{transition:transform .7s cubic-bezier(.4,1.5,.5,1)}
 #heart-glow{transition:opacity .6s}
 
@@ -259,14 +254,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 <!-- ==================== START ==================== -->
 <div id="start-screen">
-  <svg class="start-anubis" viewBox="100 0 220 320" width="180">
-    <g id="anubis-start">
-      <g><path d="M150 240 L143 310 L120 318 L195 318 L195 240 Z" fill="#1a1410"/><path d="M210 240 L228 310 L210 318 L290 318 L268 310 L262 240 Z" fill="#1a1410"/></g>
-      <g><path d="M115 180 L290 180 L310 250 L100 250 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/><rect x="115" y="170" width="175" height="16" fill="#a0432a" stroke="#1a1410" stroke-width="3"/></g>
-      <g><path d="M130 80 L275 80 L290 180 L115 180 Z" fill="#1a1410"/><path d="M150 92 Q200 120 255 92 L250 120 Q200 142 155 120 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/></g>
-      <g><path d="M150 35 Q145 15 165 10 Q190 2 215 8 L260 12 Q295 16 305 32 Q307 46 285 50 L255 54 Q252 70 230 82 L170 82 Q142 76 148 52 Z" fill="#1a1410"/><path d="M170 12 L160 -18 L195 8 Z" fill="#1a1410"/><path d="M188 5 L215 -25 L222 10 Z" fill="#1a1410"/><path d="M173 10 L168 -8 L188 5 Z" fill="#a0432a"/><path d="M196 5 L213 -15 L218 8 Z" fill="#a0432a"/><path d="M195 45 Q215 36 240 45 Q225 54 210 52 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="2"/><circle cx="220" cy="46" r="4" fill="#1a1410"/></g>
-    </g>
-  </svg>
+  <img class="start-anubis" src="parts/anubis.png" alt="아누비스"/>
   <h2>진실의 저울</h2>
   <p>
     그대는 재판관 아누비스.<br>
@@ -303,7 +291,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
         </div>
 
         <!-- MAIN SCENE SVG -->
-        <svg class="scene-svg" id="scene-svg" viewBox="-520 -160 1100 780" preserveAspectRatio="xMidYMid meet">
+        <svg class="scene-svg" id="scene-svg" viewBox="-480 -100 920 700" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="gFloor" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#3d2b1f" stop-opacity="0.6"/>
@@ -313,60 +301,8 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
           <!-- floor shadow -->
           <ellipse cx="0" cy="560" rx="480" ry="40" fill="url(#gFloor)"/>
 
-          <!-- ANUBIS (scaled, left side) -->
-          <g transform="translate(-440,-110) scale(0.85)">
-            <g id="anubis-legs">
-              <path d="M150 380 L143 540 L120 552 L195 552 L195 380 Z" fill="#1a1410"/>
-              <path d="M210 380 L228 552 L210 562 L290 562 L268 552 L262 380 Z" fill="#1a1410"/>
-              <path d="M115 555 Q105 552 100 558 L100 565 Q140 568 165 562 L165 555 Z" fill="#1a1410"/>
-              <path d="M205 562 Q195 560 190 568 L190 575 Q240 578 270 572 L270 562 Z" fill="#1a1410"/>
-            </g>
-            <g id="anubis-torso">
-              <path d="M115 295 L290 295 L310 400 L100 400 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-              <line x1="150" y1="305" x2="142" y2="395" stroke="#1a1410" stroke-width="2.5"/>
-              <line x1="190" y1="305" x2="188" y2="395" stroke="#1a1410" stroke-width="2.5"/>
-              <line x1="230" y1="305" x2="234" y2="395" stroke="#1a1410" stroke-width="2.5"/>
-              <line x1="270" y1="305" x2="278" y2="395" stroke="#1a1410" stroke-width="2.5"/>
-              <rect x="115" y="282" width="175" height="22" fill="#a0432a" stroke="#1a1410" stroke-width="4"/>
-              <rect x="130" y="289" width="9" height="9" fill="#efe2c2"/><rect x="160" y="289" width="9" height="9" fill="#efe2c2"/>
-              <rect x="190" y="289" width="9" height="9" fill="#efe2c2"/><rect x="220" y="289" width="9" height="9" fill="#efe2c2"/>
-              <rect x="250" y="289" width="9" height="9" fill="#efe2c2"/>
-              <path d="M130 145 L275 145 L290 295 L115 295 Z" fill="#1a1410"/>
-              <path d="M150 160 Q200 195 255 160 L250 195 Q200 220 155 195 Z" fill="#c9a961" stroke="#1a1410" stroke-width="4" stroke-linejoin="round"/>
-              <circle cx="172" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"/>
-              <circle cx="200" cy="200" r="6" fill="#a0432a" stroke="#1a1410" stroke-width="2.5"/>
-              <circle cx="228" cy="188" r="6" fill="#2c5f7a" stroke="#1a1410" stroke-width="2.5"/>
-            </g>
-            <g id="anubis-head">
-              <path d="M165 140 L240 140 L240 165 L165 165 Z" fill="#1a1410"/>
-              <path d="M150 80 Q145 55 165 48 Q190 38 215 45 L260 50 Q295 55 305 75 Q307 92 285 98 L255 102 Q252 122 230 138 L170 140 Q142 132 148 100 Z" fill="#1a1410"/>
-              <path d="M170 50 L160 12 L195 45 Z" fill="#1a1410"/><path d="M188 42 L215 8 L222 48 Z" fill="#1a1410"/>
-              <path d="M173 47 L168 25 L188 42 Z" fill="#a0432a"/><path d="M196 42 L213 18 L218 44 Z" fill="#a0432a"/>
-              <g id="anubis-eye">
-                <path d="M195 90 Q215 80 240 90 Q225 100 210 98 Z" fill="#efe2c2" stroke="#1a1410" stroke-width="3"/>
-                <circle cx="220" cy="91" r="5" fill="#1a1410"/>
-                <path d="M192 90 Q210 78 245 88 L255 95" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <path d="M225 98 L245 108" stroke="#1a1410" stroke-width="4" fill="none" stroke-linecap="round"/>
-              </g>
-            </g>
-            <g id="anubis-arm-back">
-              <path d="M125 160 L100 295 L122 300 L145 162 Z" fill="#1a1410"/>
-              <ellipse cx="108" cy="305" rx="14" ry="18" fill="#1a1410"/>
-              <rect x="93" y="288" width="32" height="12" fill="#c9a961" stroke="#1a1410" stroke-width="3"/>
-              <g transform="translate(108,315)">
-                <circle cx="0" cy="10" r="11" fill="#c9a961" stroke="#1a1410" stroke-width="4"/>
-                <circle cx="0" cy="10" r="5" fill="#f4e4bc" stroke="#1a1410" stroke-width="2.5"/>
-                <line x1="0" y1="21" x2="0" y2="55" stroke="#1a1410" stroke-width="4" stroke-linecap="round"/>
-                <line x1="-13" y1="35" x2="13" y2="35" stroke="#1a1410" stroke-width="4" stroke-linecap="round"/>
-              </g>
-            </g>
-            <g id="anubis-arm-front">
-              <path d="M270 162 L362 188 L370 210 L278 188 Z" fill="#1a1410"/>
-              <path d="M362 188 L390 130 L375 122 L350 184 Z" fill="#1a1410"/>
-              <path d="M378 130 Q392 120 395 110 Q392 102 384 105 Q378 112 372 124 Z" fill="#1a1410"/>
-              <path d="M353 178 L380 132 L390 138 L362 184 Z" fill="#c9a961" stroke="#1a1410" stroke-width="3"/>
-            </g>
-          </g>
+          <!-- ANUBIS (PNG image) -->
+          <image href="parts/anubis.png" x="-480" y="-20" width="420" height="560" preserveAspectRatio="xMidYMid meet"/>
 
           <!-- SCALE SET -->
           <g transform="translate(100,50) scale(0.72)">
@@ -591,6 +527,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
       <div class="choices" id="choices"></div>
       <button class="confirm-btn btn-place" id="btn-place" onclick="onPlace()" disabled>⚖️ 저울에 올리기</button>
       <div class="msg-area"><div class="msg-box m-info" id="msg-box">깃털을 선택하라, 아누비스여.</div></div>
+      <div style="text-align:right;font-size:.45rem;color:#5a3e2b;padding:1px 4px;flex-shrink:0">v0.00011</div>
     </div>
 
   </div>
@@ -792,31 +729,10 @@ function setBeamAngle(deg){
 /* ============================================================
    ANUBIS ANIMATIONS
    ============================================================ */
-function anubisIdle(){
-  const af=document.getElementById('anubis-arm-front');
-  const ab=document.getElementById('anubis-arm-back');
-  const h=document.getElementById('anubis-head');
-  if(af)af.style.transform='';
-  if(ab)ab.style.transform='';
-  if(h)h.style.transform='';
-}
-function anubisPoint(){
-  const af=document.getElementById('anubis-arm-front');
-  if(af)af.style.transform='rotate(-22deg)';
-}
-function anubisNod(){
-  const h=document.getElementById('anubis-head');
-  if(!h)return;
-  h.style.transform='rotate(-8deg)';
-  setTimeout(()=>h.style.transform='rotate(4deg)',400);
-  setTimeout(()=>h.style.transform='',800);
-}
-function anubisBlink(){
-  const e=document.getElementById('anubis-eye');
-  if(!e)return;
-  e.style.transform='scaleY(0.05)';
-  setTimeout(()=>e.style.transform='',150);
-}
+function anubisIdle(){}
+function anubisPoint(){}
+function anubisNod(){}
+function anubisBlink(){}
 function heartGlow(on){
   const g=document.getElementById('heart-glow');
   if(g)g.setAttribute('opacity',on?'1':'0');
