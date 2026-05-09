@@ -1116,7 +1116,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   </div>
 </div>
 
-<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.00018</div>
+<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.00019</div>
 
 </div>
 
@@ -2049,6 +2049,7 @@ function buildWrongYakbun(hN,hD){
     const fn=hN/a,fd=hD/b;
     if(fn<1||fd<1||fn>=fd)continue; // 진분수만
     if(fd===hD)continue;            // 심장과 같은 분모 제외
+    if(fn*hD>=hN*fd)continue;       // 심장보다 무거운(값이 큰) 분수 제외
     if(isEq(fn,fd,hN,hD))continue;
     const[sf,sg]=simplify(fn,fd);
     const k=sf+'/'+sg;
