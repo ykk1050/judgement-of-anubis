@@ -1116,7 +1116,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   </div>
 </div>
 
-<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.00019</div>
+<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.0002</div>
 
 </div>
 
@@ -2870,7 +2870,7 @@ function startGame(){
 function newRound(){
   G.answered=false;G.selectedIdx=-1;
   anubisIdle();heartGlow(false);showFeatherOnDish(false);
-  setBeamAngle(4);resetAllActors();
+  setBeamAngle(-8);resetAllActors();
 
   G.isGood=Math.random()<0.5;
   const pool=G.isGood?GOOD_RECORDS:EVIL_RECORDS;
@@ -2997,8 +2997,9 @@ function onPlace(){
     showFeatherOnDish(true);
 
     // Animate scale
-    const targetAngle=eq?0:(chosen.n/chosen.d>G.heartNum/G.heartDen?12:-12);
-    let curAngle=4;const step=(targetAngle-curAngle)/20;let frame=0;
+    // 기약분수 = 수평(0), 가벼운 깃털 = 심장이 여전히 무겁지만 확실히 올라옴(-3)
+    const targetAngle=eq?0:-3;
+    let curAngle=-8;const step=(targetAngle-curAngle)/20;let frame=0;
     const anim=()=>{
       frame++;curAngle+=step;
       if(frame>=20)curAngle=targetAngle;
