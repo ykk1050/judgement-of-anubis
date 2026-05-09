@@ -102,6 +102,13 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   letter-spacing:2px;transition:all .2s;text-shadow:1px 1px 3px rgba(0,0,0,.5);
 }
 .start-btn:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(201,169,97,.6)}
+.continue-btn{
+  background:linear-gradient(135deg,#2e7d32,#388e3c)!important;
+  border-color:#66bb6a!important;font-size:clamp(.75rem,2vw,.95rem)!important;
+  padding:8px 28px!important;letter-spacing:1px;
+}
+.continue-btn:hover{box-shadow:0 0 24px rgba(102,187,106,.6)!important}
+.continue-info{font-size:.6rem;color:#aaa;margin-top:2px}
 
 /* ====== GAME SCREEN ====== */
 #game-screen{display:none;flex:1;overflow:hidden;width:100%}
@@ -551,6 +558,56 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   box-shadow:0 2px 6px rgba(0,0,0,.4);transition:transform .2s;flex-shrink:0;
 }
 .card-toggle:hover{transform:scale(1.1)}
+.bgm-toggle{
+  background:linear-gradient(135deg,#5c6bc0,#3949ab);color:#fff;
+  border:2px solid #7986cb;border-radius:50%;width:26px;height:26px;
+  font-size:.75rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.4);transition:transform .2s;flex-shrink:0;
+}
+.bgm-toggle:hover{transform:scale(1.1)}
+.bgm-toggle.muted{opacity:.5;border-color:#555}
+
+/* 시작 화면 BGM 컨트롤 */
+.bgm-control-start{
+  display:flex;align-items:center;gap:8px;margin-top:4px;
+  background:rgba(30,20,10,.7);border:2px solid rgba(121,134,203,.4);
+  border-radius:10px;padding:5px 14px;
+}
+.bgm-control-start .bgm-toggle{width:22px;height:22px;font-size:.7rem}
+.bgm-control-start .bgm-label{font-size:.65rem;color:#b8a070;white-space:nowrap}
+.bgm-vol-slider{
+  -webkit-appearance:none;appearance:none;width:80px;height:4px;
+  background:linear-gradient(90deg,#7986cb,#3949ab);border-radius:2px;outline:none;cursor:pointer;
+}
+.bgm-vol-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,#c9a961,#d4af37);border:2px solid #fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;
+}
+.bgm-vol-slider::-moz-range-thumb{
+  width:14px;height:14px;border-radius:50%;
+  background:linear-gradient(135deg,#c9a961,#d4af37);border:2px solid #fff;
+  box-shadow:0 1px 4px rgba(0,0,0,.4);cursor:pointer;
+}
+
+/* HUD BGM 볼륨 팝오버 */
+.bgm-popover{
+  position:fixed;z-index:95;
+  background:linear-gradient(135deg,#2c1e12,#3d2b1f);
+  border:2px solid #7986cb;border-radius:12px;padding:10px 14px;
+  box-shadow:0 4px 20px rgba(0,0,0,.7);display:none;
+  align-items:center;gap:8px;animation:popBdIn .15s ease;
+}
+.bgm-popover.show{display:flex}
+.bgm-popover .bgm-label{font-size:.6rem;color:#b8a070;white-space:nowrap}
+.bgm-popover .bgm-vol-pct{font-size:.6rem;color:var(--gold);font-weight:700;min-width:24px;text-align:right}
+
+.credit-footer{
+  position:fixed;bottom:2px;left:0;right:0;text-align:center;
+  font-size:.45rem;color:rgba(150,130,100,.35);letter-spacing:.3px;
+  pointer-events:none;z-index:1;
+}
+
 .card-panel{
   position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
   background:rgba(0,0,0,.82);
@@ -571,6 +628,8 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   cursor:pointer;font-family:inherit;transition:all .2s;
 }
 .card-tab.active{border-color:var(--teal);background:rgba(44,95,122,.2);color:var(--teal)}
+.card-reset-tab{border-color:#555;color:#888;flex:0;padding:6px 12px;font-size:.65rem}
+.card-reset-tab:hover{border-color:#ef5350;color:#ef5350}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
 .card-item{
   padding:8px;border-radius:10px;border:2px solid #3d2b1f;
@@ -725,7 +784,14 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="hud-item">⏱ <strong id="h-combo">0</strong>콤보</div>
     <button class="badge-toggle" id="badge-toggle" onclick="toggleBadgePanel()" title="업적">🏆</button>
     <button class="card-toggle" onclick="toggleCardPanel()" title="카드 수집">📇</button>
+    <button class="bgm-toggle" id="bgm-toggle" onclick="toggleBGMPopover()" title="배경음악">🔊</button>
   </div>
+</div>
+<div class="bgm-popover" id="bgm-popover">
+  <button class="bgm-toggle" onclick="toggleBGM()" id="bgm-pop-btn" style="width:22px;height:22px;font-size:.7rem">🔊</button>
+  <span class="bgm-label">음량</span>
+  <input type="range" class="bgm-vol-slider" id="bgm-vol-hud" min="0" max="100" value="35" oninput="setBGMVolume(this.value)">
+  <span class="bgm-vol-pct" id="bgm-vol-pct">35%</span>
 </div>
 
 <!-- ==================== START ==================== -->
@@ -735,12 +801,19 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <h2>진실의 저울</h2>
     <p>
       그대는 재판관 아누비스.<br>
-      망자의 심장을 저울에 올리고, 진리의 깃털과 비교하라.<br><br>
-      <b>선인</b>이면 심장과 <b>같은 값</b>의 깃털을 골라 <b>수평</b>을 맞춰 구원하고,<br>
-      <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 암무트에게 넘겨라.
+      망자의 심장을 저울에 올리고, 마아트의 깃털과 비교하라.<br><br>
+      <b>선인</b>이면 심장과 <b>같은 값</b>의 깃털을 골라 <b>수평</b>을 맞춰 오시리스의 세상으로 보내 구원하고,<br>
+      <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 괴수 암무트에게 넘겨 응징하라.
     </p>
     <button class="start-btn" onclick="startGame()">재판 시작 ⚖️</button>
+    <button class="start-btn continue-btn" id="continue-btn" onclick="continueGame()" style="display:none">이어하기 ▶️</button>
+    <span class="continue-info" id="continue-info"></span>
     <button class="rank-btn-main" onclick="showRankingPanel()">🏆 랭킹</button>
+    <div class="bgm-control-start">
+      <button class="bgm-toggle" id="bgm-toggle-start" onclick="toggleBGM()" title="배경음악">🔊</button>
+      <span class="bgm-label">음악</span>
+      <input type="range" class="bgm-vol-slider" id="bgm-vol-start" min="0" max="100" value="35" oninput="setBGMVolume(this.value)">
+    </div>
   </div>
 </div>
 
@@ -999,6 +1072,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="card-panel-tabs">
       <button class="card-tab active" onclick="showCardTab('good')">😇 선인</button>
       <button class="card-tab" onclick="showCardTab('evil')">😈 악인</button>
+      <button class="card-tab card-reset-tab" onclick="resetCards()">🗑️ 초기화</button>
     </div>
     <div class="card-grid" id="card-grid"></div>
   </div>
@@ -1041,6 +1115,8 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="ranking-list" id="ranking-list"></div>
   </div>
 </div>
+
+<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.00018</div>
 
 </div>
 
@@ -1102,6 +1178,14 @@ function renderCardGrid(type){
   });
 }
 
+function resetCards(){
+  if(!confirm('수집한 모든 카드를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없습니다.'))return;
+  localStorage.removeItem('anubis_cards');
+  renderCardGrid('good');
+  document.querySelectorAll('.card-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.card-tab').classList.add('active');
+}
+
 /* ============================================================
    RANKING SYSTEM
    ============================================================ */
@@ -1114,7 +1198,7 @@ const RANKING_CATEGORIES = [
   {key:'correctCount', label:'정답 수', icon:'✅', unit:'개'},
   {key:'goodSaved', label:'선인 구원', icon:'😇', unit:'명'},
   {key:'evilPunished', label:'악인 응징', icon:'⚔️', unit:'명'},
-  {key:'accuracy', label:'정답률', icon:'🎯', unit:'%'},
+  {key:'accuracy', label:'정답률(30R↑)', icon:'🎯', unit:'%'},
 ];
 
 let currentRankCategory = 'score';
@@ -1148,6 +1232,7 @@ function closeGameOver(){
   document.getElementById('gameover-overlay').classList.remove('show');
   document.getElementById('game-screen').style.display='none';
   document.getElementById('start-screen').style.display='flex';
+  checkContinueBtn();
 }
 
 function showPrivacyCheck(nickname){
@@ -1198,11 +1283,18 @@ async function submitRanking(){
   }
   G.privacyConfirmed=false; /* 다음 등록 시 다시 확인 */
 
+  /* 조작 방지 검증 */
+  if(!acValidate()){
+    document.getElementById('nick-status').textContent = '비정상적인 기록이 감지되었습니다.';
+    return;
+  }
+
   localStorage.setItem('anubis_nickname', nickname);
   document.getElementById('nick-submit-btn').disabled = true;
   document.getElementById('nick-status').textContent = '등록 중...';
 
   const accuracy = G.round>0 ? Math.round(G.gameCorrect/G.round*100) : 0;
+  const token = acBuildToken();
   const params = new URLSearchParams({
     action: 'submit',
     nickname: nickname,
@@ -1214,6 +1306,7 @@ async function submitRanking(){
     goodSaved: G.gameGoodSaved,
     evilPunished: G.gameEvilPunished,
     accuracy: accuracy,
+    token: token,
   });
 
   try {
@@ -1455,7 +1548,7 @@ const EVIL_RECORDS=[
   {name:"레레트",avatar:"🐍",record:"약을 가짜로 바꿔 환자를 속임"},
   {name:"세르켓",avatar:"🦂",record:"계약서를 위조하여 토지를 빼앗음"},
   {name:"하우",avatar:"😈",record:"전쟁 중 식량을 숨겨 혼자 먹음"},
-  {name:"아아루",avatar:"🐍",record:"신전 제물을 훔쳐 시장에 팔음"},
+  {name:"아아루",avatar:"🐍",record:"신전 제물을 훔쳐 시장에 팖"},
   {name:"메스",avatar:"👿",record:"강물을 막아 하류 마을을 굶김"},
   {name:"저세르",avatar:"😈",record:"부하에게 죄를 뒤집어씌움"},
   {name:"네케네",avatar:"🐍",record:"형제의 아내를 유혹하여 가정을 파괴함"},
@@ -1470,7 +1563,7 @@ const EVIL_RECORDS=[
   {name:"우나스",avatar:"🐍",record:"아이들에게 거짓 신앙을 퍼뜨림"},
   {name:"넥타네보",avatar:"👿",record:"전쟁 고아의 재산을 가로챔"},
   {name:"하렘합",avatar:"😈",record:"관개 수로를 파괴하여 농사를 망침"},
-  {name:"셉셋",avatar:"🐍",record:"무덤 도굴로 저주받은 물건을 팔음"},
+  {name:"셉셋",avatar:"🐍",record:"무덤 도굴로 저주받은 물건을 팖"},
   {name:"제후티",avatar:"🦂",record:"공문서를 위조하여 지위를 얻음"},
   {name:"아프리스",avatar:"😈",record:"포로를 학대하고 식사를 주지 않음"},
   {name:"타켈롯",avatar:"🐍",record:"뇌물을 받고 범죄자를 풀어줌"},
@@ -1486,8 +1579,8 @@ const EVIL_RECORDS=[
   {name:"소벡나크트",avatar:"🦂",record:"어린이의 노동을 착취함"},
   {name:"이레트",avatar:"😈",record:"거짓 약속으로 사람들을 속임"},
   {name:"닉트",avatar:"🐍",record:"장인의 도구를 부숴 일을 못하게 함"},
-  {name:"베케트",avatar:"👿",record:"마을 우물물을 독점하고 비싸게 팔음"},
-  {name:"파헤리",avatar:"😈",record:"장님을 속여 가짜 물건을 비싸게 팔음"},
+  {name:"베케트",avatar:"👿",record:"마을 우물물을 독점하고 비싸게 팖"},
+  {name:"파헤리",avatar:"😈",record:"장님을 속여 가짜 물건을 비싸게 팖"},
   {name:"세나크트",avatar:"🦂",record:"형의 무덤을 파헤쳐 보물을 훔침"},
   {name:"아메시",avatar:"🐍",record:"전쟁터에서 시체의 물건을 약탈함"},
   {name:"헤네크",avatar:"😈",record:"아이의 음식을 빼앗아 먹음"},
@@ -1917,10 +2010,11 @@ function stopGoldenParticles(){
   if(box)box.innerHTML='';
 }
 
-/* 페이지 로드 시 호루스 업적 보유면 파티클 시작 */
-if(ACH_UNLOCKED.includes('horus_speed')){
-  document.addEventListener('DOMContentLoaded',()=>startGoldenParticles());
-}
+/* 페이지 로드 시 초기화 */
+document.addEventListener('DOMContentLoaded',()=>{
+  checkContinueBtn();
+  if(ACH_UNLOCKED.includes('horus_speed')) startGoldenParticles();
+});
 
 /* ============================================================
    MATH
@@ -2119,20 +2213,25 @@ function updateTimerBar(){
 function timeOut(){
   if(G.answered)return;
   G.answered=true;G.combo=0;
+  acLogRound(G.round,false,G.heartNum,G.heartDen,0);
   const nileOk=tryNileShield();
   if(!nileOk){G.lives--;}
+  const isDead=G.lives<=0;
   updateHUD();
   trackWrongAnswer(G.isGood);
   revealAnswer();anubisPoint();
   const[sn,sd]=simplify(G.heartNum,G.heartDen);
-  if(G.lives<=0){
-    showMsg('fail','⏱ 시간 초과! 생명을 모두 잃었다.');
-    setTimeout(gameOver,1000);
-  } else {
-    showMsg('fail',nileOk?'⏱ 시간 초과! 나일강의 축복이 보호!':'⏱ 시간 초과! 생명 -1');
-    setTimeout(()=>showResult('wrong',
-      `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
-      '시간이 다 되었다! 더 빠르게 판단하라.'),600);
+  showMsg('fail',isDead?'⏱ 시간 초과! 생명을 모두 잃었다.':(nileOk?'⏱ 시간 초과! 나일강의 축복이 보호!':'⏱ 시간 초과! 생명 -1'));
+  const resultTitle=`기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`;
+  const afterAnim=function(){
+    if(isDead){ gameOver(); }
+    else{ showResult('wrong',resultTitle,'시간이 다 되었다! 더 빠르게 판단하라.'); }
+  };
+  /* 시간 초과도 영혼 애니메이션 후 결과 표시 */
+  if(G.isGood){
+    setTimeout(()=>playWrongGoodAnimation(afterAnim),700);
+  }else{
+    setTimeout(()=>playHeavenAnimation(afterAnim,true),700);
   }
 }
 
@@ -2274,6 +2373,233 @@ function playWrongEvilAnimation(callback){
 }
 
 /* ============================================================
+   ANTI-CHEAT — 랭킹 & 아이템 조작 방지
+   ============================================================ */
+const _AC={
+  seed:'',          // 게임 시작 시 생성되는 시드
+  startTime:0,      // 게임 시작 시각(ms)
+  log:[],           // 라운드별 이벤트 로그
+  hash:'',          // 누적 해시 체인
+};
+
+/* 간단한 해시 함수 (조작 감지용, 암호학적 보안 아님) */
+function _acHash(str){
+  let h=0x811c9dc5;
+  for(let i=0;i<str.length;i++){
+    h^=str.charCodeAt(i);
+    h=Math.imul(h,0x01000193);
+  }
+  return (h>>>0).toString(36);
+}
+
+function acInit(){
+  _AC.seed=Math.random().toString(36).slice(2,10)+Date.now().toString(36);
+  _AC.startTime=Date.now();
+  _AC.log=[];
+  _AC.hash=_acHash(_AC.seed);
+  _itemGains=0; _itemUses=0;
+}
+
+/* 매 라운드 결과를 로그에 추가 */
+function acLogRound(round,correct,heartN,heartD,timeLeft){
+  const entry=round+':'+(correct?'O':'X')+':'+heartN+'/'+heartD+':'+Math.round(timeLeft*10);
+  _AC.log.push(entry);
+  _AC.hash=_acHash(_AC.hash+entry);
+}
+
+/* 제출 시 검증 토큰 생성 */
+function acBuildToken(){
+  const elapsed=Math.round((Date.now()-_AC.startTime)/1000);
+  const summary=[
+    's='+_AC.seed,
+    't='+elapsed,
+    'r='+G.round,
+    'c='+G.gameCorrect,
+    'sc='+G.score,
+    'mc='+G.gameMaxCombo,
+    'gs='+G.gameGoodSaved,
+    'ep='+G.gameEvilPunished,
+    'h='+_AC.hash,
+    'n='+_AC.log.length,
+    'ig='+_itemGains,
+    'iu='+_itemUses,
+  ].join('|');
+  const checksum=_acHash(summary+_AC.seed);
+  return summary+'|v='+checksum;
+}
+
+/* 기본 클라이언트 유효성 검사 */
+function acValidate(){
+  const elapsed=(Date.now()-_AC.startTime)/1000;
+  if(G.round>1 && elapsed/G.round < 3) return false;
+  if(_AC.log.length < G.round-1) return false;
+  if(G.score > G.round * 400) return false;
+  if(G.gameCorrect > G.round) return false;
+  // 아이템 무결성 검증
+  if(!_itemCheckIntegrity()) return false;
+  return true;
+}
+
+/* ============================================================
+   아이템 보호 시스템 (Proxy 기반)
+   - 콘솔에서 G.items.ra=3 등 직접 수정 차단
+   - 오직 게임 내부 함수(_itemAuth 토큰)로만 변경 가능
+   ============================================================ */
+let _itemAuth=false;      // 내부 함수 호출 시만 true
+let _itemGains=0;         // 총 아이템 획득 횟수
+let _itemUses=0;          // 총 아이템 사용 횟수
+let _itemHash='';         // 아이템 상태 해시
+const _ITEM_KEYS=['eye','book','nile','bastet','ra'];
+
+function _itemComputeHash(obj){
+  return _acHash(_ITEM_KEYS.map(k=>(obj[k]||0)).join(',')+(_AC.seed||''));
+}
+
+function _itemCheckIntegrity(){
+  const current=_itemComputeHash(G.items);
+  return current===_itemHash;
+}
+
+function _createItemProxy(init){
+  const store={...init};
+  _itemHash=_itemComputeHash(store);
+  return new Proxy(store,{
+    set(target,key,value){
+      if(!_itemAuth){
+        console.warn('⚠️ 아이템 조작이 감지되었습니다. 이 행위는 기록됩니다.');
+        _AC.hash=_acHash(_AC.hash+'TAMPER:'+key);
+        return true; // 조용히 무시 (에러 안 던짐)
+      }
+      if(!_ITEM_KEYS.includes(key)) return true;
+      const v=Math.max(0,Math.min(3,parseInt(value)||0));
+      target[key]=v;
+      _itemHash=_itemComputeHash(target);
+      return true;
+    },
+    get(target,key){
+      if(key==='__isProxy') return true;
+      if(key==='toJSON') return ()=>({...target});
+      return target[key];
+    },
+    deleteProperty(){ return true; } // 삭제 무시
+  });
+}
+
+/* 인증된 아이템 변경 함수들 */
+function _itemSet(key,value){
+  _itemAuth=true;
+  G.items[key]=value;
+  _itemAuth=false;
+}
+function _itemAdd(key){
+  _itemAuth=true;
+  G.items[key]=(G.items[key]||0)+1;
+  _itemAuth=false;
+  _itemGains++;
+  _AC.hash=_acHash(_AC.hash+'IG:'+key);
+}
+function _itemSpend(key){
+  _itemAuth=true;
+  G.items[key]=Math.max(0,(G.items[key]||0)-1);
+  _itemAuth=false;
+  _itemUses++;
+  _AC.hash=_acHash(_AC.hash+'IU:'+key);
+}
+function _itemInit(init){
+  _itemAuth=true;
+  const proxy=_createItemProxy(init||{eye:0,book:0,nile:0,bastet:0,ra:0});
+  _itemAuth=false;
+  _itemGains=0;_itemUses=0;
+  return proxy;
+}
+/* G.items 교체를 방지 */
+function _lockItems(){
+  Object.defineProperty(G,'items',{
+    get:function(){return G._itemProxy;},
+    set:function(v){
+      if(!_itemAuth){
+        console.warn('⚠️ 아이템 객체 교체가 차단되었습니다.');
+        _AC.hash=_acHash(_AC.hash+'TAMPER:replace');
+        return;
+      }
+      G._itemProxy=_createItemProxy(v||{eye:0,book:0,nile:0,bastet:0,ra:0});
+    },
+    configurable:false
+  });
+}
+
+/* ============================================================
+   BGM (배경음악)
+   ============================================================ */
+const BGM_AUDIO=new Audio('Passage_Through_the_Stones.mp3');
+BGM_AUDIO.loop=true;
+let bgmVolume=parseInt(localStorage.getItem('anubis_bgm_vol')||'35');
+BGM_AUDIO.volume=bgmVolume/100;
+let bgmPlaying=false;
+
+function toggleBGM(){
+  if(bgmPlaying){
+    BGM_AUDIO.pause();
+    bgmPlaying=false;
+  }else{
+    BGM_AUDIO.play().catch(()=>{});
+    bgmPlaying=true;
+  }
+  updateBGMUI();
+}
+function setBGMVolume(val){
+  bgmVolume=parseInt(val);
+  BGM_AUDIO.volume=bgmVolume/100;
+  localStorage.setItem('anubis_bgm_vol',bgmVolume);
+  if(bgmVolume>0&&!bgmPlaying){BGM_AUDIO.play().catch(()=>{});bgmPlaying=true;}
+  if(bgmVolume===0&&bgmPlaying){BGM_AUDIO.pause();bgmPlaying=false;}
+  updateBGMUI();
+}
+function updateBGMUI(){
+  const icon=bgmPlaying?(bgmVolume>50?'🔊':bgmVolume>0?'🔉':'🔇'):'🔇';
+  /* HUD 버튼 */
+  const btn1=document.getElementById('bgm-toggle');
+  if(btn1){btn1.textContent=icon;btn1.classList.toggle('muted',!bgmPlaying);}
+  /* 시작 화면 버튼 */
+  const btn2=document.getElementById('bgm-toggle-start');
+  if(btn2){btn2.textContent=icon;btn2.classList.toggle('muted',!bgmPlaying);}
+  /* 팝오버 버튼 */
+  const btn3=document.getElementById('bgm-pop-btn');
+  if(btn3){btn3.textContent=icon;btn3.classList.toggle('muted',!bgmPlaying);}
+  /* 슬라이더 동기화 */
+  const s1=document.getElementById('bgm-vol-hud');
+  const s2=document.getElementById('bgm-vol-start');
+  const pct=document.getElementById('bgm-vol-pct');
+  if(s1)s1.value=bgmVolume;
+  if(s2)s2.value=bgmVolume;
+  if(pct)pct.textContent=bgmVolume+'%';
+}
+function toggleBGMPopover(){
+  const pop=document.getElementById('bgm-popover');
+  if(pop.classList.contains('show')){
+    pop.classList.remove('show');
+    return;
+  }
+  const btn=document.getElementById('bgm-toggle');
+  const rect=btn.getBoundingClientRect();
+  pop.style.top=(rect.bottom+6)+'px';
+  pop.style.right=(window.innerWidth-rect.right)+'px';
+  pop.classList.add('show');
+  /* 바깥 클릭 시 닫기 */
+  setTimeout(()=>{
+    const closer=function(e){
+      if(!pop.contains(e.target)&&e.target!==btn){
+        pop.classList.remove('show');
+        document.removeEventListener('pointerdown',closer);
+      }
+    };
+    document.addEventListener('pointerdown',closer);
+  },50);
+}
+/* 페이지 로드 시 슬라이더 초기값 반영 */
+document.addEventListener('DOMContentLoaded',()=>{updateBGMUI();});
+
+/* ============================================================
    ITEM SYSTEM — 신의 축복
    ============================================================ */
 const ITEMS={
@@ -2285,7 +2611,12 @@ const ITEMS={
 };
 
 function initItems(){
-  G.items={eye:0,book:0,nile:0,bastet:0,ra:0};
+  _itemAuth=true;
+  G._itemProxy=_createItemProxy({eye:0,book:0,nile:0,bastet:0,ra:0});
+  _itemAuth=false;
+  if(!Object.getOwnPropertyDescriptor(G,'items')||Object.getOwnPropertyDescriptor(G,'items').configurable!==false){
+    _lockItems();
+  }
   G.nileShield=false;
   G.timerFrozen=false;
   G.popoverPause=false;
@@ -2362,7 +2693,7 @@ function showItemPopup(includeRa){
 
 function pickItem(key){
   if((G.items[key]||0)>=3)return;
-  G.items[key]=(G.items[key]||0)+1;
+  _itemAdd(key);
   if(key==='nile') G.nileShield=true;
   document.getElementById('item-popup').classList.remove('show');
   renderItemBar();
@@ -2429,7 +2760,7 @@ function useItem(key){
     case 'bastet': useBastetMagnifier(); break;
     case 'ra': useRaJudgment(); break;
   }
-  G.items[key]--;
+  _itemSpend(key);
   renderItemBar();
   showItemUseEffect(ITEMS[key].icon);
 }
@@ -2509,7 +2840,7 @@ function useRaJudgment(){
 
 function tryNileShield(){
   if(G.nileShield && G.items.nile>0){
-    G.items.nile--;
+    _itemSpend('nile');
     G.nileShield=(G.items.nile>0);
     renderItemBar();
     showItemUseEffect('\u{13216}');
@@ -2520,6 +2851,9 @@ function tryNileShield(){
 }
 
 function startGame(){
+  clearGameState();
+  acInit();
+  if(!bgmPlaying){BGM_AUDIO.play().catch(()=>{});bgmPlaying=true;updateBGMUI();}
   document.getElementById('start-screen').style.display='none';
   document.getElementById('game-screen').style.display='flex';
   G.round=1;G.score=0;G.lives=3;G.combo=0;G.titleIdx=0;
@@ -2572,6 +2906,7 @@ function newRound(){
   const hf=document.getElementById('hint-factors');
   if(hf){hf.style.display='none';hf.innerHTML='';}
   renderItemBar();
+  saveGameState();
 }
 
 function renderChoices(){
@@ -2678,6 +3013,8 @@ function onPlace(){
       if(j===sel&&!correct)b.classList.add('wrong');
     });
 
+    acLogRound(G.round,correct,G.heartNum,G.heartDen,G.timeLeft);
+
     if(correct){
       G.combo++;
       G.gameCorrect++;
@@ -2706,25 +3043,31 @@ function onPlace(){
       const shielded=tryNileShield();
       if(!shielded){G.lives--;G.score=Math.max(0,G.score-50);}
       else{G.score=Math.max(0,G.score-25);}
+      const isDead=G.lives<=0;
       trackWrongAnswer(G.isGood);
       anubisPoint();
       if(shielded) showMsg('fail','❌ 잘못된 판정! 나일강의 축복이 생명을 보호! -25점');
       else showMsg('fail','❌ 잘못된 판정! 생명 -1, -50점');
       const[sn,sd]=simplify(G.heartNum,G.heartDen);
+      const afterAnim=function(resultTitle,resultDesc){
+        if(isDead){ gameOver(); }
+        else{ showResult('wrong',resultTitle,resultDesc); }
+      };
       if(G.isGood){
         /* 선인 오판 → 암무트에게 넘어감 + 슬픈 말풍선 */
-        setTimeout(()=>playWrongGoodAnimation(()=>showResult('wrong',
+        setTimeout(()=>playWrongGoodAnimation(()=>afterAnim(
           `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
-          '선인을 잘못 처단하였다!\n무고한 영혼이 암무트에게 넘겨졌다…')),700);
+          '선인을 잘못 처단하였다!\n무고한 영혼이 암무트에게 넘겨졌다…'
+        )),700);
       }else{
         /* 악인 오판 → 저울 수평이라 오시리스가 데려감 */
-        setTimeout(()=>playHeavenAnimation(()=>showResult('wrong',
+        setTimeout(()=>playHeavenAnimation(()=>afterAnim(
           `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
-          '악인을 놓쳐버렸다!\n오시리스가 악인을 천국으로 데려갔다…'),true),700);
+          '악인을 놓쳐버렸다!\n오시리스가 악인을 천국으로 데려갔다…'
+        ),true),700);
       }
     }
     updateHUD();
-    if(G.lives<=0)setTimeout(gameOver,1600);
   },750);
 }
 
@@ -2765,8 +3108,68 @@ function onResultContinue(){
   G.round++;updateHUD();checkTitlePromotion();newRound();
 }
 
+/* ============================================================
+   GAME STATE SAVE / RESTORE (이어하기)
+   ============================================================ */
+function saveGameState(){
+  const state={
+    round:G.round, score:G.score, lives:G.lives, combo:G.combo,
+    titleIdx:G.titleIdx,
+    gameCorrect:G.gameCorrect, gameGoodSaved:G.gameGoodSaved,
+    gameEvilPunished:G.gameEvilPunished, gameMaxCombo:G.gameMaxCombo,
+    items:{...G.items},
+    savedAt:Date.now()
+  };
+  localStorage.setItem('anubis_save',JSON.stringify(state));
+}
+function clearGameState(){
+  localStorage.removeItem('anubis_save');
+}
+function loadGameState(){
+  const raw=localStorage.getItem('anubis_save');
+  if(!raw) return null;
+  try{ return JSON.parse(raw); }catch(e){ return null; }
+}
+function checkContinueBtn(){
+  const save=loadGameState();
+  const btn=document.getElementById('continue-btn');
+  const info=document.getElementById('continue-info');
+  if(save && save.lives>0){
+    btn.style.display='';
+    if(info) info.textContent=`라운드 ${save.round} · ${save.score}점 · ♥${save.lives}`;
+  }else{
+    btn.style.display='none';
+    if(info) info.textContent='';
+  }
+}
+function continueGame(){
+  const save=loadGameState();
+  if(!save||save.lives<=0){startGame();return;}
+  acInit();
+  if(!bgmPlaying){BGM_AUDIO.play().catch(()=>{});bgmPlaying=true;updateBGMUI();}
+  document.getElementById('start-screen').style.display='none';
+  document.getElementById('game-screen').style.display='flex';
+  G.round=save.round;G.score=save.score;G.lives=save.lives;G.combo=save.combo;
+  G.titleIdx=save.titleIdx||0;
+  G.gameCorrect=save.gameCorrect||0;G.gameGoodSaved=save.gameGoodSaved||0;
+  G.gameEvilPunished=save.gameEvilPunished||0;G.gameMaxCombo=save.gameMaxCombo||0;
+  _itemAuth=true;
+  G._itemProxy=_createItemProxy(save.items||{eye:0,book:0,nile:0,bastet:0,ra:0});
+  _itemAuth=false;
+  if(!Object.getOwnPropertyDescriptor(G,'items')||Object.getOwnPropertyDescriptor(G,'items').configurable!==false){
+    _lockItems();
+  }
+  G.nileShield=(G.items.nile>0);
+  G.timerFrozen=false;G.popoverPause=false;G.panelPause=false;
+  ACH_STATS.perfectStreak=0;ACH_STATS.clutchSurvive=0;
+  ACH_STATS.goodStreak=0;ACH_STATS.evilStreak=0;
+  saveStats(ACH_STATS);
+  updateTitleHUD();updateHUD();newRound();
+}
+
 function gameOver(){
   clearInterval(G.timerInterval);
+  clearGameState();
   trackGameOver();
   const t=TITLES[G.titleIdx];
   const achvCount=ACH_UNLOCKED.length;
