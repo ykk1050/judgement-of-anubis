@@ -233,11 +233,10 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 
 /* 업적 배지 패널 */
 .badge-toggle{
-  position:absolute;top:6px;right:6px;z-index:20;
   background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
-  border:2px solid var(--gold);border-radius:50%;width:32px;height:32px;
-  font-size:1rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.4);transition:transform .2s;
+  border:2px solid var(--gold);border-radius:50%;width:26px;height:26px;
+  font-size:.8rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.4);transition:transform .2s;flex-shrink:0;
 }
 .badge-toggle:hover{transform:scale(1.1)}
 .badge-panel{
@@ -543,6 +542,174 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   .soul-card{padding:3px 6px}
   .choice-btn{padding:3px 6px}
 }
+
+/* ====== CARD COLLECTION ====== */
+.card-toggle{
+  background:linear-gradient(135deg,var(--teal),#1a4a5e);color:#fff;
+  border:2px solid var(--teal);border-radius:50%;width:26px;height:26px;
+  font-size:.8rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.4);transition:transform .2s;flex-shrink:0;
+}
+.card-toggle:hover{transform:scale(1.1)}
+.card-panel{
+  position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.82);
+}
+.card-panel.show{display:flex}
+.card-panel-inner{
+  background:linear-gradient(135deg,#2c1e12,#3d2b1f);border:3px solid var(--teal);
+  border-radius:16px;padding:18px 20px;max-width:92vw;max-height:86vh;overflow-y:auto;
+  min-width:min(460px,88vw);animation:popIn .4s ease;
+}
+.card-panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
+.card-panel-header h3{font-size:1rem;color:var(--teal);margin:0;flex:1}
+.card-panel-count{font-size:.7rem;color:var(--gold);font-weight:700}
+.card-panel-tabs{display:flex;gap:6px;margin-bottom:10px}
+.card-tab{
+  flex:1;padding:6px;border:2px solid #3d2b1f;border-radius:8px;
+  background:rgba(61,43,31,.3);color:#aaa;font-size:.75rem;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:all .2s;
+}
+.card-tab.active{border-color:var(--teal);background:rgba(44,95,122,.2);color:var(--teal)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.card-item{
+  padding:8px;border-radius:10px;border:2px solid #3d2b1f;
+  background:rgba(61,43,31,.3);text-align:center;transition:all .3s;
+}
+.card-item.collected{border-color:var(--gold);background:rgba(201,169,97,.08)}
+.card-item.locked{opacity:.3;filter:grayscale(.8)}
+.card-avatar{font-size:1.5rem}
+.card-name{font-size:.68rem;font-weight:700;color:var(--gold);margin:3px 0 2px}
+.card-item.locked .card-name{color:#666}
+.card-record{font-size:.52rem;color:#b8a070;line-height:1.3}
+.card-item.locked .card-record{color:#555}
+.card-date{font-size:.45rem;color:var(--teal);margin-top:3px}
+
+/* ====== GAME OVER SCREEN ====== */
+.gameover-overlay{position:fixed;inset:0;z-index:130;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88)}
+.gameover-overlay.show{display:flex}
+.gameover-card{
+  text-align:center;padding:20px 24px;border-radius:16px;max-width:90vw;max-height:88vh;overflow-y:auto;
+  background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border:3px solid #ce93d8;animation:popIn .5s ease;
+  min-width:min(340px,85vw);
+}
+.gameover-icon{font-size:2.5rem;margin-bottom:4px}
+.gameover-title{font-size:1.2rem;color:#ce93d8;margin-bottom:10px}
+.gameover-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px;
+  text-align:left;font-size:.7rem;
+}
+.go-stat{
+  padding:5px 8px;border-radius:8px;background:rgba(255,255,255,.06);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.go-stat-label{color:#aaa}
+.go-stat-value{color:var(--gold);font-weight:700}
+.gameover-nickname label{display:block;font-size:.7rem;color:#ccc;margin-bottom:6px}
+.nick-input-row{display:flex;gap:6px;justify-content:center;margin-bottom:6px}
+#nick-input{
+  flex:1;max-width:180px;padding:7px 12px;border-radius:8px;
+  border:2px solid #555;background:rgba(255,255,255,.08);color:#fff;
+  font-size:.8rem;font-family:inherit;outline:none;
+}
+#nick-input:focus{border-color:var(--gold)}
+.nick-submit{
+  padding:7px 16px;border-radius:8px;border:none;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;
+  font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.nick-submit:disabled{opacity:.4;cursor:default}
+.nick-status{font-size:.6rem;color:var(--teal);min-height:16px;margin-bottom:8px}
+.gameover-myranks{margin-bottom:10px}
+.myrank-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:.62rem}
+.myrank-item{
+  padding:4px 8px;border-radius:6px;background:rgba(206,147,216,.1);
+  border:1px solid rgba(206,147,216,.2);display:flex;justify-content:space-between;
+}
+.myrank-label{color:#ce93d8}
+.myrank-value{color:var(--gold);font-weight:700}
+.gameover-btns{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.rank-view-btn{background:linear-gradient(135deg,#7b1fa2,#4a148c)!important;border-color:#ce93d8!important}
+
+/* ====== RANKING PANEL ====== */
+.rank-btn-main{
+  margin-top:10px;padding:8px 24px;border-radius:10px;
+  background:linear-gradient(135deg,#7b1fa2,#4a148c);color:#fff;
+  border:2px solid #ce93d8;font-size:.9rem;font-weight:700;
+  cursor:pointer;font-family:inherit;
+}
+.ranking-panel{
+  position:fixed;inset:0;z-index:125;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.85);
+}
+.ranking-panel.show{display:flex}
+.ranking-inner{
+  background:linear-gradient(135deg,#1a0a2e,#2d1b4e);border:3px solid #ce93d8;
+  border-radius:16px;padding:18px 16px;max-width:92vw;max-height:86vh;overflow-y:auto;
+  min-width:min(420px,88vw);animation:popIn .4s ease;
+}
+.ranking-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ranking-header h3{font-size:1rem;color:#ce93d8;margin:0}
+.ranking-cats{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.rank-cat-btn{
+  padding:4px 10px;border-radius:6px;font-size:.62rem;font-weight:700;
+  border:1px solid #555;background:rgba(255,255,255,.06);color:#aaa;
+  cursor:pointer;font-family:inherit;transition:all .2s;
+}
+.rank-cat-btn.active{border-color:#ce93d8;background:rgba(206,147,216,.15);color:#ce93d8}
+.ranking-search{display:flex;gap:6px;margin-bottom:10px}
+.ranking-search input{
+  flex:1;padding:6px 10px;border-radius:6px;border:1px solid #555;
+  background:rgba(255,255,255,.08);color:#fff;font-size:.72rem;font-family:inherit;outline:none;
+}
+.ranking-search button{
+  padding:6px 12px;border-radius:6px;border:none;
+  background:var(--teal);color:#fff;font-size:.72rem;cursor:pointer;font-family:inherit;
+}
+.ranking-list{font-size:.68rem}
+.rank-row{
+  display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.rank-row:nth-child(odd){background:rgba(255,255,255,.03)}
+.rank-row.top3{background:rgba(201,169,97,.1);border:1px solid rgba(201,169,97,.3)}
+.rank-row.me{background:rgba(206,147,216,.15);border:1px solid #ce93d8}
+.rank-pos{width:28px;text-align:center;font-weight:900;color:#aaa}
+.rank-row.top3 .rank-pos{color:var(--gold);font-size:.8rem}
+.rank-nick{flex:1;color:#ddd;font-weight:700}
+.rank-val{color:var(--gold);font-weight:700;min-width:50px;text-align:right}
+.rank-loading{text-align:center;color:#888;padding:20px;font-size:.75rem}
+.rank-empty{text-align:center;color:#666;padding:20px;font-size:.75rem}
+
+/* 개인정보 확인 팝업 */
+.privacy-backdrop{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.75);animation:popBdIn .15s ease;
+}
+.privacy-popup{
+  background:linear-gradient(135deg,#3e2723,#4e342e);border:3px solid #ff8f00;
+  border-radius:16px;padding:20px 24px;max-width:320px;text-align:center;
+  animation:popoverIn .25s ease;box-shadow:0 6px 30px rgba(0,0,0,.8);
+}
+.privacy-icon{font-size:2.2rem;margin-bottom:6px}
+.privacy-title{font-size:1rem;font-weight:900;color:#ff8f00;margin-bottom:8px}
+.privacy-msg{font-size:.72rem;color:#ddd;line-height:1.6;margin-bottom:10px}
+.privacy-msg b{color:#ff8f00}
+.privacy-nick{
+  font-size:.75rem;color:var(--gold);padding:6px 12px;border-radius:8px;
+  background:rgba(255,255,255,.06);margin-bottom:12px;
+}
+.privacy-btns{display:flex;flex-direction:column;gap:6px}
+.privacy-ok{
+  padding:8px 16px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,#2e7d32,#1b5e20);color:#fff;
+  font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.privacy-cancel{
+  padding:8px 16px;border-radius:10px;border:1px solid #ff8f00;
+  background:rgba(255,143,0,.1);color:#ff8f00;
+  font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;
+}
 </style>
 </head>
 <body>
@@ -556,6 +723,8 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="hud-item">𓂋 점수 <strong id="h-score">0</strong></div>
     <div class="hud-item">☥ <strong id="h-lives">♥♥♥</strong></div>
     <div class="hud-item">⏱ <strong id="h-combo">0</strong>콤보</div>
+    <button class="badge-toggle" id="badge-toggle" onclick="toggleBadgePanel()" title="업적">🏆</button>
+    <button class="card-toggle" onclick="toggleCardPanel()" title="카드 수집">📇</button>
   </div>
 </div>
 
@@ -571,6 +740,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
       <b>악인</b>이면 심장과 <b>다른 값</b>의 깃털을 골라 저울을 <b>기울여</b> 암무트에게 넘겨라.
     </p>
     <button class="start-btn" onclick="startGame()">재판 시작 ⚖️</button>
+    <button class="rank-btn-main" onclick="showRankingPanel()">🏆 랭킹</button>
   </div>
 </div>
 
@@ -805,7 +975,6 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
 </div>
 
 <!-- BADGE PANEL -->
-<button class="badge-toggle" id="badge-toggle" onclick="toggleBadgePanel()" title="업적">🏆</button>
 <div class="badge-panel" id="badge-panel">
   <div class="badge-inner">
     <div class="badge-header">
@@ -816,6 +985,60 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
     <div class="badge-reset-wrap">
       <button class="badge-reset" onclick="resetBadges()">업적 초기화</button>
     </div>
+  </div>
+</div>
+
+<!-- CARD COLLECTION PANEL -->
+<div class="card-panel" id="card-panel">
+  <div class="card-panel-inner">
+    <div class="card-panel-header">
+      <h3>📇 망자 수집 도감</h3>
+      <span class="card-panel-count" id="card-count">0/120</span>
+      <button class="badge-close" onclick="toggleCardPanel()">✕</button>
+    </div>
+    <div class="card-panel-tabs">
+      <button class="card-tab active" onclick="showCardTab('good')">😇 선인</button>
+      <button class="card-tab" onclick="showCardTab('evil')">😈 악인</button>
+    </div>
+    <div class="card-grid" id="card-grid"></div>
+  </div>
+</div>
+
+<!-- GAME OVER SCREEN -->
+<div class="gameover-overlay" id="gameover-overlay">
+  <div class="gameover-card">
+    <div class="gameover-icon">⚖️</div>
+    <h2 class="gameover-title">재판 종료</h2>
+    <div class="gameover-stats" id="gameover-stats"></div>
+    <div class="gameover-nickname" id="gameover-nick-section">
+      <label>랭킹에 등록할 이름을 입력하세요</label>
+      <div class="nick-input-row">
+        <input type="text" id="nick-input" maxlength="12" placeholder="닉네임 (최대 12자)">
+        <button class="nick-submit" id="nick-submit-btn" onclick="submitRanking()">등록</button>
+      </div>
+      <div class="nick-status" id="nick-status"></div>
+    </div>
+    <div class="gameover-myranks" id="gameover-myranks" style="display:none"></div>
+    <div class="gameover-btns">
+      <button class="result-btn" onclick="closeGameOver()">다시 도전</button>
+      <button class="result-btn rank-view-btn" onclick="closeGameOver();showRankingPanel()">🏆 랭킹 보기</button>
+    </div>
+  </div>
+</div>
+
+<!-- RANKING PANEL -->
+<div class="ranking-panel" id="ranking-panel">
+  <div class="ranking-inner">
+    <div class="ranking-header">
+      <h3>🏆 명예의 전당</h3>
+      <button class="badge-close" onclick="closeRankingPanel()">✕</button>
+    </div>
+    <div class="ranking-cats" id="ranking-cats"></div>
+    <div class="ranking-search">
+      <input type="text" id="rank-search-input" placeholder="닉네임 검색...">
+      <button onclick="searchRanking()">🔍</button>
+    </div>
+    <div class="ranking-list" id="ranking-list"></div>
   </div>
 </div>
 
@@ -832,6 +1055,301 @@ const FCOLORS=[
   {fill:'#a0432a',vein:'#efe2c2'},
   {fill:'#3a2820',vein:'#c9a961'},
 ];
+
+/* ============================================================
+   CARD COLLECTION SYSTEM
+   ============================================================ */
+function loadCards(){ return JSON.parse(localStorage.getItem('anubis_cards')||'{"collected":[]}'); }
+function saveCards(cards){ localStorage.setItem('anubis_cards',JSON.stringify(cards)); }
+function collectCard(name, avatar, record, isGood){
+  const cards = loadCards();
+  if(cards.collected.some(c=>c.name===name)) return false;
+  cards.collected.push({name, avatar, record, isGood, date: new Date().toLocaleDateString('ko-KR')});
+  saveCards(cards);
+  return true;
+}
+
+function toggleCardPanel(){
+  const panel = document.getElementById('card-panel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show')){renderCardGrid('good');G.panelPause=true;}
+  else{G.panelPause=false;}
+}
+function showCardTab(type){
+  document.querySelectorAll('.card-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderCardGrid(type);
+}
+function renderCardGrid(type){
+  const grid = document.getElementById('card-grid');
+  const cards = loadCards();
+  const pool = type==='good' ? GOOD_RECORDS : EVIL_RECORDS;
+
+  const totalCollected = cards.collected.length;
+  const totalPossible = GOOD_RECORDS.length + EVIL_RECORDS.length;
+  document.getElementById('card-count').textContent = totalCollected+'/'+totalPossible;
+
+  grid.innerHTML = '';
+  pool.forEach(soul => {
+    const found = cards.collected.find(c=>c.name===soul.name);
+    const div = document.createElement('div');
+    div.className = 'card-item ' + (found ? 'collected' : 'locked');
+    div.innerHTML = '<div class="card-avatar">'+(found?soul.avatar:'❓')+'</div>'
+      +'<div class="card-name">'+(found?soul.name:'???')+'</div>'
+      +'<div class="card-record">'+(found?soul.record:'아직 재판하지 않은 영혼')+'</div>'
+      +(found?'<div class="card-date">'+found.date+'</div>':'');
+    grid.appendChild(div);
+  });
+}
+
+/* ============================================================
+   RANKING SYSTEM
+   ============================================================ */
+const RANKING_API_URL = ''; // Fill with Google Apps Script deployment URL
+
+const RANKING_CATEGORIES = [
+  {key:'score', label:'점수', icon:'🏆', unit:'점'},
+  {key:'round', label:'라운드', icon:'📊', unit:'R'},
+  {key:'maxCombo', label:'최대 콤보', icon:'🔥', unit:''},
+  {key:'correctCount', label:'정답 수', icon:'✅', unit:'개'},
+  {key:'goodSaved', label:'선인 구원', icon:'😇', unit:'명'},
+  {key:'evilPunished', label:'악인 응징', icon:'⚔️', unit:'명'},
+  {key:'accuracy', label:'정답률', icon:'🎯', unit:'%'},
+];
+
+let currentRankCategory = 'score';
+
+function showGameOverScreen(title, achvCount){
+  const overlay = document.getElementById('gameover-overlay');
+  const stats = document.getElementById('gameover-stats');
+  const t = TITLES[G.titleIdx];
+  const accuracy = G.round>0 ? Math.round(G.gameCorrect/G.round*100) : 0;
+
+  stats.innerHTML =
+    '<div class="go-stat"><span class="go-stat-label">칭호</span><span class="go-stat-value">'+t.icon+' '+t.name+'</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">점수</span><span class="go-stat-value">'+G.score+'점</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">라운드</span><span class="go-stat-value">'+G.round+'</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">최대 콤보</span><span class="go-stat-value">'+G.gameMaxCombo+'</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">정답</span><span class="go-stat-value">'+G.gameCorrect+'/'+G.round+'</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">선인 구원</span><span class="go-stat-value">'+G.gameGoodSaved+'명</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">악인 응징</span><span class="go-stat-value">'+G.gameEvilPunished+'명</span></div>'
+    +'<div class="go-stat"><span class="go-stat-label">업적</span><span class="go-stat-value">'+achvCount+'/'+ACHIEVEMENTS.length+'</span></div>';
+
+  document.getElementById('nick-input').value = localStorage.getItem('anubis_nickname')||'';
+  document.getElementById('nick-status').textContent = '';
+  document.getElementById('nick-submit-btn').disabled = false;
+  document.getElementById('gameover-myranks').style.display = 'none';
+  document.getElementById('gameover-nick-section').style.display = '';
+
+  overlay.classList.add('show');
+}
+
+function closeGameOver(){
+  document.getElementById('gameover-overlay').classList.remove('show');
+  document.getElementById('game-screen').style.display='none';
+  document.getElementById('start-screen').style.display='flex';
+}
+
+function showPrivacyCheck(nickname){
+  const bd=document.createElement('div');
+  bd.className='privacy-backdrop';
+  bd.id='privacy-backdrop';
+  bd.innerHTML=`<div class="privacy-popup">
+    <div class="privacy-icon">⚠️</div>
+    <div class="privacy-title">개인정보 확인</div>
+    <div class="privacy-msg">닉네임에 <b>이름, 학교, 전화번호</b> 등<br>개인정보를 입력하지 않았나요?<br><br>닉네임은 모든 사용자에게 공개됩니다.<br>개인정보가 포함되지 않은 별명을 사용해주세요.</div>
+    <div class="privacy-nick">입력한 닉네임: <b>${nickname}</b></div>
+    <div class="privacy-btns">
+      <button class="privacy-ok" onclick="confirmPrivacy()">✅ 개인정보 없음, 등록</button>
+      <button class="privacy-cancel" onclick="cancelPrivacy()">✏️ 다시 입력</button>
+    </div>
+  </div>`;
+  document.body.appendChild(bd);
+}
+
+function confirmPrivacy(){
+  document.getElementById('privacy-backdrop')?.remove();
+  G.privacyConfirmed=true;
+  submitRanking();
+}
+
+function cancelPrivacy(){
+  document.getElementById('privacy-backdrop')?.remove();
+  document.getElementById('nick-input').focus();
+  document.getElementById('nick-status').textContent='닉네임을 다시 입력해주세요.';
+}
+
+async function submitRanking(){
+  const input = document.getElementById('nick-input');
+  const nickname = input.value.trim();
+  if(!nickname){
+    document.getElementById('nick-status').textContent = '닉네임을 입력하세요!';
+    return;
+  }
+  if(!RANKING_API_URL){
+    document.getElementById('nick-status').textContent = '랭킹 서버가 설정되지 않았습니다.';
+    return;
+  }
+
+  /* 개인정보 확인 팝업 */
+  if(!G.privacyConfirmed){
+    showPrivacyCheck(nickname);
+    return;
+  }
+  G.privacyConfirmed=false; /* 다음 등록 시 다시 확인 */
+
+  localStorage.setItem('anubis_nickname', nickname);
+  document.getElementById('nick-submit-btn').disabled = true;
+  document.getElementById('nick-status').textContent = '등록 중...';
+
+  const accuracy = G.round>0 ? Math.round(G.gameCorrect/G.round*100) : 0;
+  const params = new URLSearchParams({
+    action: 'submit',
+    nickname: nickname,
+    score: G.score,
+    round: G.round,
+    maxCombo: G.gameMaxCombo,
+    correctCount: G.gameCorrect,
+    totalCount: G.round,
+    goodSaved: G.gameGoodSaved,
+    evilPunished: G.gameEvilPunished,
+    accuracy: accuracy,
+  });
+
+  try {
+    const resp = await fetch(RANKING_API_URL + '?' + params.toString());
+    const data = await resp.json();
+
+    if(data.error){
+      document.getElementById('nick-status').textContent = '오류: '+data.error;
+      document.getElementById('nick-submit-btn').disabled = false;
+      return;
+    }
+
+    document.getElementById('nick-status').textContent = '등록 완료!';
+    document.getElementById('gameover-nick-section').style.display = 'none';
+
+    if(data.ranks){
+      showMyRanks(data.ranks);
+    }
+  } catch(e){
+    document.getElementById('nick-status').textContent = '네트워크 오류. 다시 시도하세요.';
+    document.getElementById('nick-submit-btn').disabled = false;
+  }
+}
+
+function showMyRanks(ranks){
+  const container = document.getElementById('gameover-myranks');
+  container.style.display = '';
+  let html = '<div style="font-size:.75rem;color:#ce93d8;font-weight:700;margin-bottom:6px">📊 나의 랭킹</div>';
+  html += '<div class="myrank-grid">';
+  RANKING_CATEGORIES.forEach(cat => {
+    const r = ranks[cat.key];
+    if(r){
+      html += '<div class="myrank-item"><span class="myrank-label">'+cat.icon+' '+cat.label+'</span><span class="myrank-value">'+r.rank+'위 ('+r.value+cat.unit+')</span></div>';
+    }
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function showRankingPanel(){
+  document.getElementById('ranking-panel').classList.add('show');
+  renderRankCategories();
+  loadRankings('score');
+}
+function closeRankingPanel(){
+  document.getElementById('ranking-panel').classList.remove('show');
+}
+
+function renderRankCategories(){
+  const container = document.getElementById('ranking-cats');
+  container.innerHTML = '';
+  RANKING_CATEGORIES.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'rank-cat-btn' + (cat.key===currentRankCategory?' active':'');
+    btn.textContent = cat.icon + ' ' + cat.label;
+    btn.onclick = () => {
+      currentRankCategory = cat.key;
+      document.querySelectorAll('.rank-cat-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      loadRankings(cat.key);
+    };
+    container.appendChild(btn);
+  });
+}
+
+async function loadRankings(category){
+  const list = document.getElementById('ranking-list');
+  list.innerHTML = '<div class="rank-loading">로딩 중...</div>';
+
+  if(!RANKING_API_URL){
+    list.innerHTML = '<div class="rank-empty">랭킹 서버가 설정되지 않았습니다.<br><span style="font-size:.6rem;color:#666">ranking-apps-script.gs 파일을 Google Apps Script에 배포한 후<br>RANKING_API_URL을 설정하세요.</span></div>';
+    return;
+  }
+
+  const cat = RANKING_CATEGORIES.find(c=>c.key===category);
+  try {
+    const resp = await fetch(RANKING_API_URL + '?action=rankings&category='+category+'&limit=100');
+    const data = await resp.json();
+
+    if(!data.rankings || data.rankings.length===0){
+      list.innerHTML = '<div class="rank-empty">아직 등록된 기록이 없습니다.</div>';
+      return;
+    }
+
+    const myNick = localStorage.getItem('anubis_nickname')||'';
+    let html = '';
+    data.rankings.forEach((r, i) => {
+      const isMe = r.nickname === myNick;
+      const isTop3 = i < 3;
+      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+      html += '<div class="rank-row'+(isTop3?' top3':'')+(isMe?' me':'')+'">'
+        +'<span class="rank-pos">'+(medal||r.rank)+'</span>'
+        +'<span class="rank-nick">'+r.nickname+'</span>'
+        +'<span class="rank-val">'+(r[category]||0)+cat.unit+'</span>'
+        +'</div>';
+    });
+    list.innerHTML = html;
+  } catch(e){
+    list.innerHTML = '<div class="rank-empty">서버 연결 실패</div>';
+  }
+}
+
+async function searchRanking(){
+  const input = document.getElementById('rank-search-input');
+  const nickname = input.value.trim();
+  if(!nickname) return;
+  if(!RANKING_API_URL) return;
+
+  const list = document.getElementById('ranking-list');
+  list.innerHTML = '<div class="rank-loading">검색 중...</div>';
+
+  const cat = RANKING_CATEGORIES.find(c=>c.key===currentRankCategory);
+  try {
+    const resp = await fetch(RANKING_API_URL + '?action=search&nickname='+encodeURIComponent(nickname)+'&category='+currentRankCategory);
+    const data = await resp.json();
+
+    if(!data.found){
+      list.innerHTML = '<div class="rank-empty">"'+nickname+'" 플레이어를 찾을 수 없습니다.</div>';
+      return;
+    }
+
+    const myNick = localStorage.getItem('anubis_nickname')||'';
+    let html = '<div style="text-align:center;font-size:.65rem;color:#ce93d8;margin-bottom:6px">"'+nickname+'" — '+cat.label+' '+data.player.rank+'위 / '+data.totalPlayers+'명</div>';
+    data.surrounding.forEach(r => {
+      const isTarget = r.nickname === nickname;
+      html += '<div class="rank-row'+(isTarget?' me':'')+'">'
+        +'<span class="rank-pos">'+r.rank+'</span>'
+        +'<span class="rank-nick">'+r.nickname+'</span>'
+        +'<span class="rank-val">'+(r[currentRankCategory]||0)+cat.unit+'</span>'
+        +'</div>';
+    });
+    list.innerHTML = html;
+  } catch(e){
+    list.innerHTML = '<div class="rank-empty">검색 실패</div>';
+  }
+}
 
 function featherSVG(color,label){
   const c=color||FCOLORS[0];
@@ -866,6 +1384,54 @@ const GOOD_RECORDS=[
   {name:"아문",avatar:"👨",record:"진실만을 말하겠다는 맹세를 평생 지킴"},
   {name:"네이트",avatar:"👩",record:"맹인 악사에게 악기를 만들어줌"},
   {name:"소베크",avatar:"👨",record:"나일강의 쓰레기를 매일 치움"},
+  {name:"하토르",avatar:"👩",record:"굶주린 아이에게 우유를 나눠줌"},
+  {name:"라호텝",avatar:"👨",record:"무너진 둑을 밤새 혼자 고침"},
+  {name:"시트레",avatar:"👧",record:"아픈 어머니를 정성껏 간호함"},
+  {name:"파네히",avatar:"👨",record:"도망친 노예를 숨겨주고 도움"},
+  {name:"헤누트",avatar:"👵",record:"마을 아이들에게 글자를 가르침"},
+  {name:"세네브",avatar:"👨",record:"가난한 이에게 옷감을 짜줌"},
+  {name:"미우트",avatar:"👩",record:"병든 동물을 치료해줌"},
+  {name:"하피",avatar:"👦",record:"홍수 피해 마을 복구를 도움"},
+  {name:"체네트",avatar:"👩",record:"과부의 밭을 대신 갈아줌"},
+  {name:"우세르",avatar:"👨",record:"길에서 주운 금을 주인에게 돌려줌"},
+  {name:"케미트",avatar:"👧",record:"어린 동생들을 돌보며 학교에 보냄"},
+  {name:"안크",avatar:"👨",record:"전염병 환자를 두려움 없이 돌봄"},
+  {name:"헤테프",avatar:"👴",record:"평생 모은 곡식을 기근 때 나눔"},
+  {name:"네프티스",avatar:"👩",record:"죽은 자의 가족을 위로하고 도움"},
+  {name:"파타",avatar:"👨",record:"무료로 집 없는 이에게 집을 지어줌"},
+  {name:"이네니",avatar:"👨",record:"위험한 뱀을 잡아 마을을 지킴"},
+  {name:"루넷",avatar:"👩",record:"신전에 매일 꽃을 바치며 기도함"},
+  {name:"투투",avatar:"👦",record:"우물을 파서 마을에 물을 공급함"},
+  {name:"세시",avatar:"👩",record:"잃어버린 아이를 찾아 부모에게 돌려줌"},
+  {name:"웨니",avatar:"👨",record:"불의에 맞서 약자를 변호함"},
+  {name:"아메니",avatar:"👧",record:"할머니의 무거운 짐을 매일 들어줌"},
+  {name:"사트레",avatar:"👩",record:"전쟁 부상자의 상처를 치료함"},
+  {name:"펜투",avatar:"👨",record:"공정한 재판으로 분쟁을 해결함"},
+  {name:"이아흐",avatar:"👴",record:"젊은이들에게 농사 기술을 전수함"},
+  {name:"네베트",avatar:"👩",record:"가난한 신부에게 혼수를 마련해줌"},
+  {name:"메케트",avatar:"👵",record:"약초 지식을 마을에 무료로 나눔"},
+  {name:"센무트",avatar:"👨",record:"고아원을 세우고 평생 운영함"},
+  {name:"체티",avatar:"👦",record:"노인의 집 지붕을 고쳐줌"},
+  {name:"헤시",avatar:"👩",record:"빈민에게 매일 죽을 끓여줌"},
+  {name:"나크트",avatar:"👨",record:"도둑으로부터 이웃 가게를 지켜줌"},
+  {name:"이푸",avatar:"👧",record:"강에 빠진 아이를 구해줌"},
+  {name:"세벡호텝",avatar:"👨",record:"장애인을 위해 보조 도구를 만듦"},
+  {name:"사트하토르",avatar:"👩",record:"노숙자에게 잠자리를 제공함"},
+  {name:"라모세",avatar:"👴",record:"마을 도서관을 세움"},
+  {name:"케네트",avatar:"👩",record:"임산부를 안전하게 돌봄"},
+  {name:"벡엔무트",avatar:"👨",record:"관개 수로를 만들어 농사를 도움"},
+  {name:"이세트",avatar:"👧",record:"다친 새를 치료하여 날려보냄"},
+  {name:"하르시",avatar:"👨",record:"화재 때 이웃을 구출함"},
+  {name:"무트네페르",avatar:"👩",record:"직물을 짜서 가난한 이에게 나눔"},
+  {name:"아흐모세",avatar:"👦",record:"외국인 노동자를 공정하게 대우함"},
+  {name:"레네페르",avatar:"👵",record:"버려진 아기를 거두어 키움"},
+  {name:"켄헤르",avatar:"👨",record:"가축을 잃은 농부에게 소를 나눔"},
+  {name:"메레스앙크",avatar:"👩",record:"아이들에게 음악을 가르침"},
+  {name:"사부",avatar:"👨",record:"홍수 예보로 마을 사람들을 구함"},
+  {name:"헤네트",avatar:"👩",record:"병든 노인의 식사를 매일 챙김"},
+  {name:"이우니",avatar:"👦",record:"사막 길에 이정표를 세움"},
+  {name:"젯카레",avatar:"👨",record:"포로에게 자유를 돌려줌"},
+  {name:"타우세르트",avatar:"👩",record:"학교를 세워 여성 교육에 힘씀"},
 ];
 const EVIL_RECORDS=[
   {name:"세트",avatar:"😈",record:"남의 보석을 훔치고 거짓말로 무고한 자를 감옥에 보냄"},
@@ -880,6 +1446,54 @@ const EVIL_RECORDS=[
   {name:"와제트",avatar:"🐍",record:"신성한 고양이를 해치고 나일강에 버림"},
   {name:"아쿠",avatar:"😈",record:"스승의 지식을 훔쳐 자기 것이라 주장함"},
   {name:"네헵",avatar:"🐍",record:"어린 하인을 학대하고 임금을 주지 않음"},
+  {name:"세케르",avatar:"👿",record:"우물에 독을 풀어 마을을 위험에 빠뜨림"},
+  {name:"헤카",avatar:"😈",record:"이웃집에 불을 지르고 모른 척함"},
+  {name:"바비",avatar:"🐍",record:"노인의 저축을 사기로 빼앗음"},
+  {name:"암무트",avatar:"👿",record:"거짓 증언으로 무고한 자를 처벌시킴"},
+  {name:"셰드",avatar:"🦂",record:"동료의 공을 가로채고 자기 것으로 삼음"},
+  {name:"네하",avatar:"😈",record:"고아의 유산을 몰래 횡령함"},
+  {name:"레레트",avatar:"🐍",record:"약을 가짜로 바꿔 환자를 속임"},
+  {name:"세르켓",avatar:"🦂",record:"계약서를 위조하여 토지를 빼앗음"},
+  {name:"하우",avatar:"😈",record:"전쟁 중 식량을 숨겨 혼자 먹음"},
+  {name:"아아루",avatar:"🐍",record:"신전 제물을 훔쳐 시장에 팔음"},
+  {name:"메스",avatar:"👿",record:"강물을 막아 하류 마을을 굶김"},
+  {name:"저세르",avatar:"😈",record:"부하에게 죄를 뒤집어씌움"},
+  {name:"네케네",avatar:"🐍",record:"형제의 아내를 유혹하여 가정을 파괴함"},
+  {name:"세슈",avatar:"🦂",record:"세금을 이중으로 걷고 착복함"},
+  {name:"이비",avatar:"😈",record:"맹세를 어기고 동맹을 배신함"},
+  {name:"쿠푸",avatar:"🐍",record:"노동자의 임금을 체불함"},
+  {name:"아켄",avatar:"👿",record:"장례 비용을 속여 유족에게 바가지를 씌움"},
+  {name:"페피",avatar:"😈",record:"가짜 예언으로 백성을 공포에 빠뜨림"},
+  {name:"세테프",avatar:"🐍",record:"이웃의 가축을 몰래 잡아먹음"},
+  {name:"메르티",avatar:"🦂",record:"고발자를 협박하여 입을 막음"},
+  {name:"카무",avatar:"😈",record:"다리를 고의로 부숴 교역을 방해함"},
+  {name:"우나스",avatar:"🐍",record:"아이들에게 거짓 신앙을 퍼뜨림"},
+  {name:"넥타네보",avatar:"👿",record:"전쟁 고아의 재산을 가로챔"},
+  {name:"하렘합",avatar:"😈",record:"관개 수로를 파괴하여 농사를 망침"},
+  {name:"셉셋",avatar:"🐍",record:"무덤 도굴로 저주받은 물건을 팔음"},
+  {name:"제후티",avatar:"🦂",record:"공문서를 위조하여 지위를 얻음"},
+  {name:"아프리스",avatar:"😈",record:"포로를 학대하고 식사를 주지 않음"},
+  {name:"타켈롯",avatar:"🐍",record:"뇌물을 받고 범죄자를 풀어줌"},
+  {name:"시프타",avatar:"👿",record:"홍수 경보를 숨겨 마을이 잠기게 함"},
+  {name:"넵카",avatar:"😈",record:"약초에 독을 섞어 판매함"},
+  {name:"세멘크",avatar:"🐍",record:"과부의 집을 강제로 빼앗음"},
+  {name:"카로마",avatar:"🦂",record:"상인의 물건에 불을 지름"},
+  {name:"메네스",avatar:"😈",record:"동생을 속여 사막에 버림"},
+  {name:"아메넴합",avatar:"🐍",record:"신전의 벽화를 훼손함"},
+  {name:"세켐카",avatar:"👿",record:"거짓 소문으로 무고한 자를 추방함"},
+  {name:"헤리호르",avatar:"😈",record:"병든 노예를 내쫓고 버림"},
+  {name:"네페르카",avatar:"🐍",record:"밤에 몰래 경계석을 옮겨 땅을 넓힘"},
+  {name:"소벡나크트",avatar:"🦂",record:"어린이의 노동을 착취함"},
+  {name:"이레트",avatar:"😈",record:"거짓 약속으로 사람들을 속임"},
+  {name:"닉트",avatar:"🐍",record:"장인의 도구를 부숴 일을 못하게 함"},
+  {name:"베케트",avatar:"👿",record:"마을 우물물을 독점하고 비싸게 팔음"},
+  {name:"파헤리",avatar:"😈",record:"장님을 속여 가짜 물건을 비싸게 팔음"},
+  {name:"세나크트",avatar:"🦂",record:"형의 무덤을 파헤쳐 보물을 훔침"},
+  {name:"아메시",avatar:"🐍",record:"전쟁터에서 시체의 물건을 약탈함"},
+  {name:"헤네크",avatar:"😈",record:"아이의 음식을 빼앗아 먹음"},
+  {name:"루티",avatar:"👿",record:"노인을 속여 집문서를 빼앗음"},
+  {name:"셈티",avatar:"🐍",record:"신전의 성물을 훔쳐 도주함"},
+  {name:"카게미",avatar:"🦂",record:"스승을 모함하여 쫓겨나게 함"},
 ];
 
 /* ============================================================
@@ -1250,8 +1864,10 @@ function trackGameOver(){
 
 /* 배지 패널 */
 function toggleBadgePanel(){
-  document.getElementById('badge-panel').classList.toggle('show');
-  if(document.getElementById('badge-panel').classList.contains('show')) renderBadges();
+  const panel=document.getElementById('badge-panel');
+  panel.classList.toggle('show');
+  if(panel.classList.contains('show')){renderBadges();G.panelPause=true;}
+  else{G.panelPause=false;}
 }
 function renderBadges(){
   const grid=document.getElementById('badge-grid');grid.innerHTML='';
@@ -1492,7 +2108,7 @@ function startTimer(){
   updateTimerBar();clearInterval(G.timerInterval);
   G.timerInterval=setInterval(()=>{
     if(G.answered)return;
-    if(!G.timerFrozen && !G.popoverPause) G.timeLeft-=0.1;
+    if(!G.timerFrozen && !G.popoverPause && !G.panelPause) G.timeLeft-=0.1;
     if(G.timeLeft<=0){G.timeLeft=0;clearInterval(G.timerInterval);timeOut();}
     updateTimerBar();
   },100);
@@ -1673,6 +2289,7 @@ function initItems(){
   G.nileShield=false;
   G.timerFrozen=false;
   G.popoverPause=false;
+  G.panelPause=false;
   G.lastRewardCombo=0;
   G.pendingItemReward=false;
   G.pendingItemIsRa=false;
@@ -1906,6 +2523,7 @@ function startGame(){
   document.getElementById('start-screen').style.display='none';
   document.getElementById('game-screen').style.display='flex';
   G.round=1;G.score=0;G.lives=3;G.combo=0;G.titleIdx=0;
+  G.gameCorrect=0;G.gameGoodSaved=0;G.gameEvilPunished=0;G.gameMaxCombo=0;
   initItems();
   /* 세션 연속 기록 초기화 (영구 기록은 유지) */
   ACH_STATS.perfectStreak=0;ACH_STATS.clutchSurvive=0;
@@ -1922,6 +2540,7 @@ function newRound(){
   G.isGood=Math.random()<0.5;
   const pool=G.isGood?GOOD_RECORDS:EVIL_RECORDS;
   const soul=pool[randInt(0,pool.length-1)];
+  G.currentSoul=soul;
 
   document.getElementById('soul-avatar').textContent=soul.avatar;
   document.getElementById('soul-name').textContent=soul.name;
@@ -2061,11 +2680,16 @@ function onPlace(){
 
     if(correct){
       G.combo++;
+      G.gameCorrect++;
+      if(G.isGood) G.gameGoodSaved++; else G.gameEvilPunished++;
+      G.gameMaxCombo=Math.max(G.gameMaxCombo,G.combo);
+      const isNewCard=collectCard(G.currentSoul.name,G.currentSoul.avatar,G.currentSoul.record,G.isGood);
       const earned=100+Math.round(G.timeLeft*3)+G.combo*15+G.round*10;
       G.score+=earned;
       trackCorrectAnswer(G.timeLeft,G.heartNum,G.heartDen,G.isGood,G.combo,earned);
       checkItemReward();
       anubisNod();heartGlow(G.isGood);
+      if(isNewCard) setTimeout(()=>showMsg('success','📇 새 카드 수집! '+G.currentSoul.name),1200);
       if(G.isGood){
         showMsg('success',`✨ 수평! ${chosen.n}/${chosen.d} = ${G.heartNum}/${G.heartDen}  +${earned}점`);
         setTimeout(()=>playHeavenAnimation(()=>showResult('heaven',
@@ -2146,7 +2770,7 @@ function gameOver(){
   trackGameOver();
   const t=TITLES[G.titleIdx];
   const achvCount=ACH_UNLOCKED.length;
-  showResult('wrong','재판 종료',`그대의 심판은 끝났다.\n최종 칭호: ${t.icon} ${t.name}\n최종 점수: ${G.score}점 | 라운드: ${G.round}\n업적: ${achvCount}/${ACHIEVEMENTS.length} 달성`);
+  showGameOverScreen(t, achvCount);
 }
 
 function updateHUD(){
