@@ -1502,7 +1502,7 @@ const EVIL_RECORDS=[
 const G={
   round:1,score:0,lives:3,combo:0,
   isGood:true,heartNum:0,heartDen:0,
-  choices:[],correctIdx:-1,selectedIdx:-1,
+  choices:[],correctIdx:-1,trapIdx:-1,selectedIdx:-1,
   timerInterval:null,timeLeft:0,timeMax:30,
   answered:false,titleIdx:0,
 };
@@ -2010,10 +2010,11 @@ function generateHeart(stage){
 
 function buildChoices(hN,hD,isGood){
   const[sn,sd]=simplify(hN,hD);
-  const eq={n:sn,d:sd}; // 진짜 약분 (정답)
+  const eq={n:sn,d:sd}; // 진짜 약분 (기약분수)
   const wrongs=buildWrongYakbun(hN,hD).slice(0,4);
   const choices=[];
   const correctIdx=randInt(0,4);
+  let trapPos=correctIdx; // 기약분수 위치 (선인은 correctIdx와 동일)
 
   if(isGood){
     // 선인: 정답 1개(진짜 약분) + 오답 4개(가짜 약분)
@@ -2021,7 +2022,6 @@ function buildChoices(hN,hD,isGood){
     for(let i=0;i<5;i++) choices.push(i===correctIdx?eq:wrongs[w++]);
   } else {
     // 악인: 함정 1개(진짜 약분) + 나머지 4개(가짜 약분, 아무거나 고르면 정답)
-    let trapPos;
     do{trapPos=randInt(0,4)}while(trapPos===correctIdx);
     let w=0;
     for(let i=0;i<5;i++){
@@ -2030,7 +2030,7 @@ function buildChoices(hN,hD,isGood){
       else choices.push(wrongs[w++]);
     }
   }
-  return{choices,correctIdx};
+  return{choices,correctIdx,trapIdx:trapPos};
 }
 
 /* ============================================================
@@ -2131,7 +2131,7 @@ function timeOut(){
   } else {
     showMsg('fail',nileOk?'⏱ 시간 초과! 나일강의 축복이 보호!':'⏱ 시간 초과! 생명 -1');
     setTimeout(()=>showResult('wrong',
-      `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (${G.isGood?'=':'≠'} ${sn}/${sd})`,
+      `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
       '시간이 다 되었다! 더 빠르게 판단하라.'),600);
   }
 }
@@ -2555,8 +2555,8 @@ function newRound(){
   document.getElementById('hf-den').textContent=G.heartDen;
   setHeartGrid(G.heartNum,G.heartDen);
 
-  const{choices,correctIdx}=buildChoices(G.heartNum,G.heartDen,G.isGood);
-  G.choices=choices;G.correctIdx=correctIdx;
+  const{choices,correctIdx,trapIdx}=buildChoices(G.heartNum,G.heartDen,G.isGood);
+  G.choices=choices;G.correctIdx=correctIdx;G.trapIdx=trapIdx;
 
   document.getElementById('inst-title').textContent=G.isGood?'⚖️ 선인을 구원하라':'🐊 악인을 처단하라';
   document.getElementById('inst-desc').textContent=G.isGood
@@ -2671,10 +2671,10 @@ function onPlace(){
     };
     requestAnimationFrame(anim);
 
-    // Mark buttons
+    // Mark buttons — 기약분수 위치(trapIdx)를 초록색으로 표시
     btns.forEach((b,j)=>{
       b.disabled=true;b.style.opacity='';
-      if(j===G.correctIdx)b.classList.add('correct');
+      if(j===G.trapIdx)b.classList.add('correct');
       if(j===sel&&!correct)b.classList.add('wrong');
     });
 
@@ -2714,12 +2714,12 @@ function onPlace(){
       if(G.isGood){
         /* 선인 오판 → 암무트에게 넘어감 + 슬픈 말풍선 */
         setTimeout(()=>playWrongGoodAnimation(()=>showResult('wrong',
-          `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (= ${sn}/${sd})`,
+          `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
           '선인을 잘못 처단하였다!\n무고한 영혼이 암무트에게 넘겨졌다…')),700);
       }else{
         /* 악인 오판 → 저울 수평이라 오시리스가 데려감 */
         setTimeout(()=>playHeavenAnimation(()=>showResult('wrong',
-          `정답: ${G.choices[G.correctIdx].n}/${G.choices[G.correctIdx].d} (≠ ${sn}/${sd})`,
+          `기약분수: ${G.choices[G.trapIdx].n}/${G.choices[G.trapIdx].d} (= ${sn}/${sd})`,
           '악인을 놓쳐버렸다!\n오시리스가 악인을 천국으로 데려갔다…'),true),700);
       }
     }
@@ -2730,7 +2730,7 @@ function onPlace(){
 
 function revealAnswer(){
   document.querySelectorAll('.choice-btn').forEach((b,j)=>{
-    b.disabled=true;if(j===G.correctIdx)b.classList.add('correct');
+    b.disabled=true;if(j===G.trapIdx)b.classList.add('correct');
   });
 }
 
