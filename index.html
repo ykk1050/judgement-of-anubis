@@ -1116,7 +1116,7 @@ svg .heart-empty{fill:var(--terra-deep);opacity:.35;transition:fill .3s,opacity 
   </div>
 </div>
 
-<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.0002</div>
+<div class="credit-footer">Created by gamtudyssam using AI&nbsp; 0.00021</div>
 
 </div>
 
@@ -2434,7 +2434,7 @@ function acValidate(){
   const elapsed=(Date.now()-_AC.startTime)/1000;
   if(G.round>1 && elapsed/G.round < 3) return false;
   if(_AC.log.length < G.round-1) return false;
-  if(G.score > G.round * 400) return false;
+  if(G.score > G.round * (200 + G.round * 15)) return false;
   if(G.gameCorrect > G.round) return false;
   // 아이템 무결성 검증
   if(!_itemCheckIntegrity()) return false;
